@@ -8,17 +8,9 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="intellichef.intellichef.RegistrationActivity">
+    tools:context="intellichef.intellichef.RegistrationActivity"
+    android:background="#f15c48">
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:id="@+id/firstName"
-        android:hint="first name"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -29,7 +21,31 @@
         android:hint="last name"
         android:layout_below="@+id/firstName"
         android:layout_alignLeft="@+id/firstName"
-        android:layout_alignStart="@+id/firstName" />
+        android:layout_alignStart="@+id/firstName"
+
+        />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:id="@+id/password"
+        android:hint="password"
+        android:layout_below="@+id/username"
+        android:layout_alignLeft="@+id/username"
+        android:layout_alignStart="@+id/username" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:id="@+id/confirmPassword"
+        android:hint="confirm password"
+        android:layout_below="@+id/password"
+        android:layout_alignLeft="@+id/password"
+        android:layout_alignStart="@+id/password" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -53,36 +69,44 @@
         android:layout_alignLeft="@+id/email"
         android:layout_alignStart="@+id/email" />
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPassword"
-        android:ems="10"
-        android:id="@+id/password"
-        android:hint="password"
-        android:layout_below="@+id/username"
-        android:layout_alignLeft="@+id/username"
-        android:layout_alignStart="@+id/username" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPassword"
-        android:ems="10"
-        android:id="@+id/confirmPassword"
-        android:hint="confirm password"
-        android:layout_centerVertical="true"
-        android:layout_alignLeft="@+id/password"
-        android:layout_alignStart="@+id/password" />
-
     <Button
         android:text="Create Account"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/createAccount"
         style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_marginTop="18dp"
+
+        android:textColor="#f15c48"
+        android:background="#ffffff"
+        android:textSize="6pt"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:layout_width="150dp"
+        android:layout_height="30dp"
+
         android:layout_below="@+id/confirmPassword"
+        android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/firstName"
+        android:hint="first name"
+        android:textSize="8pt"
+        android:textColor="#ffffff"
+        android:layout_marginTop="22dp"
+
+        android:layout_below="@+id/imageView"
+        android:layout_centerHorizontal="true" />
+
+    <ImageView
+        android:layout_width="286dp"
+        android:layout_height="43dp"
+        android:layout_marginTop="46dp"
+        android:src="@drawable/intellichef"
+        android:layout_gravity="center"
+        android:id="@+id/imageView"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

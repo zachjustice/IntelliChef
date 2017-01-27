@@ -5,15 +5,17 @@
     android:layout_height="match_parent"
     android:weightSum="1"
     android:background="#f15c48"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
 >
 
     <ImageView
         android:layout_width="286dp"
-        android:layout_height="215dp"
+        android:layout_height="197dp"
         android:layout_marginTop="30dp"
         android:src="@drawable/intellibear"
         android:layout_gravity="center"
-    />
+        android:id="@+id/imageView2" />
 
     <ImageView
         android:layout_width="286dp"
@@ -25,7 +27,7 @@
 
 
     <EditText
-        android:layout_width="280dp"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:inputType="textEmailAddress"
         android:ems="10"
@@ -38,7 +40,7 @@
         />
 
     <EditText
-        android:layout_width="280dp"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:inputType="textPassword"
         android:ems="10"
@@ -65,7 +67,7 @@
             android:background="#ffffff"
             android:textSize="6pt"
             android:layout_gravity="center"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="20dp"
             />
 
 
