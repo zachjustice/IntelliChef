@@ -20,11 +20,14 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                /* my func */
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
     }
+
+    /* my func */
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
