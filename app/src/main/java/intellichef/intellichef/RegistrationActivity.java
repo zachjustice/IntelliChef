@@ -3,6 +3,7 @@ package intellichef.intellichef;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -37,10 +38,12 @@ public class RegistrationActivity extends AppCompatActivity {
         mPassword = (EditText) findViewById(R.id.password);
         mConfirmPassword = (EditText) findViewById(R.id.confirmPassword);
 
+        mFirstNameView.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
+        mLastNameView.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
+
         create = (Button) findViewById(R.id.createAccount);
         create.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                // Perform action on click
                 try {
                     attemptRegistration();
                 } catch (JSONException e) {
@@ -89,7 +92,7 @@ public class RegistrationActivity extends AppCompatActivity {
             focusView = mConfirmPassword;
             cancel = true;
         } else if (!isValidPassword()) {
-            mPassword.setError(getString(R.string.error_field_required));
+            mPassword.setError(getString(R.string.error_invalid_password));
             focusView = mPassword;
             cancel = true;
         } else if (!password.equals(confirmPassword)) {
