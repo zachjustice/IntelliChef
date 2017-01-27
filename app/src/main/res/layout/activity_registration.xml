@@ -21,7 +21,6 @@
         android:layout_below="@+id/firstName"
         android:layout_alignLeft="@+id/firstName"
         android:layout_alignStart="@+id/firstName"
-
         />
 
     <EditText
