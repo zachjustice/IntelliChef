@@ -54,27 +54,27 @@ public class RegistrationActivity extends AppCompatActivity {
         View focusView = null;
 
         if (TextUtils.isEmpty(firstName)) {
-            mFirstNameView.setError("This field is required");
+            mFirstNameView.setError(getString(R.string.error_field_required));
             focusView = mFirstNameView;
             cancel = true;
         } else if (TextUtils.isEmpty(email)) {
-            mEmailView.setError("This field is required");
+            mEmailView.setError(getString(R.string.error_field_required));
             focusView = mEmailView;
             cancel = true;
         } else if (TextUtils.isEmpty(username)) {
-            mUsernameView.setError("This field is required");
+            mUsernameView.setError(getString(R.string.error_field_required));
             focusView = mUsernameView;
             cancel = true;
         } else if (TextUtils.isEmpty(password)) {
-            mPassword.setError("This field is required");
+            mPassword.setError(getString(R.string.error_field_required));
             focusView = mPassword;
             cancel = true;
         } else if (TextUtils.isEmpty(confirmPassword)) {
-            mConfirmPassword.setError("This field is required");
+            mConfirmPassword.setError(getString(R.string.error_field_required));
             focusView = mConfirmPassword;
             cancel = true;
         } else if (!isValidPassword()) {
-            mPassword.setError("Password not valid");
+            mPassword.setError(getString(R.string.error_field_required));
             focusView = mPassword;
             cancel = true;
         } else if (!password.equals(confirmPassword)) {
