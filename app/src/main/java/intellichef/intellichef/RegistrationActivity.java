@@ -5,8 +5,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
+import org.json.JSONException;
 import org.w3c.dom.Text;
 
 /**
@@ -21,6 +23,7 @@ public class RegistrationActivity extends AppCompatActivity {
     private EditText mUsernameView;
     private EditText mPassword;
     private EditText mConfirmPassword;
+    private Button create;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,9 +36,21 @@ public class RegistrationActivity extends AppCompatActivity {
         mUsernameView = (EditText) findViewById(R.id.username);
         mPassword = (EditText) findViewById(R.id.password);
         mConfirmPassword = (EditText) findViewById(R.id.confirmPassword);
+
+        create = (Button) findViewById(R.id.createAccount);
+        create.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // Perform action on click
+                try {
+                    attemptRegistration();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
-    public void attemptRegistration() {
+    public void attemptRegistration() throws JSONException {
         mFirstNameView.setError(null);
         mLastNameView.setError(null);
         mEmailView.setError(null);
