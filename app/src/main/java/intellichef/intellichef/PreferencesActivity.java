@@ -49,7 +49,7 @@ public class PreferencesActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Perform action on click
                 try {
-                    logout();
+                    removeAccount();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -91,15 +91,15 @@ public class PreferencesActivity extends AppCompatActivity {
         IntelliServerAPI.removeAccount(email, this.getApplicationContext(), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject result) {
-                boolean logoutSuccessful = false;
+                boolean removeSuccessful = false;
                 try {
-                    logoutSuccessful = result.getBoolean("status");
-                    if (logoutSuccessful) {
+                    removeSuccessful = result.getBoolean("status");
+                    if (removeSuccessful) {
                         Log.v("JSON", "Successfully removed account!");
                         Intent intent = new Intent(PreferencesActivity.this, LoginActivity.class);
                         startActivity(intent);
                     } else {
-                        Log.v("JSON", "LOGOUT FAILED");
+                        Log.v("JSON", "Failed to remove account");
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

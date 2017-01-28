@@ -74,7 +74,7 @@ public class IntelliServerAPI {
             e.printStackTrace();
         }
 
-        IntelliServerRestClient.post(context, "logout", requestData, "application/json", responseHandler);
+        IntelliServerRestClient.put(context, "logout", requestData, "application/json", responseHandler);
     }
 
     public static void removeAccount( String email, Context context, final JsonHttpResponseHandler callback ) throws JSONException {

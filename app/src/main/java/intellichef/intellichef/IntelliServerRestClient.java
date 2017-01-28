@@ -26,6 +26,11 @@ public class IntelliServerRestClient {
         client.post(context, getAbsoluteUrl(url), entity, contentType, responseHandler);
     }
 
+    public static void put(Context context, String url, HttpEntity entity, String contentType, ResponseHandlerInterface responseHandler) {
+        client.put(context, getAbsoluteUrl(url), entity, contentType, responseHandler);
+    }
+
+
     private static String getAbsoluteUrl(String relativeUrl) {
         return BASE_URL + relativeUrl;
     }
