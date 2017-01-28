@@ -1,5 +1,6 @@
 package intellichef.intellichef;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +18,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import cz.msebera.android.httpclient.Header;
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /**
  * Created by Sally on 1/22/17.
@@ -28,10 +31,12 @@ public class LoginActivity extends AppCompatActivity {
     private EditText mPasswordView;
     private Button registerButton;
     private Button loginButton;
+    private static String currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        CalligraphyConfig.initDefault("fonts/Montserrat-Light.ttf");
         setContentView(R.layout.activity_login);
 
         IntelliServerAPI.initialize();
@@ -59,8 +64,11 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(intent);
             }
         });
+    }
 
-
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(new CalligraphyContextWrapper(newBase));
     }
 
     private void attemptLogin() throws JSONException {
@@ -85,33 +93,32 @@ public class LoginActivity extends AppCompatActivity {
             mPasswordView.requestFocus();
             return;
         }
+        final String currentUserEmail = email;
 
-        IntelliServerAPI.login(email, password, new JsonHttpResponseHandler() {
+        IntelliServerAPI.login(currentUserEmail, password, this.getApplicationContext(), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject result) {
-                /* my func */
                 boolean loginSuccessful = false;
                 try {
-                    loginSuccessful = result.getString("status") == "True";
+                    loginSuccessful = result.getBoolean("status");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
-                if (loginSuccessful) {
+                if (!loginSuccessful) {
                     mEmailView.setError("Invalid email address or password.");
                     mEmailView.requestFocus();
                 } else {
-                    // Show a progress spinner, and kick off a background task to
-                    // perform the user login attempt.
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    currentUser = currentUserEmail;
+                    Intent intent = new Intent(LoginActivity.this, PreferencesActivity.class);
                     startActivity(intent);
                 }
             }
         });
     }
 
-    public static void handleLogin() {
-
+    public static String getCurrentEmail() {
+        return currentUser;
     }
 
     /* my lambda function */

@@ -1,5 +1,6 @@
 package intellichef.intellichef;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,8 +10,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.loopj.android.http.JsonHttpResponseHandler;
+
 import org.json.JSONException;
+import org.json.JSONObject;
 import org.w3c.dom.Text;
+
+import cz.msebera.android.httpclient.Header;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /**
  * Created by b on 1/22/17.
@@ -53,6 +60,11 @@ public class RegistrationActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(new CalligraphyContextWrapper(newBase));
+    }
+
     public void attemptRegistration() throws JSONException {
         mFirstNameView.setError(null);
         mLastNameView.setError(null);
@@ -68,52 +80,61 @@ public class RegistrationActivity extends AppCompatActivity {
         String password = mPassword.getText().toString();
         String confirmPassword = mConfirmPassword.getText().toString();
 
-        boolean cancel = false;
-        View focusView = null;
-
         if (TextUtils.isEmpty(firstName)) {
             mFirstNameView.setError(getString(R.string.error_field_required));
-            focusView = mFirstNameView;
-            cancel = true;
+            mFirstNameView.requestFocus();
+            return;
         } else if (TextUtils.isEmpty(email)) {
             mEmailView.setError(getString(R.string.error_field_required));
-            focusView = mEmailView;
-            cancel = true;
+            mEmailView.requestFocus();
+            return;
         } else if (TextUtils.isEmpty(username)) {
             mUsernameView.setError(getString(R.string.error_field_required));
-            focusView = mUsernameView;
-            cancel = true;
+            mUsernameView.requestFocus();
+            return;
         } else if (TextUtils.isEmpty(password)) {
             mPassword.setError(getString(R.string.error_field_required));
-            focusView = mPassword;
-            cancel = true;
+            mPassword.requestFocus();
+            return;
         } else if (TextUtils.isEmpty(confirmPassword)) {
             mConfirmPassword.setError(getString(R.string.error_field_required));
-            focusView = mConfirmPassword;
-            cancel = true;
+            mConfirmPassword.requestFocus();
+            return;
         } else if (!isValidPassword()) {
             mPassword.setError(getString(R.string.error_invalid_password));
-            focusView = mPassword;
-            cancel = true;
+            mPassword.requestFocus();
+            return;
         } else if (!password.equals(confirmPassword)) {
-            mConfirmPassword.setError("Password confirmation does not"
-                    + " match password");
-            focusView = mConfirmPassword;
-            cancel = true;
+            mConfirmPassword.setError("Passwords don't match.");
+            mConfirmPassword.requestFocus();
+            return;
         }
 
-        if (cancel) {
-            focusView.requestFocus();
-        } else {
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-        }
+        RegistrationInfo registrationInfo = new RegistrationInfo(firstName, lastName, email, username, password);
+
+        IntelliServerAPI.register(registrationInfo, this.getApplicationContext(), new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject result) {
+                /* my func */
+                boolean registrationSuccessful = false;
+                try {
+                    registrationSuccessful = result.getBoolean("status");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                if (!registrationSuccessful) {
+                    mEmailView.setError("Email address or username already exists.");
+                    mEmailView.requestFocus();
+                } else {
+                    Intent intent = new Intent(RegistrationActivity.this, PreferencesActivity.class);
+                    startActivity(intent);
+                }
+            }
+        });
     }
 
     public boolean isValidPassword() {
-        if (mPassword.getText().length() >= 6) {
-            return true;
-        }
-        return false;
+        return mPassword.getText().length() >= 6;
     }
 }

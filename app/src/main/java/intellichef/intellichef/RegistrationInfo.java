@@ -1,5 +1,8 @@
 package intellichef.intellichef;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * Created by b on 1/22/17.
  */
@@ -11,44 +14,31 @@ public class RegistrationInfo {
     private String username;
     private String password;
 
+    public RegistrationInfo(String firstName, String lastName, String email, String username, String password) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.username = username;
+        this.password = password;
+    }
+
     /**
      * Getter method for user's first name
      * @return firstName
      */
-    public String getFirstName() {
-        return firstName;
-    }
+    public JSONObject toJSONObject() {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("email", email);
+            jsonObject.put("password", password);
+            jsonObject.put("firstName", firstName);
+            jsonObject.put("lastName", lastName);
+            jsonObject.put("username", username);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
-    /**
-     * Getter method for user's last name
-     * @return lastName
-     */
-    public String getLastName() {
-        return lastName;
-    }
-
-    /**
-     * Getter method for user's email address
-     * @return email
-     */
-    public String getEmail() {
-        return email;
-    }
-
-    /**
-     * Getter method for user's password
-     * @return password
-     */
-    public String getPassword() {
-        return password;
-    }
-
-    /**
-     * Change user's first name
-     * @param firstName
-     */
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+        return jsonObject;
     }
 
     /**
@@ -75,4 +65,11 @@ public class RegistrationInfo {
         this.password = password;
     }
 
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
 }
