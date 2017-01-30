@@ -127,7 +127,7 @@ public class RegistrationActivity extends AppCompatActivity {
                     mEmailView.setError("Email address or username already exists.");
                     mEmailView.requestFocus();
                 } else {
-                    Intent intent = new Intent(RegistrationActivity.this, PreferencesActivity.class);
+                    Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
                     startActivity(intent);
                 }
             }
