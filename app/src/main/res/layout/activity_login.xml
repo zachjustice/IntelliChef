@@ -10,9 +10,9 @@
 >
 
     <ImageView
-        android:layout_width="286dp"
-        android:layout_height="197dp"
-        android:layout_marginTop="30dp"
+        android:layout_width="262dp"
+        android:layout_height="230dp"
+        android:layout_marginTop="50dp"
         android:src="@drawable/intellibear"
         android:layout_gravity="center"
         android:id="@+id/imageView2" />
