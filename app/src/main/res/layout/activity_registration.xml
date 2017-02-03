@@ -11,6 +11,17 @@
     tools:context="intellichef.intellichef.RegistrationActivity"
     android:background="#f15c48">
 
+    <ImageView
+        android:layout_width="286dp"
+        android:layout_height="43dp"
+        android:layout_marginTop="80dp"
+        android:src="@drawable/intellichef"
+        android:drawableBottom="#ffffff"
+        android:layout_gravity="center"
+        android:id="@+id/imageView"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -19,7 +30,6 @@
         android:id="@+id/firstName"
         android:hint="first name"
         android:textColorHint="#ffffff"
-        android:textSize="8pt"
         android:textColor="#ffffff"
         android:layout_marginTop="22dp"
         android:drawableBottom="#ffffff"
@@ -114,17 +124,6 @@
         android:layout_height="30dp"
 
         android:layout_below="@+id/confirmPassword"
-        android:layout_centerHorizontal="true" />
-
-    <ImageView
-        android:layout_width="286dp"
-        android:layout_height="43dp"
-        android:layout_marginTop="46dp"
-        android:src="@drawable/intellichef"
-        android:drawableBottom="#ffffff"
-        android:layout_gravity="center"
-        android:id="@+id/imageView"
-        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

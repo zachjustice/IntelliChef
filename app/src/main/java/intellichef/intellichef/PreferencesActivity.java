@@ -64,6 +64,9 @@ public class PreferencesActivity extends AppCompatActivity {
 
     private void logout() throws JSONException {
         String email = LoginActivity.getCurrentEmail();
+        if (email == null) {
+            email = RegistrationActivity.getCurrentEmail();
+        }
 
         IntelliServerAPI.logout(email, this.getApplicationContext(), new JsonHttpResponseHandler() {
             @Override
@@ -87,6 +90,9 @@ public class PreferencesActivity extends AppCompatActivity {
 
     private void removeAccount() throws JSONException {
         String email = LoginActivity.getCurrentEmail();
+        if (email == null) {
+            email = RegistrationActivity.getCurrentEmail();
+        }
 
         IntelliServerAPI.removeAccount(email, this.getApplicationContext(), new JsonHttpResponseHandler() {
             @Override

@@ -32,6 +32,8 @@ public class RegistrationActivity extends AppCompatActivity {
     private EditText mPassword;
     private EditText mConfirmPassword;
     private Button create;
+    private static String currentUser;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,6 +113,7 @@ public class RegistrationActivity extends AppCompatActivity {
         }
 
         RegistrationInfo registrationInfo = new RegistrationInfo(firstName, lastName, email, username, password);
+        currentUser = email;
 
         IntelliServerAPI.register(registrationInfo, this.getApplicationContext(), new JsonHttpResponseHandler() {
             @Override
@@ -137,4 +140,9 @@ public class RegistrationActivity extends AppCompatActivity {
     public boolean isValidPassword() {
         return mPassword.getText().length() >= 6;
     }
+
+    public static String getCurrentEmail() {
+        return currentUser;
+    }
+
 }
