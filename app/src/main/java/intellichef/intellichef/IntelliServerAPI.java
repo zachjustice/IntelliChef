@@ -47,7 +47,7 @@ public class IntelliServerAPI {
             e.printStackTrace();
         }
 
-        IntelliServerRestClient.post(context, "login", requestData, "application/json", responseHandler);
+        IntelliServerRestClient.post(context, "v1.0/login", requestData, "application/json", responseHandler);
     }
 
     public static void logout( String email, Context context, final JsonHttpResponseHandler callback ) throws JSONException {
@@ -74,7 +74,7 @@ public class IntelliServerAPI {
             e.printStackTrace();
         }
 
-        IntelliServerRestClient.put(context, "logout", requestData, "application/json", responseHandler);
+        IntelliServerRestClient.put(context, "v1.0/logout", requestData, "application/json", responseHandler);
     }
 
     public static void removeAccount( String email, Context context, final JsonHttpResponseHandler callback ) throws JSONException {
@@ -101,7 +101,7 @@ public class IntelliServerAPI {
             e.printStackTrace();
         }
 
-        IntelliServerRestClient.post(context, "remove_account", requestData, "application/json", responseHandler);
+        IntelliServerRestClient.post(context, "v1.0/remove_account", requestData, "application/json", responseHandler);
     }
 
     public static void register( RegistrationInfo registrationInfo, Context context, final JsonHttpResponseHandler callback ) throws JSONException {
@@ -127,6 +127,6 @@ public class IntelliServerAPI {
             e.printStackTrace();
         }
         Log.v("JSON", "" + requestData);
-        IntelliServerRestClient.post(context, "register", requestData, "application/json", responseHandler);
+        IntelliServerRestClient.post(context, "v1.0/register", requestData, "application/json", responseHandler);
     }
 }
