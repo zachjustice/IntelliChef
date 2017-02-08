@@ -14,7 +14,6 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import cz.msebera.android.httpclient.Header;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -40,7 +39,7 @@ public class RegistrationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
 
-        mFirstNameView = (EditText) findViewById(R.id.firstName);
+        mFirstNameView = (EditText) findViewById(R.id.fn);
         mLastNameView = (EditText) findViewById(R.id.lastName);
         mEmailView = (EditText) findViewById(R.id.email);
         mUsernameView = (EditText) findViewById(R.id.username);

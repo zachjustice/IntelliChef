@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
         android:ems="10"
-        android:id="@+id/firstName"
+        android:id="@+id/fn"
         android:hint="first name"
         android:textColorHint="#ffffff"
         android:textColor="#ffffff"
@@ -46,9 +46,9 @@
         android:textColorHint="#ffffff"
         android:textColor="#ffffff"
         android:drawableBottom="#ffffff"
-        android:layout_below="@+id/firstName"
-        android:layout_alignLeft="@+id/firstName"
-        android:layout_alignStart="@+id/firstName"
+        android:layout_below="@+id/fn"
+        android:layout_alignLeft="@+id/fn"
+        android:layout_alignStart="@+id/fn"
         />
 
     <EditText
