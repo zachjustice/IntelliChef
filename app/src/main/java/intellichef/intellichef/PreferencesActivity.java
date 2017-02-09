@@ -5,8 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -36,6 +38,11 @@ public class PreferencesActivity extends AppCompatActivity {
     private Button logout;
     private Button deleteAccount;
     private ImageButton changePicture;
+    private EditText first;
+    private EditText last;
+    private EditText email;
+    private EditText password;
+    private EditText confirmPassword;
     private static int GET_FROM_GALLERY = 1;
 
     @Override
@@ -46,6 +53,19 @@ public class PreferencesActivity extends AppCompatActivity {
         logout = (Button) findViewById(R.id.logout);
         deleteAccount = (Button) findViewById(R.id.deleteAccount);
         changePicture = (ImageButton) findViewById(R.id.profilePic);
+        first = (EditText) findViewById(R.id.fn);
+        last = (EditText) findViewById(R.id.ln);
+        email = (EditText) findViewById(R.id.em);
+        password = (EditText) findViewById(R.id.pw);
+        confirmPassword = (EditText) findViewById(R.id.cpw);
+        //TODO: Zach, query the values for the database and then uncomment
+        //String firstname = *INSERT FIRST NAME QUERY HERE*
+        //first.setText(firstname);
+        //String lastname = *INSERT LAST NAME QUERY HERE*
+        //last.setText(lastname);
+        //String emailaddress = *INSERT EMAIL QUERY HERE*
+        //email.setText(emailaddress);
+
         logout.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Perform action on click
@@ -88,6 +108,8 @@ public class PreferencesActivity extends AppCompatActivity {
         if(requestCode==GET_FROM_GALLERY && resultCode == Activity.RESULT_OK) {
             Uri selectedImage = data.getData();
             Bitmap bitmap = null;
+            String path = Environment.getExternalStorageDirectory() + "/" + Environment.DIRECTORY_DCIM + "/";
+            changePicture.setImageBitmap(BitmapFactory.decodeFile(path));
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
             } catch (FileNotFoundException e) {
