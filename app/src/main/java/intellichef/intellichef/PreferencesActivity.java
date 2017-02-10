@@ -112,6 +112,7 @@ public class PreferencesActivity extends AppCompatActivity {
             changePicture.setImageBitmap(BitmapFactory.decodeFile(path));
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
+                changePicture.setImageBitmap(bitmap);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             } catch (IOException e) {
