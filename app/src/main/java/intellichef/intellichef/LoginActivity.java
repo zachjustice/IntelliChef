@@ -110,7 +110,7 @@ public class LoginActivity extends AppCompatActivity {
                     mEmailView.requestFocus();
                 } else {
                     currentUser = currentUserEmail;
-                    Intent intent = new Intent(LoginActivity.this, PreferencesActivity.class);
+                    Intent intent = new Intent(LoginActivity.this, MealPlanActivity.class);
                     startActivity(intent);
                 }
             }
