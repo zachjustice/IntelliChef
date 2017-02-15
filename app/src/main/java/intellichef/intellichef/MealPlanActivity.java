@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
@@ -34,6 +35,7 @@ public class MealPlanActivity extends AppCompatActivity {
     private TextView breakfastName;
     private TextView lunchName;
     private TextView dinnerName;
+    private Toolbar toolbar;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -57,8 +59,6 @@ public class MealPlanActivity extends AppCompatActivity {
 //        dateFormat = new SimpleDateFormat("M-d-yyyy");
 //        getMealPlans(dateFormat.foramt(c.getTime()));
 
-
-        final int trackDay = 1;
         // Date Display from March 1 to 7
         String s1 = "Mar 01, 2017";
         String s2 = "Mar 07, 2017";
@@ -77,50 +77,49 @@ public class MealPlanActivity extends AppCompatActivity {
 
         // Show meal plan for Mar 1
         try {
-            showMealPlans("3-" + trackDay + "-2017");
+            showMealPlans("3-1-2017");
         } catch (Exception e) {
             System.out.println("Failed to show recipes");
         }
 
         prevButton = (Button) findViewById(R.id.prevRecipe);
+        prevButton.setVisibility(View.GONE);
         prevButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                // Perform action on click
-//                nextButton.setBackgroundColor(Color.GRAY);
-                nextButton.setBackgroundResource(btn_star_big_off);
+                // Show next button
+                nextButton.setVisibility(View.VISIBLE);
                 calendarFrom.add(Calendar.DATE, -1);
-                if (calendarFrom.get(Calendar.MONTH) > 2) {
-                    try {
-                        showMealPlans("3-" + calendarFrom.get(Calendar.DATE) + "-2017");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    date.setText(dateFormat.format(calendarFrom.getTime()));
-                } else {
-                    //TODO: Fix change color issue
-                    prevButton.setBackgroundColor(Color.RED);
-                    calendarFrom.add(Calendar.DATE, 1);
+                try {
+                    showMealPlans("3-" + calendarFrom.get(Calendar.DATE) + "-2017");
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
+                date.setText(dateFormat.format(calendarFrom.getTime()));
+                if (calendarFrom.get(Calendar.DATE) == 1) {
+                    //If on the first page (Mar 1), hide prev button so that the user can't go before Mar 1
+                    prevButton.setVisibility(View.GONE);
+                }
+
             }
+
         });
 
         nextButton = (Button) findViewById(R.id.nextRecipe);
         nextButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 //TODO: setOnTouchListener for pressed effects
-//                prevButton.setBackgroundColor(Color.GRAY);
-                prevButton.setBackgroundResource(btn_star_big_off);
+                //show prev button
+                prevButton.setVisibility(View.VISIBLE);
                 calendarFrom.add(Calendar.DATE, 1);
-                if (calendarFrom.compareTo(calendarUntil) <= 0) {
-                    try {
-                        showMealPlans("3-" + calendarFrom.get(Calendar.DATE) + "-2017");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    date.setText(dateFormat.format(calendarFrom.getTime()));
-                } else {
-                    nextButton.setBackgroundColor(Color.RED);
-                    calendarFrom.add(Calendar.DATE, -1);
+                try {
+                    showMealPlans("3-" + calendarFrom.get(Calendar.DATE) + "-2017");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                date.setText(dateFormat.format(calendarFrom.getTime()));
+                if (calendarFrom.compareTo(calendarUntil) == 0) {
+                    // if on the last screen (Mar 7), hide the next button
+                    nextButton.setVisibility(View.GONE);
                 }
             }
         });
@@ -137,7 +136,7 @@ public class MealPlanActivity extends AppCompatActivity {
             public void onSuccess(int statusCode, Header[] headers, JSONObject result) {
                 Recipe breakfastRecipe = new Recipe();
                 try {
-                    breakfastRecipe.fillParams(result.getString("breakfast"));
+                    breakfastRecipe.fillParams(result.getJSONObject("breakfast"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -145,7 +144,7 @@ public class MealPlanActivity extends AppCompatActivity {
 
                 Recipe lunchRecipe = new Recipe();
                 try {
-                    lunchRecipe.fillParams(result.getString("lunch"));
+                    lunchRecipe.fillParams(result.getJSONObject("lunch"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -153,7 +152,7 @@ public class MealPlanActivity extends AppCompatActivity {
 
                 Recipe dinnerRecipe = new Recipe();
                 try {
-                    dinnerRecipe.fillParams(result.getString("dinner"));
+                    dinnerRecipe.fillParams(result.getJSONObject("dinner"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

@@ -1,5 +1,8 @@
 package intellichef.intellichef;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * Created by Sally on 2/12/17.
  */
@@ -51,23 +54,15 @@ public class Recipe {
         return recipePK;
     }
 
-    public void fillParams(String jsonParams) {
-        int strPad = 3;
-        int intPad = 2;
-        int descriptionInd = jsonParams.indexOf("description") + "description".length() + strPad;
-        int recipeInd = jsonParams.indexOf("recipe");
-        description = jsonParams.substring(descriptionInd, recipeInd - strPad);
-
-        recipeInd += "recipe".length() + intPad;
-        int nameInd = jsonParams.indexOf("name");
-        recipePK = Integer.parseInt(jsonParams.substring(recipeInd, nameInd - intPad));
-
-        nameInd += "name".length() + strPad;
-        int instructionInd = jsonParams.indexOf("instructions");
-        name = jsonParams.substring(nameInd, instructionInd - strPad);
-
-        instructionInd += "instructions".length() + strPad;
-        instruction = jsonParams.substring(instructionInd);
+    public void fillParams(JSONObject recipe) {
+        try {
+            this.description = recipe.getString("description");
+            this.recipePK = recipe.getInt("recipe");
+            this.name = recipe.getString("name");
+            this.instruction = recipe.getString("instructions");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
     }
 }
