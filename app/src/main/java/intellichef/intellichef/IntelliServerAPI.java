@@ -23,7 +23,7 @@ public class IntelliServerAPI {
         api = new IntelliServerRestClient();
     }
 
-    public static void login( String email, String password, Context context, final JsonHttpResponseHandler callback ) throws JSONException {
+    public static void login(String email, String password, Context context, final JsonHttpResponseHandler callback) throws JSONException {
         final JsonHttpResponseHandler responseHandler = new JsonHttpResponseHandler() {
             public void onFailure(int statusCode, Header[] headers, JSONObject response) {
                 Log.v("JSONObject", response.toString() );
@@ -54,13 +54,13 @@ public class IntelliServerAPI {
     public static void logout( String email, Context context, final JsonHttpResponseHandler callback ) throws JSONException {
         final JsonHttpResponseHandler responseHandler = new JsonHttpResponseHandler() {
             public void onFailure(int statusCode, Header[] headers, JSONObject response) {
-                Log.v("JSONObject", response.toString() );
+                Log.v("JSONObject", response.toString());
             }
 
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 // Pull out the first event on the public timeline
                 // Do something with the response
-                Log.v("JSONObject", response.toString() );
+                Log.v("JSONObject", response.toString());
                 callback.onSuccess(statusCode, headers, response);
             }
         };
