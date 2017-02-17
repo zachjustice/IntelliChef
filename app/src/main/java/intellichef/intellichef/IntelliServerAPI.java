@@ -151,6 +151,9 @@ public class IntelliServerAPI {
         IntelliServerRestClient.get("v2.0/meal_plans", params, responseHandler);
     }
 
+    //TODO: getUserInfo
+    //(method in LoginActivity) params.put("entity_pk", *user info from static method*)
+
 
     public static void getCalibratedMeals(final JsonHttpResponseHandler callback ) throws JSONException {
         final JsonHttpResponseHandler responseHandler = new JsonHttpResponseHandler() {
