@@ -2,11 +2,13 @@ package intellichef.intellichef;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -21,12 +23,15 @@ public class CalibrationAdapter extends ArrayAdapter<CalibrationItem> {
     int layoutResourceId;
     ArrayList<CalibrationItem> data;
 
+
     public CalibrationAdapter(Context context, int layoutResourceId, ArrayList<CalibrationItem> data) {
         super(context, layoutResourceId, data);
         this.layoutResourceId = layoutResourceId;
         this.context = context;
         this.data = data;
     }
+
+
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -48,7 +53,7 @@ public class CalibrationAdapter extends ArrayAdapter<CalibrationItem> {
 
         CalibrationItem item = data.get(position);
         holder.recipeName.setText(item.getRecipeName());
-        ImageExtractor.loadIntoImage(getContext(), item.getImageUrl(), holder.recipeImage);
+        ImageExtractor.loadIntoImage(getContext(), item.getImageUrl(), holder.recipeImage, 150, 150);
         return row;
 
     }

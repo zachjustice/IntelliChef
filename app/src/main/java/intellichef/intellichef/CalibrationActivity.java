@@ -9,9 +9,12 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 
@@ -32,6 +35,7 @@ public class CalibrationActivity extends AppCompatActivity {
     ListView listview;
     CalibrationAdapter adapter;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +45,20 @@ public class CalibrationActivity extends AppCompatActivity {
         listview = (ListView) findViewById(R.id.listView);
         calibrationItems = new ArrayList<>();
         submit = (Button) findViewById(R.id.submit);
+
+        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+
+                //LILY ADD IMAGE CHANGING/OVERLAYING LOGIC HERE!!!
+                CalibrationItem selected = calibrationItems.get(position);
+                Log.v("LILY", selected.getImageUrl());
+
+            }
+        });
+
 
         try {
             populateCalibratedMeals();
