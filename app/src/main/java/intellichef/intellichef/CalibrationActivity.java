@@ -34,6 +34,7 @@ public class CalibrationActivity extends AppCompatActivity {
     ArrayList<CalibrationItem> calibrationItems;
     ListView listview;
     CalibrationAdapter adapter;
+    ArrayList<Integer> calibrationPks = new ArrayList<Integer>();
 
 
     @Override
@@ -54,6 +55,7 @@ public class CalibrationActivity extends AppCompatActivity {
 
                 //LILY ADD IMAGE CHANGING/OVERLAYING LOGIC HERE!!!
                 CalibrationItem selected = calibrationItems.get(position);
+                selected.toggleSelected();
                 Log.v("LILY", selected.getImageUrl());
 
             }
@@ -69,6 +71,12 @@ public class CalibrationActivity extends AppCompatActivity {
 
         submit.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                for (CalibrationItem c: calibrationItems) {
+                    if (c.isSelected()) {
+                        calibrationPks.add(c.getCalibrationPk());
+                    }
+                }
+                Log.v("Calibrated", "" + calibrationPks.size());
 //                try {
 //                    post calibration picks
 //                    switch screens
@@ -87,7 +95,7 @@ public class CalibrationActivity extends AppCompatActivity {
                 try {
                     for (int i = 0; i < result.length(); i++) {
                         JSONObject calibratedRecipe = (JSONObject) result.get(i);
-                        calibrationItems.add(new CalibrationItem("" + calibratedRecipe.get("url"), "" + calibratedRecipe.get("name")));
+                        calibrationItems.add(new CalibrationItem("" + calibratedRecipe.get("url"), "" + calibratedRecipe.get("name"), (Integer) calibratedRecipe.get("recipe")));
                     }
                     adapter = new CalibrationAdapter(CalibrationActivity.this, R.layout.calibration_view, calibrationItems);
                     adapter.notifyDataSetChanged();
