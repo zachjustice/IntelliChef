@@ -154,12 +154,12 @@ public class MealPlanActivity extends AppCompatActivity {
                 switch (tabIndex) {
                     case 0: break;
                     case 1:
-                        Intent intent = new Intent(MealPlanActivity.this, PreferencesActivity.class);
-                        startActivity(intent);
                         break;
                     case 2:
                         break;
                     case 3:
+                        Intent intent = new Intent(MealPlanActivity.this, PreferencesActivity.class);
+                        startActivity(intent);
                         break;
                     case 4:
                         break;
