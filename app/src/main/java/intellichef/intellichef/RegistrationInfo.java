@@ -22,10 +22,6 @@ public class RegistrationInfo {
         this.password = password;
     }
 
-    /**
-     * Getter method for user's first name
-     * @return firstName
-     */
     public JSONObject toJSONObject() {
         JSONObject jsonObject = new JSONObject();
         try {
@@ -39,6 +35,26 @@ public class RegistrationInfo {
         }
 
         return jsonObject;
+    }
+    
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     /**

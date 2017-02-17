@@ -48,8 +48,11 @@ public class PreferencesActivity extends AppCompatActivity {
     private EditText first;
     private EditText last;
     private EditText email;
+    private EditText usern;
     private EditText password;
     private EditText confirmPassword;
+    private EditText fnDisplay;
+    private EditText lnDisplay;
     private LinearLayout basicInfoLayout;
     private LinearLayout basicInfoLayout2;
     private static int GET_FROM_GALLERY = 1;
@@ -74,19 +77,24 @@ public class PreferencesActivity extends AppCompatActivity {
         deleteAccount = (Button) findViewById(R.id.deleteAccount);
         changePicture = (ImageButton) findViewById(R.id.profilePic);
         editBasic = (ImageButton) findViewById(R.id.editBasicInfo);
+
         first = (EditText) findViewById(R.id.fn);
         last = (EditText) findViewById(R.id.ln);
         email = (EditText) findViewById(R.id.em);
+        usern = (EditText) findViewById(R.id.un);
         password = (EditText) findViewById(R.id.pw);
         confirmPassword = (EditText) findViewById(R.id.cpw);
 
-        //TODO: Zach, query the values for the database and then uncomment
-        //String firstname = *INSERT FIRST NAME QUERY HERE*
-        //first.setText(firstname);
-        //String lastname = *INSERT LAST NAME QUERY HERE*
-        //last.setText(lastname);
-        //String emailaddress = *INSERT EMAIL QUERY HERE*
-        //email.setText(emailaddress);
+        String firstname = RegistrationActivity.getCurrentFirstName();
+        first.setText(firstname);
+        fnDisplay.setText(firstname);
+        String lastname = RegistrationActivity.getCurrentLastName();
+        last.setText(lastname);
+        lnDisplay.setText(lastname);
+        String emailaddress = RegistrationActivity.getCurrentEmail();
+        email.setText(emailaddress);
+        String username = RegistrationActivity.getCurrentUsername();
+        usern.setText(username);
 
         changePicture.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -158,6 +166,7 @@ public class PreferencesActivity extends AppCompatActivity {
     }
 
     private void expand() {
+        basicInfoLayout.setVisibility(View.GONE);
         basicInfoLayout2.setVisibility(View.VISIBLE);
 
         final int widthSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
@@ -209,7 +218,6 @@ public class PreferencesActivity extends AppCompatActivity {
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                //Update Height
                 int value = (Integer) valueAnimator.getAnimatedValue();
                 ViewGroup.LayoutParams layoutParams = basicInfoLayout.getLayoutParams();
                 layoutParams.height = value;

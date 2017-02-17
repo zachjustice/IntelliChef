@@ -56,7 +56,7 @@
         android:layout_height="100dp" />
 
     <TextView
-        android:text="Basic Info"
+        android:text="basic info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -64,7 +64,9 @@
         android:layout_alignParentStart="true"
         android:layout_marginLeft="0dp"
         android:layout_marginStart="100dp"
-        android:id="@+id/userBasicInfo" />
+        android:id="@+id/userBasicInfo"
+        android:textColor="#ffffff"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
     <ImageButton
         app:srcCompat="@android:drawable/ic_menu_edit"
@@ -73,14 +75,13 @@
         android:layout_height="25dp"
         android:adjustViewBounds="true"
         android:visibility="visible"
-        android:layout_marginStart="170dp"
-        android:layout_marginLeft="100dp" />
+        android:layout_toRightOf="@+id/userBasicInfo" />
 
     <LinearLayout
         android:id="@+id/basicInfoMain"
         android:orientation="vertical"
         android:layout_width="228dp"
-        android:layout_height="280dp"
+        android:layout_height="300dp"
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:animateLayoutChanges="true"
@@ -96,7 +97,10 @@
             android:id="@+id/fn"
             android:layout_alignParentTop="false"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignParentEnd="true"
+            android:hint="first name"
+            android:textColorHint="#ffffff"
+            android:textColor="#ffffff"/>
 
         <EditText
             android:layout_width="match_parent"
@@ -106,7 +110,10 @@
             android:id="@+id/ln"
             android:layout_below="@+id/fn"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignParentEnd="true"
+            android:hint="last name"
+            android:textColorHint="#ffffff"
+            android:textColor="#ffffff"/>
 
         <EditText
             android:layout_width="match_parent"
@@ -116,17 +123,36 @@
             android:layout_below="@+id/ln"
             android:layout_toRightOf="@+id/profilePic"
             android:layout_toEndOf="@+id/profilePic"
-            android:id="@+id/em" />
+            android:id="@+id/em"
+            android:hint="email address"
+            android:textColorHint="#ffffff"
+            android:textColor="#ffffff"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:layout_below="@+id/em"
+            android:layout_alignLeft="@+id/em"
+            android:layout_alignStart="@+id/em"
+            android:id="@+id/un"
+            android:hint="username"
+            android:textColorHint="#ffffff"
+            android:textColor="#ffffff"/>
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
             android:ems="10"
-            android:layout_below="@+id/em"
-            android:layout_alignLeft="@+id/em"
-            android:layout_alignStart="@+id/em"
-            android:id="@+id/pw" />
+            android:layout_below="@+id/un"
+            android:layout_alignLeft="@+id/un"
+            android:layout_alignStart="@+id/un"
+            android:id="@+id/pw"
+            android:hint="password"
+            android:textColorHint="#ffffff"
+            android:textColor="#ffffff"/>
 
         <EditText
             android:layout_width="match_parent"
@@ -135,7 +161,10 @@
             android:ems="10"
             android:id="@+id/cpw"
             android:layout_below="@+id/linearLayout"
-            android:layout_centerHorizontal="true" />
+            android:layout_centerHorizontal="true"
+            android:hint="confirm password"
+            android:textColorHint="#ffffff"
+            android:textColor="#ffffff"/>
 
         <Button
             android:text="Save"
@@ -155,7 +184,7 @@
         android:id="@+id/basicInfoCollapsed"
         android:orientation="vertical"
         android:layout_width="228dp"
-        android:layout_height="100dp"
+        android:layout_height="65dp"
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:layout_below="@+id/editBasicInfo"
@@ -182,15 +211,6 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true" />
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textEmailAddress"
-            android:ems="10"
-            android:layout_below="@+id/ln2"
-            android:layout_toRightOf="@+id/profilePic"
-            android:layout_toEndOf="@+id/profilePic"
-            android:id="@+id/em2" />
 
     </LinearLayout>
 
