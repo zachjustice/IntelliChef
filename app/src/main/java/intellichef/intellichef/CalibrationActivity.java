@@ -42,13 +42,9 @@ public class CalibrationActivity extends AppCompatActivity {
         calibrationItems = new ArrayList<>();
         submit = (Button) findViewById(R.id.submit);
 
-        calibrationItems.add(new CalibrationItem("https://lh4.ggpht.com/mJDgTDUOtIyHcrb69WM0cpaxFwCNW6f0VQ2ExA7dMKpMDrZ0A6ta64OCX3H-NMdRd20=w300", "hi"));
-        adapter = new CalibrationAdapter(this, R.layout.calibration_view, calibrationItems);
-        listview.setAdapter(adapter);
-
-
         try {
             populateCalibratedMeals();
+
         } catch (JSONException e) {
             Log.v("JSONObject", "" + e.getMessage());
         }
@@ -71,9 +67,14 @@ public class CalibrationActivity extends AppCompatActivity {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray result) {
                 try {
-                    Log.v("JSONObject", result.toString());
-                    //for (JSONObject
-                    //calibrationItems.add(new CalibrationItem(, "url"));
+                    for (int i = 0; i < result.length(); i++) {
+                        JSONObject calibratedRecipe = (JSONObject) result.get(i);
+                        calibrationItems.add(new CalibrationItem("" + calibratedRecipe.get("url"), "" + calibratedRecipe.get("name")));
+                    }
+                    adapter = new CalibrationAdapter(CalibrationActivity.this, R.layout.calibration_view, calibrationItems);
+                    adapter.notifyDataSetChanged();
+                    listview.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
                 } catch (Exception e) {
                     Log.v("JSONObject", "" + e.getMessage());
                 }
