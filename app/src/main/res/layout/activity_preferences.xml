@@ -28,16 +28,6 @@
         android:layout_alignLeft="@+id/deleteAccount"
         android:layout_alignStart="@+id/deleteAccount" />
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:id="@+id/ln"
-        android:layout_below="@+id/fn"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
     <Button
         android:text="Delete Account"
         android:id="@+id/deleteAccount"
@@ -55,56 +45,154 @@
         android:layout_centerHorizontal="true" />
 
     <ImageButton
-        android:layout_width="45dp"
-        android:layout_height="45dp"
         app:srcCompat="@android:drawable/ic_menu_camera"
         android:id="@+id/profilePic"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:adjustViewBounds="true"
-        android:layout_toStartOf="@+id/fn"
         android:visibility="visible"
-        android:layout_above="@+id/pw" />
+        android:layout_width="100dp"
+        android:layout_height="100dp" />
 
-    <EditText
+    <TextView
+        android:text="Basic Info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textEmailAddress"
-        android:ems="10"
-        android:layout_below="@+id/ln"
-        android:layout_toRightOf="@+id/profilePic"
-        android:layout_toEndOf="@+id/profilePic"
-        android:id="@+id/em" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPassword"
-        android:ems="10"
-        android:layout_below="@+id/em"
-        android:layout_alignLeft="@+id/em"
-        android:layout_alignStart="@+id/em"
-        android:id="@+id/pw" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPassword"
-        android:ems="10"
-        android:layout_below="@+id/pw"
-        android:layout_alignLeft="@+id/pw"
-        android:layout_alignStart="@+id/pw"
-        android:id="@+id/cpw" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:id="@+id/fn"
         android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="false"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="0dp"
+        android:layout_marginStart="100dp"
+        android:id="@+id/userBasicInfo" />
+
+    <ImageButton
+        app:srcCompat="@android:drawable/ic_menu_edit"
+        android:id="@+id/editBasicInfo"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:adjustViewBounds="true"
+        android:visibility="visible"
+        android:layout_marginStart="170dp"
+        android:layout_marginLeft="100dp" />
+
+    <LinearLayout
+        android:id="@+id/basicInfoMain"
+        android:orientation="vertical"
+        android:layout_width="228dp"
+        android:layout_height="280dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:animateLayoutChanges="true"
+        android:layout_below="@+id/editBasicInfo"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/fn"
+            android:layout_alignParentTop="false"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/ln"
+            android:layout_below="@+id/fn"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:ems="10"
+            android:layout_below="@+id/ln"
+            android:layout_toRightOf="@+id/profilePic"
+            android:layout_toEndOf="@+id/profilePic"
+            android:id="@+id/em" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:ems="10"
+            android:layout_below="@+id/em"
+            android:layout_alignLeft="@+id/em"
+            android:layout_alignStart="@+id/em"
+            android:id="@+id/pw" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:ems="10"
+            android:id="@+id/cpw"
+            android:layout_below="@+id/linearLayout"
+            android:layout_centerHorizontal="true" />
+
+        <Button
+            android:text="Save"
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            android:textColor="#f15c48"
+            android:background="#ffffff"
+            android:drawableBottom="#ffffff"
+            android:textSize="6pt"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:id="@+id/saveBasicInfo" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/basicInfoCollapsed"
+        android:orientation="vertical"
+        android:layout_width="228dp"
+        android:layout_height="100dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:layout_below="@+id/editBasicInfo"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" >
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/fn2"
+            android:layout_alignParentTop="false"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/ln2"
+            android:layout_below="@+id/fn2"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:ems="10"
+            android:layout_below="@+id/ln2"
+            android:layout_toRightOf="@+id/profilePic"
+            android:layout_toEndOf="@+id/profilePic"
+            android:id="@+id/em2" />
+
+    </LinearLayout>
+
 
 </RelativeLayout>
