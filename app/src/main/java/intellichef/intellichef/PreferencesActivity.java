@@ -228,7 +228,8 @@ public class PreferencesActivity extends AppCompatActivity {
     }
 
     private void logout() throws JSONException {
-        String email = LoginActivity.getCurrentEmail();
+        String email = LoginActivity.getCurrentUser().getRegistrationInfo().getEmail();
+
         if (email == null) {
             email = RegistrationActivity.getCurrentEmail();
         }
@@ -254,7 +255,7 @@ public class PreferencesActivity extends AppCompatActivity {
     }
 
     private void removeAccount() throws JSONException {
-        String email = LoginActivity.getCurrentEmail();
+        String email = LoginActivity.getCurrentUser().getRegistrationInfo().getEmail();
         if (email == null) {
             email = RegistrationActivity.getCurrentEmail();
         }

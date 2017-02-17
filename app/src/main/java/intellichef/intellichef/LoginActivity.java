@@ -31,7 +31,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText mPasswordView;
     private Button registerButton;
     private Button loginButton;
-    private static String currentUser;
+    private static User currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,18 +98,35 @@ public class LoginActivity extends AppCompatActivity {
         IntelliServerAPI.login(currentUserEmail, password, this.getApplicationContext(), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject result) {
-                boolean loginSuccessful = false;
+                JSONObject entity = null;
+                int entityPk;
+                String username;
+                String first_name;
+                String last_name;
+                String email;
+                String password;
+
                 try {
-                    loginSuccessful = result.getBoolean("status");
+                    entity = result.getJSONObject("entity");
+                    username = entity.getString("username");
+                    entityPk = entity.getInt("entity");
+                    first_name = entity.getString("first_name");
+                    last_name = entity.getString("last_name");
+                    email = entity.getString("email");
+                    password = entity.getString("password");
+
+                    RegistrationInfo registrationInfo = new RegistrationInfo(first_name, last_name, email, username, password);
+
+                    currentUser = new User(registrationInfo);
+                    currentUser.setEntityPk(entityPk);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
-                if (!loginSuccessful) {
+                if (entity == null) {
                     mEmailView.setError("Invalid email address or password.");
                     mEmailView.requestFocus();
                 } else {
-                    currentUser = currentUserEmail;
                     Intent intent = new Intent(LoginActivity.this, CalibrationActivity.class);
                     startActivity(intent);
                 }
@@ -117,7 +134,7 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    public static String getCurrentEmail() {
+    public static User getCurrentUser() {
         return currentUser;
     }
 }

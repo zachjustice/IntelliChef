@@ -155,11 +155,11 @@ public class IntelliServerAPI {
     public static void getCalibratedMeals(final JsonHttpResponseHandler callback ) throws JSONException {
         final JsonHttpResponseHandler responseHandler = new JsonHttpResponseHandler() {
 
-            public void onFailure(int statusCode, Header[] headers, JSONObject response) {
+            public void onFailure(int statusCode, Header[] headers, JSONArray response) {
                 Log.v("JSONObject", response.toString() );
             }
 
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                 // Pull out the first event on the public timeline
                 // Do something with the response
                 Log.v("JSONObject", response.toString() );
@@ -168,7 +168,7 @@ public class IntelliServerAPI {
         };
 
         RequestParams params = new RequestParams();
-        //params.put("sort_by", "calibration_recipes");
+        params.put("sort_by", "calibration_recipes");
 
         IntelliServerRestClient.get("v2.0/recipes", params, responseHandler);
     }
