@@ -74,8 +74,8 @@ public class RegistrationActivity extends AppCompatActivity {
         mPassword.setError(null);
         mConfirmPassword.setError(null);
 
-        String firstName = mFirstNameView.getText().toString();
-        String lastName = mLastNameView.getText().toString();
+        final String firstName = mFirstNameView.getText().toString();
+        final String lastName = mLastNameView.getText().toString();
         String email = mEmailView.getText().toString();
         String username = mUsernameView.getText().toString();
         String password = mPassword.getText().toString();
@@ -118,14 +118,19 @@ public class RegistrationActivity extends AppCompatActivity {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject result) {
                 /* my func */
-                boolean registrationSuccessful = false;
+                JSONObject entity = null;
+                int entityPk;
+
                 try {
-                    registrationSuccessful = result.getBoolean("status");
+                    entity = result.getJSONObject("entity");
+                    entityPk = entity.getInt("entity");
+
+                    currentUser.setEntityPk(entityPk);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
-                if (!registrationSuccessful) {
+                if (entity != null) {
                     mEmailView.setError("Email address or username already exists.");
                     mEmailView.requestFocus();
                 } else {

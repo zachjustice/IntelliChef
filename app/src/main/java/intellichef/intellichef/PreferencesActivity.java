@@ -253,6 +253,10 @@ public class PreferencesActivity extends AppCompatActivity {
             }
         });
     }
+    //TODO: IntelliServerAPI.getUserInfo
+    //v2.0/entities/<int:entity_pk> GET
+    //Set textfields in onSuccess
+    //PUT route with new user info
 
     private void removeAccount() throws JSONException {
         String email = LoginActivity.getCurrentUser().getRegistrationInfo().getEmail();
