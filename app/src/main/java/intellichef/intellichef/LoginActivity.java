@@ -120,6 +120,4 @@ public class LoginActivity extends AppCompatActivity {
     public static String getCurrentEmail() {
         return currentUser;
     }
-
-    /* my lambda function */
 }

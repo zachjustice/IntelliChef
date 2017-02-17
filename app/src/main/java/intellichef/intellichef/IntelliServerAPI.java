@@ -6,6 +6,7 @@ import org.json.*;
 import com.loopj.android.http.*;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Calendar;
 
 import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.entity.StringEntity;
@@ -129,6 +130,27 @@ public class IntelliServerAPI {
         Log.v("JSON", "" + requestData);
         IntelliServerRestClient.post(context, "v1.0/register", requestData, "application/json", responseHandler);
     }
+
+    public static void getRecipes(String date, final JsonHttpResponseHandler callback) throws JSONException {
+        final JsonHttpResponseHandler responseHandler = new JsonHttpResponseHandler() {
+            public void onFailure(int statusCode, Header[] headers, JSONObject response) {
+                Log.v("JSONObject", response.toString() );
+            }
+
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                // Pull out the first event on the public timeline
+                // Do something with the response
+                Log.v("JSONObject", response.toString() );
+                callback.onSuccess(statusCode, headers, response);
+            }
+        };
+
+        RequestParams params = new RequestParams();
+        params.put("date", date);
+
+        IntelliServerRestClient.get("v2.0/meal_plans", params, responseHandler);
+    }
+
 
     public static void getCalibratedMeals(final JsonHttpResponseHandler callback ) throws JSONException {
         final JsonHttpResponseHandler responseHandler = new JsonHttpResponseHandler() {
