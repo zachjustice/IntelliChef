@@ -85,16 +85,16 @@ public class PreferencesActivity extends AppCompatActivity {
         password = (EditText) findViewById(R.id.pw);
         confirmPassword = (EditText) findViewById(R.id.cpw);
 
-        String firstname = RegistrationActivity.getCurrentFirstName();
-        first.setText(firstname);
-        fnDisplay.setText(firstname);
-        String lastname = RegistrationActivity.getCurrentLastName();
-        last.setText(lastname);
-        lnDisplay.setText(lastname);
-        String emailaddress = RegistrationActivity.getCurrentEmail();
-        email.setText(emailaddress);
-        String username = RegistrationActivity.getCurrentUsername();
-        usern.setText(username);
+//        String firstname = RegistrationActivity.getCurrentFirstName();
+//        first.setText(firstname);
+//        fnDisplay.setText(firstname);
+//        String lastname = RegistrationActivity.getCurrentLastName();
+//        last.setText(lastname);
+//        lnDisplay.setText(lastname);
+//        String emailaddress = RegistrationActivity.getCurrentEmail();
+//        email.setText(emailaddress);
+//        String username = RegistrationActivity.getCurrentUsername();
+//        usern.setText(username);
 
         changePicture.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
