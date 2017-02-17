@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -35,6 +36,12 @@ public class MealPlanActivity extends AppCompatActivity {
     private TextView breakfastName;
     private TextView lunchName;
     private TextView dinnerName;
+    private ImageView breakfastPic;
+    private ImageView lunchPic;
+    private ImageView dinnerPic;
+    private TextView breakfastRating;
+    private TextView lunchRating;
+    private TextView dinnerRating;
     private Toolbar toolbar;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -51,6 +58,17 @@ public class MealPlanActivity extends AppCompatActivity {
         breakfastName = (TextView) findViewById(R.id.breakfast_name);
         lunchName = (TextView) findViewById(R.id.lunch_name);
         dinnerName = (TextView) findViewById(R.id.dinner_name);
+
+        breakfastPic = (ImageView) findViewById(R.id.breakfast_pic);
+        lunchPic = (ImageView) findViewById(R.id.lunch_pic);
+        dinnerPic = (ImageView) findViewById(R.id.dinner_pic);
+
+        breakfastRating = (TextView) findViewById(R.id.breakfast_rating);
+        lunchRating = (TextView) findViewById(R.id.lunch_rating);
+        dinnerRating = (TextView) findViewById(R.id.dinner_rating);
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         // Dynamic date display
 //        Calendar c = Calendar.getInstance();
@@ -83,7 +101,7 @@ public class MealPlanActivity extends AppCompatActivity {
         }
 
         prevButton = (Button) findViewById(R.id.prevRecipe);
-        prevButton.setVisibility(View.GONE);
+        prevButton.setVisibility(View.INVISIBLE);
         prevButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Show next button
@@ -97,7 +115,7 @@ public class MealPlanActivity extends AppCompatActivity {
                 date.setText(dateFormat.format(calendarFrom.getTime()));
                 if (calendarFrom.get(Calendar.DATE) == 1) {
                     //If on the first page (Mar 1), hide prev button so that the user can't go before Mar 1
-                    prevButton.setVisibility(View.GONE);
+                    prevButton.setVisibility(View.INVISIBLE);
                 }
 
             }
@@ -119,7 +137,7 @@ public class MealPlanActivity extends AppCompatActivity {
                 date.setText(dateFormat.format(calendarFrom.getTime()));
                 if (calendarFrom.compareTo(calendarUntil) == 0) {
                     // if on the last screen (Mar 7), hide the next button
-                    nextButton.setVisibility(View.GONE);
+                    nextButton.setVisibility(View.INVISIBLE);
                 }
             }
         });
@@ -141,6 +159,8 @@ public class MealPlanActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 breakfastName.setText(breakfastRecipe.getName());
+                ImageExtractor.loadIntoImage(getApplicationContext(), breakfastRecipe.getPhotoUrl(), breakfastPic);
+                breakfastRating.setText("" + breakfastRecipe.getRating());
 
                 Recipe lunchRecipe = new Recipe();
                 try {
@@ -149,6 +169,8 @@ public class MealPlanActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 lunchName.setText(lunchRecipe.getName());
+                ImageExtractor.loadIntoImage(getApplicationContext(), lunchRecipe.getPhotoUrl(), lunchPic);
+                lunchRating.setText("" + lunchRecipe.getRating());
 
                 Recipe dinnerRecipe = new Recipe();
                 try {
@@ -157,6 +179,8 @@ public class MealPlanActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 dinnerName.setText(dinnerRecipe.getName());
+                ImageExtractor.loadIntoImage(getApplicationContext(), dinnerRecipe.getPhotoUrl(), dinnerPic);
+                dinnerRating.setText("" + dinnerRecipe.getRating());
             }
         });
 

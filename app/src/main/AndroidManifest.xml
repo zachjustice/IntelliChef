@@ -21,13 +21,21 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".RegistrationActivity"></activity>
-        <activity android:name=".PreferencesActivity"></activity>
-        <activity android:name=".MealPlanActivity"></activity><!-- ATTENTION: This was auto-generated to add Google Play services to your project for
-     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+        <activity android:name=".RegistrationActivity" />
+        <activity android:name=".PreferencesActivity" />
+        <activity android:name=".MealPlanActivity" />
+        <!--
+ ATTENTION: This was auto-generated to add Google Play services to your project for
+     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
+        -->
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+
+        <activity
+            android:name=".TempActivity"
+            android:label="@string/title_activity_temp"
+            android:theme="@style/Theme.App.Base"></activity>
     </application>
 
 </manifest>
