@@ -159,30 +159,32 @@
             android:layout_height="wrap_content"
             android:background="@android:drawable/ic_menu_my_calendar"
             android:id="@+id/mealplan_tab"
-            android:text="meal" />
+            android:contextClickable="true"
+            android:longClickable="true"
+            android:icon="@android:drawable/ic_menu_my_calendar" />
 
         <android.support.design.widget.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="hist"
-            android:id="@+id/history" />
+            android:id="@+id/history_tab" />
 
         <android.support.design.widget.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/grocery"
+            android:id="@+id/grocery_tab"
             android:text="grocery" />
 
         <android.support.design.widget.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="profile"
-            android:id="@+id/profile" />
+            android:id="@+id/profile_tab" />
 
         <android.support.design.widget.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/logout"
+            android:id="@+id/logout_tab"
             android:text="logout?" />
     </android.support.design.widget.TabLayout>
 

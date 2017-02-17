@@ -1,7 +1,10 @@
 package intellichef.intellichef;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
+import android.support.design.widget.TabItem;
+import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -9,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TabHost;
 import android.widget.TextView;
 
 import com.google.android.gms.appindexing.Action;
@@ -42,7 +46,7 @@ public class MealPlanActivity extends AppCompatActivity {
     private TextView breakfastRating;
     private TextView lunchRating;
     private TextView dinnerRating;
-    private Toolbar toolbar;
+    private TabItem profileTab;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -66,9 +70,6 @@ public class MealPlanActivity extends AppCompatActivity {
         breakfastRating = (TextView) findViewById(R.id.breakfast_rating);
         lunchRating = (TextView) findViewById(R.id.lunch_rating);
         dinnerRating = (TextView) findViewById(R.id.dinner_rating);
-
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
         // Dynamic date display
 //        Calendar c = Calendar.getInstance();
@@ -100,6 +101,7 @@ public class MealPlanActivity extends AppCompatActivity {
             System.out.println("Failed to show recipes");
         }
 
+        // Change meal plans displayed on the screen when buttons are pressed
         prevButton = (Button) findViewById(R.id.prevRecipe);
         prevButton.setVisibility(View.INVISIBLE);
         prevButton.setOnClickListener(new View.OnClickListener() {
@@ -141,6 +143,48 @@ public class MealPlanActivity extends AppCompatActivity {
                 }
             }
         });
+
+        // Tab Screen Change Logic
+        TabLayout tabs = (TabLayout) findViewById(R.id.tabs);
+        tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+// called when tab selected
+                int tabIndex = tab.getPosition();
+                switch (tabIndex) {
+                    case 0: break;
+                    case 1:
+                        Intent intent = new Intent(MealPlanActivity.this, PreferencesActivity.class);
+                        startActivity(intent);
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        break;
+                    case 4:
+                        break;
+                    default: break;
+                }
+
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+// called when tab unselected
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+// called when a tab is reselected
+            }
+        });
+
+        profileTab = (TabItem) findViewById(R.id.profile_tab);
+//        profileTab.setOnClickListener(new View.OnClickListener() {
+//            public void onClick(View v) {
+//
+//            }
+//        });
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.

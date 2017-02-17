@@ -32,10 +32,6 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity
-            android:name=".TempActivity"
-            android:label="@string/title_activity_temp"
-            android:theme="@style/Theme.App.Base"></activity>
     </application>
 
 </manifest>
