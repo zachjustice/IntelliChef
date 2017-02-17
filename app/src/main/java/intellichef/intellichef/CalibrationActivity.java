@@ -15,6 +15,7 @@ import android.widget.ListView;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -54,12 +55,12 @@ public class CalibrationActivity extends AppCompatActivity {
 
         submit.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                //try {
-                    //post calibration picks
-                    //switch screens
-                //} catch (JSONException e) {
-                  //  e.printStackTrace();
-                //}
+//                try {
+//                    post calibration picks
+//                    switch screens
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
             }
         });
     }
@@ -68,10 +69,11 @@ public class CalibrationActivity extends AppCompatActivity {
 
         IntelliServerAPI.getCalibratedMeals(new JsonHttpResponseHandler() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject result) {
+            public void onSuccess(int statusCode, Header[] headers, JSONArray result) {
                 try {
-                    Log.v("JSONOBject", result.toString());
-                    calibrationItems.add(new CalibrationItem("title", "url"));
+                    Log.v("JSONObject", result.toString());
+                    //for (JSONObject
+                    //calibrationItems.add(new CalibrationItem(, "url"));
                 } catch (Exception e) {
                     Log.v("JSONObject", "" + e.getMessage());
                 }
