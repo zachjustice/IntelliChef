@@ -153,7 +153,26 @@ public class IntelliServerAPI {
 
     //TODO: getUserInfo
     //(method in LoginActivity) params.put("entity_pk", *user info from static method*)
+    public static void getUserInfo(int entity_pk, final JsonHttpResponseHandler callback) throws JSONException {
+        final JsonHttpResponseHandler responseHandler = new JsonHttpResponseHandler() {
+            public void onFailure(int statusCode, Header[] headers, JSONObject response) {
+                Log.v("JSONObject", response.toString());
+            }
 
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                // Pull out the first event on the public timeline
+                // Do something with the response
+                Log.v("JSONObject", response.toString() );
+                callback.onSuccess(statusCode, headers, response);
+            }
+        };
+
+        RequestParams params = new RequestParams();
+        params.put("entity_pk", entity_pk);
+
+        IntelliServerRestClient.get("v2.0/entities/<int:entity_pk>", params, responseHandler);
+
+    }
 
     public static void getCalibratedMeals(final JsonHttpResponseHandler callback ) throws JSONException {
         final JsonHttpResponseHandler responseHandler = new JsonHttpResponseHandler() {

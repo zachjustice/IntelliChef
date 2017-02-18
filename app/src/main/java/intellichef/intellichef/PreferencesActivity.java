@@ -43,8 +43,10 @@ public class PreferencesActivity extends AppCompatActivity {
     private Button logout;
     private Button deleteAccount;
     private Button saveBasic;
+    private Button saveDietary;
     private ImageButton changePicture;
     private ImageButton editBasic;
+    private ImageButton editDietary;
     private EditText first;
     private EditText last;
     private EditText email;
@@ -54,7 +56,9 @@ public class PreferencesActivity extends AppCompatActivity {
     private EditText fnDisplay;
     private EditText lnDisplay;
     private LinearLayout basicInfoLayout;
-    private LinearLayout basicInfoLayout2;
+    //private LinearLayout basicInfoLayout2;
+    private LinearLayout dietaryConcernsLayout;
+    private User currentUser;
     private static int GET_FROM_GALLERY = 1;
 
     @Override
@@ -64,11 +68,17 @@ public class PreferencesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_preferences);
 
 
-        basicInfoLayout = (LinearLayout) findViewById(R.id.basicInfoCollapsed);
-        basicInfoLayout2 = (LinearLayout) findViewById(R.id.basicInfoMain);
-        basicInfoLayout2.setVisibility(View.GONE);
+        //basicInfoLayout2 = (LinearLayout) findViewById(R.id.basicInfoCollapsed);
+        basicInfoLayout = (LinearLayout) findViewById(R.id.basicInfoMain);
+        //basicInfoLayout2.setVisibility(View.GONE);
         for (int i = 0; i < basicInfoLayout.getChildCount();  i++ ){
             View view = basicInfoLayout.getChildAt(i);
+            view.setEnabled(false);
+        }
+
+        dietaryConcernsLayout = (LinearLayout) findViewById(R.id.dietaryConcerns);
+        for (int i = 0; i < dietaryConcernsLayout.getChildCount();  i++ ){
+            View view = dietaryConcernsLayout.getChildAt(i);
             view.setEnabled(false);
         }
 
@@ -77,6 +87,8 @@ public class PreferencesActivity extends AppCompatActivity {
         deleteAccount = (Button) findViewById(R.id.deleteAccount);
         changePicture = (ImageButton) findViewById(R.id.profilePic);
         editBasic = (ImageButton) findViewById(R.id.editBasicInfo);
+        saveDietary = (Button) findViewById(R.id.saveDietaryConcerns);
+        editDietary = (ImageButton) findViewById(R.id.editDietaryConcerns);
 
         first = (EditText) findViewById(R.id.fn);
         last = (EditText) findViewById(R.id.ln);
@@ -85,16 +97,14 @@ public class PreferencesActivity extends AppCompatActivity {
         password = (EditText) findViewById(R.id.pw);
         confirmPassword = (EditText) findViewById(R.id.cpw);
 
-//        String firstname = RegistrationActivity.getCurrentFirstName();
-//        first.setText(firstname);
-//        fnDisplay.setText(firstname);
-//        String lastname = RegistrationActivity.getCurrentLastName();
-//        last.setText(lastname);
-//        lnDisplay.setText(lastname);
-//        String emailaddress = RegistrationActivity.getCurrentEmail();
-//        email.setText(emailaddress);
-//        String username = RegistrationActivity.getCurrentUsername();
-//        usern.setText(username);
+        currentUser = LoginActivity.getCurrentUser();
+        first.setText(currentUser.getRegistrationInfo().getFirstName());
+        last.setText(currentUser.getRegistrationInfo().getLastName());
+        email.setText(currentUser.getRegistrationInfo().getEmail());
+        usern.setText(currentUser.getRegistrationInfo().getUsername());
+
+        saveBasic.setVisibility(View.GONE);
+        saveDietary.setVisibility(View.GONE);
 
         changePicture.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -105,15 +115,49 @@ public class PreferencesActivity extends AppCompatActivity {
 
         editBasic.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                expand();
+                //expand();
+                for (int i = 0; i < basicInfoLayout.getChildCount();  i++ ){
+                    View view = basicInfoLayout.getChildAt(i);
+                    view.setEnabled(true);
+                }
                 editBasic.setEnabled(false);
+                saveBasic.setVisibility(View.VISIBLE);
             }
         });
 
         saveBasic.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                collapse();
+                //collapse();
+                for (int i = 0; i < basicInfoLayout.getChildCount();  i++) {
+                    View view = basicInfoLayout.getChildAt(i);
+                    view.setEnabled(false);
+                }
                 editBasic.setEnabled(true);
+                saveBasic.setVisibility(View.GONE);
+            }
+        });
+
+        editDietary.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                //expand();
+                for (int i = 0; i < dietaryConcernsLayout.getChildCount();  i++ ){
+                    View view = dietaryConcernsLayout.getChildAt(i);
+                    view.setEnabled(true);
+                }
+                editDietary.setEnabled(false);
+                saveDietary.setVisibility(View.VISIBLE);
+            }
+        });
+
+        saveDietary.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                //collapse();
+                for (int i = 0; i < dietaryConcernsLayout.getChildCount();  i++) {
+                    View view = dietaryConcernsLayout.getChildAt(i);
+                    view.setEnabled(false);
+                }
+                saveDietary.setEnabled(true);
+                saveDietary.setVisibility(View.GONE);
             }
         });
 
@@ -165,21 +209,21 @@ public class PreferencesActivity extends AppCompatActivity {
         }
     }
 
-    private void expand() {
-        basicInfoLayout.setVisibility(View.GONE);
-        basicInfoLayout2.setVisibility(View.VISIBLE);
+//    private void expand() {
+//        basicInfoLayout.setVisibility(View.GONE);
+//        basicInfoLayout2.setVisibility(View.VISIBLE);
+//
+//        final int widthSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+//        final int heightSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+//        basicInfoLayout2.measure(widthSpec, heightSpec);
+//
+//        ValueAnimator mAnimator = slideAnimator(0, basicInfoLayout2.getMeasuredHeight());
+//        mAnimator.start();
+//    }
 
-        final int widthSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
-        final int heightSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
-        basicInfoLayout2.measure(widthSpec, heightSpec);
-
-        ValueAnimator mAnimator = slideAnimator(0, basicInfoLayout2.getMeasuredHeight());
-        mAnimator.start();
-    }
-
-    private void collapse() {
-        basicInfoLayout2.setVisibility(View.GONE);
-        basicInfoLayout.setVisibility(View.VISIBLE);
+//    private void collapse() {
+//        basicInfoLayout2.setVisibility(View.GONE);
+//        basicInfoLayout.setVisibility(View.VISIBLE);
 
 //        int finalHeight = basicInfoLayout.getHeight();
 //
@@ -209,7 +253,7 @@ public class PreferencesActivity extends AppCompatActivity {
 //
 //        });
 //        mAnimator.start();
-    }
+//    }
 
     private ValueAnimator slideAnimator(int start, int end) {
 
@@ -247,6 +291,32 @@ public class PreferencesActivity extends AppCompatActivity {
                     } else {
                         Log.v("JSON", "LOGOUT FAILED");
                     }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+    //TODO: IntelliServerAPI.getUserInfo
+    //v2.0/entities/<int:entity_pk> GET
+    //Set textfields in onSuccess
+    //PUT route with new user info
+
+    private void getUserInfo() throws JSONException {
+        int entity_pk = LoginActivity.getCurrentUser().getEntityPk();
+        IntelliServerAPI.getUserInfo(entity_pk, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject result) {
+                JSONObject entity = null;
+                int entityPk;
+                User currentUser;
+                try {
+                    entity = result.getJSONObject("entity");
+                    entityPk = entity.getInt("entity");
+                    currentUser = LoginActivity.getCurrentUser();
+                    //currentUser.setEntityPk(entityPk);
+
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
