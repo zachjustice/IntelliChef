@@ -29,6 +29,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import cz.msebera.android.httpclient.Header;
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 import static android.R.drawable.btn_star_big_off;
 import static android.R.drawable.btn_star_big_on;
@@ -46,12 +47,11 @@ public class MealPlanActivity extends AppCompatActivity {
     private TextView breakfastRating;
     private TextView lunchRating;
     private TextView dinnerRating;
-    private TabItem profileTab;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        CalligraphyConfig.initDefault("fonts/Montserrat-Light.ttf");
         setContentView(R.layout.activity_meal_plan);
         RelativeLayout layout = (RelativeLayout) findViewById(R.id.activity_meal_plan);
         date = (TextView) findViewById(R.id.dateText);
