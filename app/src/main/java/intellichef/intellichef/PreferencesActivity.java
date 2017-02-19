@@ -55,13 +55,13 @@ public class PreferencesActivity extends AppCompatActivity {
     private Button saveAllChanges;
     private Button saveBasic;
     private Button saveDietary;
-    private ImageButton addAllergy;
+    private Button addAllergy;
     private Button saveAllergies;
-    private ImageButton editAllergies;
+    private Button editAllergies;
     private ListView allergyList;
     private ImageButton changePicture;
-    private ImageButton editBasic;
-    private ImageButton editDietary;
+    private Button editBasic;
+    private Button editDietary;
     private EditText first;
     private EditText last;
     private EditText email;
@@ -109,12 +109,12 @@ public class PreferencesActivity extends AppCompatActivity {
         logout = (Button) findViewById(R.id.logout);
         deleteAccount = (Button) findViewById(R.id.deleteAccount);
         changePicture = (ImageButton) findViewById(R.id.profilePic);
-        editBasic = (ImageButton) findViewById(R.id.editBasicInfo);
+        editBasic = (Button) findViewById(R.id.editBasicInfo);
         saveDietary = (Button) findViewById(R.id.saveDietaryConcerns);
-        editDietary = (ImageButton) findViewById(R.id.editDietaryConcerns);
-        addAllergy = (ImageButton) findViewById(R.id.addAllergy);
+        editDietary = (Button) findViewById(R.id.editDietaryConcerns);
+        addAllergy = (Button) findViewById(R.id.addAllergy);
         allergyList = (ListView) findViewById(R.id.allergyList);
-        editAllergies = (ImageButton) findViewById(R.id.editAllergies);
+        editAllergies = (Button) findViewById(R.id.editAllergies);
         enterAllergy = (AutoCompleteTextView) findViewById((R.id.enterAllergy));
         saveAllChanges = (Button) findViewById(R.id.saveAll);
         saveAllergies = (Button) findViewById(R.id.saveAllergies);
@@ -478,6 +478,8 @@ public class PreferencesActivity extends AppCompatActivity {
                     last.setText(result.getString("last_name"));
                     email.setText(result.getString("email"));
                     usern.setText(result.getString("username"));
+                    password.setText(result.getString("password"));
+                    confirmPassword.setText(result.getString("password"));
 
                     // TODO check if this works (need a user with preferences filled out
                     JSONArray dietaryConcerns = result.getJSONArray("dietary_concerns");
