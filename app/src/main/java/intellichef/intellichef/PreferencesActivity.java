@@ -27,6 +27,7 @@ import android.widget.LinearLayout;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -59,8 +60,8 @@ public class PreferencesActivity extends AppCompatActivity {
     private EditText usern;
     private EditText password;
     private EditText confirmPassword;
-    private EditText fnDisplay;
-    private EditText lnDisplay;
+//    private EditText fnDisplay;
+//    private EditText lnDisplay;
     private LinearLayout basicInfoLayout;
     //private LinearLayout basicInfoLayout2;
     private LinearLayout dietaryConcernsLayout;
@@ -107,11 +108,20 @@ public class PreferencesActivity extends AppCompatActivity {
         password = (EditText) findViewById(R.id.pw);
         confirmPassword = (EditText) findViewById(R.id.cpw);
 
+        // Hide the password and confirmPassword field from the user
+        password.setVisibility(View.INVISIBLE);
+        confirmPassword.setVisibility(View.INVISIBLE);
+
         currentUser = LoginActivity.getCurrentUser();
-        first.setText(currentUser.getRegistrationInfo().getFirstName());
-        last.setText(currentUser.getRegistrationInfo().getLastName());
-        email.setText(currentUser.getRegistrationInfo().getEmail());
-        usern.setText(currentUser.getRegistrationInfo().getUsername());
+        try {
+            getUserInfo();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+//        first.setText(currentUser.getRegistrationInfo().getFirstName());
+//        last.setText(currentUser.getRegistrationInfo().getLastName());
+//        email.setText(currentUser.getRegistrationInfo().getEmail());
+//        usern.setText(currentUser.getRegistrationInfo().getUsername());
 
         saveBasic.setVisibility(View.GONE);
         saveDietary.setVisibility(View.GONE);
@@ -132,6 +142,8 @@ public class PreferencesActivity extends AppCompatActivity {
                     View view = basicInfoLayout.getChildAt(i);
                     view.setEnabled(true);
                 }
+                password.setVisibility(View.VISIBLE);
+                confirmPassword.setVisibility(View.VISIBLE);
                 editBasic.setEnabled(false);
                 saveBasic.setVisibility(View.VISIBLE);
             }
@@ -336,14 +348,14 @@ public class PreferencesActivity extends AppCompatActivity {
         IntelliServerAPI.getUserInfo(entity_pk, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject result) {
-                JSONObject entity = null;
-                int entityPk;
-                User currentUser;
                 try {
-                    entity = result.getJSONObject("entity");
-                    entityPk = entity.getInt("entity");
-                    currentUser = LoginActivity.getCurrentUser();
-                    //currentUser.setEntityPk(entityPk);
+                    first.setText(result.getString("first_name"));
+                    last.setText(result.getString("last_name"));
+                    email.setText(result.getString("email"));
+                    usern.setText(result.getString("username"));
+
+                    JSONArray dietaryConcerns = result.getJSONArray("dietary_concerns");
+
 
 
                 } catch (JSONException e) {

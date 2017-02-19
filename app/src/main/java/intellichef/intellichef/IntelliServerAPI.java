@@ -168,9 +168,9 @@ public class IntelliServerAPI {
         };
 
         RequestParams params = new RequestParams();
-        params.put("entity_pk", entity_pk);
+//        params.put("entity_pk", entity_pk);
 
-        IntelliServerRestClient.get("v2.0/entities/<int:entity_pk>", params, responseHandler);
+        IntelliServerRestClient.get("v2.0/entities/" + entity_pk, params, responseHandler);
 
     }
 
