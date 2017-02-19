@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -117,7 +118,6 @@ public class RegistrationActivity extends AppCompatActivity {
         IntelliServerAPI.register(registrationInfo, this.getApplicationContext(), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject result) {
-                /* my func */
                 JSONObject entity = null;
                 int entityPk;
 
@@ -130,10 +130,11 @@ public class RegistrationActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-                if (entity != null) {
+                if (entity == null) {
                     mEmailView.setError("Email address or username already exists.");
                     mEmailView.requestFocus();
                 } else {
+                    LoginActivity.setCurrentUser(currentUser);
                     Intent intent = new Intent(RegistrationActivity.this, PreferencesActivity.class);
                     startActivity(intent);
                 }
