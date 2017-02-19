@@ -248,11 +248,14 @@ public class PreferencesActivity extends AppCompatActivity {
 
         addAllergy.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                dietaryRestrictions.add(enterAllergy.getText().toString());
-                allergyListAdpater.notifyDataSetChanged();
-                InputMethodManager imm = (InputMethodManager)PreferencesActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(v.getApplicationWindowToken(), 0);
-                enterAllergy.setText("");
+                String newAllergy = enterAllergy.getText().toString();
+                if (!newAllergy.isEmpty()) {
+                    dietaryRestrictions.add(newAllergy);
+                    allergyListAdpater.notifyDataSetChanged();
+                    InputMethodManager imm = (InputMethodManager) PreferencesActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getApplicationWindowToken(), 0);
+                    enterAllergy.setText("");
+                }
             }
         });
 
