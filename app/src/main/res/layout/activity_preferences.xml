@@ -96,7 +96,6 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textPersonName"
                     android:ems="10"
                     android:id="@+id/fn"
                     android:layout_alignParentTop="false"
@@ -106,12 +105,12 @@
                     android:textColorHint="#ffffff"
                     android:textColor="#ffffff"
                     android:textSize="7pt"
-                    />
+                    android:inputType="none" />
 
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textPersonName"
+                    android:inputType="none"
                     android:ems="10"
                     android:id="@+id/ln"
                     android:layout_below="@+id/fn"
@@ -125,7 +124,7 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textEmailAddress"
+                    android:inputType="none"
                     android:ems="10"
                     android:layout_below="@+id/ln"
                     android:layout_toRightOf="@+id/profilePic"
@@ -139,7 +138,6 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textPersonName"
                     android:ems="10"
                     android:layout_below="@+id/em"
                     android:layout_alignLeft="@+id/em"
@@ -148,12 +146,12 @@
                     android:hint="username"
                     android:textColorHint="#ffffff"
                     android:textColor="#ffffff"
-                    android:textSize="7pt"/>
+                    android:textSize="7pt"
+                    android:inputType="none" />
 
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textPassword"
                     android:ems="10"
                     android:layout_below="@+id/un"
                     android:layout_alignLeft="@+id/un"
@@ -162,7 +160,8 @@
                     android:hint="password"
                     android:textColorHint="#ffffff"
                     android:textColor="#ffffff"
-                    android:textSize="7pt"/>
+                    android:textSize="7pt"
+                    android:inputType="textPassword" />
 
                 <EditText
                     android:layout_width="match_parent"
