@@ -2,6 +2,7 @@ package intellichef.intellichef;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +23,8 @@ public class CalibrationAdapter extends ArrayAdapter<CalibrationItem> {
     Context context;
     int layoutResourceId;
     ArrayList<CalibrationItem> data;
+    int selectedIndex = -1;
+
 
 
     public CalibrationAdapter(Context context, int layoutResourceId, ArrayList<CalibrationItem> data) {
@@ -54,6 +57,7 @@ public class CalibrationAdapter extends ArrayAdapter<CalibrationItem> {
         CalibrationItem item = data.get(position);
         holder.recipeName.setText(item.getRecipeName());
         ImageExtractor.loadIntoImage(getContext(), item.getImageUrl(), holder.recipeImage, 150, 150);
+
         return row;
 
     }

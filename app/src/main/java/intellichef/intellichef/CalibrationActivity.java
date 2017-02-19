@@ -3,6 +3,8 @@ package intellichef.intellichef;
 import android.app.ListFragment;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -22,6 +24,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Console;
 import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
@@ -56,8 +59,13 @@ public class CalibrationActivity extends AppCompatActivity {
                 //LILY ADD IMAGE CHANGING/OVERLAYING LOGIC HERE!!!
                 CalibrationItem selected = calibrationItems.get(position);
                 selected.toggleSelected();
-                Log.v("LILY", selected.getImageUrl());
+                if (selected.isSelected()) {
+                    view.setBackgroundResource(R.drawable.layout);
+                    view.setBackgroundColor(Color.rgb(245,141,116));
 
+                } else {
+                    view.setBackgroundDrawable(null);
+                }
             }
         });
 

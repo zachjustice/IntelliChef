@@ -14,13 +14,13 @@
         android:layout_width="wrap_content"
         android:paddingLeft="15dp"
         android:layout_height="38dp"
-        android:text="Select at least 5 foods you like!"
+        android:text="Select the foods you like!"
         android:id="@+id/textView"
         android:textColor="#ffffff"
         android:textSize="11pt" />
 
     <ListView
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="527dp"
         android:id="@+id/listView" />
 

@@ -76,7 +76,6 @@
         android:layout_height="125dp"
         android:scaleType="fitXY"
         android:layout_below="@+id/dateText"
-
         android:layout_centerHorizontal="true"
         android:layout_centerInParent="true"
         android:layout_marginTop="20dp"
@@ -89,7 +88,6 @@
         android:layout_height="125dp"
         app:srcCompat="@android:drawable/btn_star_big_on"
         android:layout_below="@+id/breakfast_name"
-
         android:scaleType="fitXY"
         android:layout_centerHorizontal="true"
         android:layout_centerInParent="true"
