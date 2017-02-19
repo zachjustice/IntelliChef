@@ -84,20 +84,21 @@
                     android:id="@+id/userBasicInfo"
                     android:textColor="#ffffff"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:layout_marginRight="20dp"
                     android:layout_above="@+id/basicInfoMain"
                     android:layout_toLeftOf="@+id/deleteAccount"
                     android:layout_toStartOf="@+id/deleteAccount" />
 
-                <ImageButton
-                    app:srcCompat="@drawable/edit_icon"
-                    android:id="@+id/editBasicInfo"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:adjustViewBounds="true"
-                    android:visibility="visible"
-                    android:layout_toRightOf="@+id/userBasicInfo"
-                    android:layout_toEndOf="@+id/userBasicInfo"
-                    android:paddingLeft="10dp"/>
+                <Button
+                    android:text="Edit"
+                    android:layout_width="60dp"
+                    android:layout_height="20dp"
+                    android:textColor="#f15c48"
+                    android:background="#ffffff"
+                    android:drawableBottom="#ffffff"
+                    android:textSize="6pt"
+                    android:layout_marginTop="0dp"
+                    android:id="@+id/editBasicInfo" />
 
             </LinearLayout>
 
@@ -198,8 +199,8 @@
 
                 <Button
                     android:text="Save"
-                    android:layout_width="100dp"
-                    android:layout_height="30dp"
+                    android:layout_width="60dp"
+                    android:layout_height="20dp"
                     android:textColor="#f15c48"
                     android:background="#ffffff"
                     android:drawableBottom="#ffffff"
@@ -222,20 +223,21 @@
                     android:id="@+id/userDietaryConcerns"
                     android:textColor="#ffffff"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:layout_marginRight="20dp"
                     android:layout_above="@+id/basicInfoMain"
                     android:layout_toLeftOf="@+id/deleteAccount"
                     android:layout_toStartOf="@+id/deleteAccount" />
 
-                <ImageButton
-                    app:srcCompat="@drawable/edit_icon"
-                    android:id="@+id/editDietaryConcerns"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:adjustViewBounds="true"
-                    android:visibility="visible"
-                    android:layout_toRightOf="@+id/userDietaryConcerns"
-                    android:layout_toEndOf="@+id/userDietaryConcerns"
-                    android:paddingLeft="10dp"/>
+                <Button
+                    android:text="Edit"
+                    android:layout_width="60dp"
+                    android:layout_height="20dp"
+                    android:textColor="#f15c48"
+                    android:background="#ffffff"
+                    android:drawableBottom="#ffffff"
+                    android:textSize="6pt"
+                    android:layout_marginTop="0dp"
+                    android:id="@+id/editDietaryConcerns" />
 
             </LinearLayout>
 
@@ -282,8 +284,8 @@
 
                 <Button
                     android:text="Save"
-                    android:layout_width="100dp"
-                    android:layout_height="30dp"
+                    android:layout_width="60dp"
+                    android:layout_height="20dp"
                     android:textColor="#f15c48"
                     android:background="#ffffff"
                     android:drawableBottom="#ffffff"
@@ -306,20 +308,22 @@
                         android:id="@+id/userAllergies"
                         android:textColor="#ffffff"
                         android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:layout_marginRight="20dp"
                         android:layout_above="@+id/basicInfoMain"
                         android:layout_toLeftOf="@+id/deleteAccount"
                         android:layout_toStartOf="@+id/deleteAccount" />
 
-                    <ImageButton
-                        app:srcCompat="@drawable/edit_icon"
-                        android:id="@+id/editAllergies"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:adjustViewBounds="true"
-                        android:visibility="visible"
-                        android:layout_toRightOf="@+id/userDietaryConcerns"
-                        android:layout_toEndOf="@+id/userDietaryConcerns"
-                        android:paddingLeft="10dp"/>
+
+                    <Button
+                        android:text="Edit"
+                        android:layout_width="60dp"
+                        android:layout_height="20dp"
+                        android:textColor="#f15c48"
+                        android:background="#ffffff"
+                        android:drawableBottom="#ffffff"
+                        android:textSize="6pt"
+                        android:layout_marginTop="0dp"
+                        android:id="@+id/editAllergies" />
 
                 </LinearLayout>
 
@@ -342,21 +346,28 @@
                             android:textColorHint="#ffffff"
                             android:textColor="#ffffff"/>
 
-                        <ImageButton
-                            app:srcCompat="@drawable/edit_icon"
-                            android:id="@+id/addAllergy"
-                            android:layout_width="25dp"
-                            android:layout_height="25dp"
-                            android:adjustViewBounds="true"
-                            android:visibility="visible"
-                            android:layout_toRightOf="@+id/userBasicInfo"
-                            android:layout_toEndOf="@+id/userBasicInfo" />
+                        <Button
+                            android:text="Add"
+                            android:layout_width="60dp"
+                            android:layout_height="20dp"
+                            android:textColor="#f15c48"
+                            android:background="#ffffff"
+                            android:drawableBottom="#ffffff"
+                            android:textSize="6pt"
+                            android:layout_marginTop="0dp"
+                            android:id="@+id/addAllergy" />
 
                     </LinearLayout>
+                    <ListView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/allergyList"
+                        android:textColor="#ffffff" />
 
                     <Button
                         android:text="Save"
-                        android:layout_width="100dp"
+                        android:layout_width="60dp"
+                        android:layout_height="20dp"
                         android:textColor="#f15c48"
                         android:background="#ffffff"
                         android:drawableBottom="#ffffff"
@@ -364,17 +375,10 @@
                         android:layout_marginTop="0dp"
                         android:id="@+id/saveAllergies"
                         android:enabled="true"
-                        android:layout_height="0dp"
                         android:layout_weight="1" />
 
                 </LinearLayout>
 
-
-            <ListView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/allergyList"
-                android:textColor="#ffffff" />
 
             <Button
                 android:text="Delete Account"

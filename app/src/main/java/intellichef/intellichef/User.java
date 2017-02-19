@@ -7,6 +7,7 @@ package intellichef.intellichef;
 public class User {
     private RegistrationInfo registrationInfo;
     private int entityPk;
+    private boolean isNewUser;
 
     public User(int entityPk) {
         this.entityPk = entityPk;
@@ -25,5 +26,13 @@ public class User {
 
     public void setEntityPk(int entityPk) {
         this.entityPk = entityPk;
+    }
+
+    public boolean isNewUser() {
+        return isNewUser;
+    }
+
+    public void setNewUser(boolean newUser) {
+        isNewUser = newUser;
     }
 }
