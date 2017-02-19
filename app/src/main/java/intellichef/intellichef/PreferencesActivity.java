@@ -99,10 +99,10 @@ public class PreferencesActivity extends AppCompatActivity {
         }
 
         allergiesLayout = (LinearLayout) findViewById(R.id.allergies);
-        for (int i = 0; i < allergiesLayout.getChildCount();  i++ ){
-            View view = allergiesLayout.getChildAt(i);
-            view.setEnabled(false);
-        }
+//        for (int i = 0; i < allergiesLayout.getChildCount();  i++ ){
+//            View view = allergiesLayout.getChildAt(i);
+//            view.setEnabled(false);
+//        }
 
         saveBasic = (Button) findViewById(R.id.saveBasicInfo);
         logout = (Button) findViewById(R.id.logout);
@@ -258,6 +258,13 @@ public class PreferencesActivity extends AppCompatActivity {
         saveAllergies.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 //collapse();
+                JSONObject updatedUser = new JSONObject();
+                try {
+                    updatedUser.put("allergies", new JSONArray(dietaryRestrictions));
+                    updateUserInfo(updatedUser);
+                } catch (JSONException e) {
+                    e.printStackTrace();;
+                }
                 addAllergy.setVisibility(View.GONE);
                 enterAllergy.setVisibility(View.GONE);
                 saveAllergies.setVisibility(View.GONE);
