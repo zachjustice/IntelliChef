@@ -109,8 +109,8 @@ public class PreferencesActivity extends AppCompatActivity {
         confirmPassword = (EditText) findViewById(R.id.cpw);
 
         // Hide the password and confirmPassword field from the user
-        password.setVisibility(View.INVISIBLE);
-        confirmPassword.setVisibility(View.INVISIBLE);
+        password.setVisibility(View.GONE);
+        confirmPassword.setVisibility(View.GONE);
 
         currentUser = LoginActivity.getCurrentUser();
         try {
@@ -142,6 +142,7 @@ public class PreferencesActivity extends AppCompatActivity {
                     View view = basicInfoLayout.getChildAt(i);
                     view.setEnabled(true);
                 }
+                // Show password fields for the user to edit
                 password.setVisibility(View.VISIBLE);
                 confirmPassword.setVisibility(View.VISIBLE);
                 editBasic.setEnabled(false);
@@ -156,6 +157,9 @@ public class PreferencesActivity extends AppCompatActivity {
                     View view = basicInfoLayout.getChildAt(i);
                     view.setEnabled(false);
                 }
+                // Hide password fields again
+                password.setVisibility(View.GONE);
+                confirmPassword.setVisibility(View.GONE);
                 editBasic.setEnabled(true);
                 saveBasic.setVisibility(View.GONE);
             }
