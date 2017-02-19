@@ -65,6 +65,7 @@ public class PreferencesActivity extends AppCompatActivity {
     private LinearLayout basicInfoLayout;
     //private LinearLayout basicInfoLayout2;
     private LinearLayout dietaryConcernsLayout;
+    private LinearLayout allergiesLayout;
     private AutoCompleteTextView enterAllergy;
     private User currentUser;
     private static int GET_FROM_GALLERY = 1;
@@ -87,6 +88,12 @@ public class PreferencesActivity extends AppCompatActivity {
         dietaryConcernsLayout = (LinearLayout) findViewById(R.id.dietaryConcerns);
         for (int i = 0; i < dietaryConcernsLayout.getChildCount();  i++ ){
             View view = dietaryConcernsLayout.getChildAt(i);
+            view.setEnabled(false);
+        }
+
+        allergiesLayout = (LinearLayout) findViewById(R.id.allergies);
+        for (int i = 0; i < allergiesLayout.getChildCount();  i++ ){
+            View view = allergiesLayout.getChildAt(i);
             view.setEnabled(false);
         }
 
@@ -156,14 +163,16 @@ public class PreferencesActivity extends AppCompatActivity {
                     View view = basicInfoLayout.getChildAt(i);
                     view.setEnabled(false);
                 }
+                password.setVisibility(View.GONE);
+                confirmPassword.setVisibility(View.GONE);
                 editBasic.setEnabled(true);
                 saveBasic.setVisibility(View.GONE);
+                editDietary.setEnabled(true);
             }
         });
 
         editDietary.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                //expand();
                 for (int i = 0; i < dietaryConcernsLayout.getChildCount();  i++ ){
                     View view = dietaryConcernsLayout.getChildAt(i);
                     view.setEnabled(true);
@@ -182,6 +191,7 @@ public class PreferencesActivity extends AppCompatActivity {
                 }
                 saveDietary.setEnabled(true);
                 saveDietary.setVisibility(View.GONE);
+                editDietary.setEnabled(true);
             }
         });
 
@@ -189,7 +199,10 @@ public class PreferencesActivity extends AppCompatActivity {
         allergyList = new ArrayAdapter<String>(this, R.layout.activity_preferences, dietaryRestrictions);
         addAllergy.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                //collapse();
+                for (int i = 0; i < allergiesLayout.getChildCount();  i++ ){
+                    View view = allergiesLayout.getChildAt(i);
+                    view.setEnabled(true);
+                }
                 dietaryRestrictions.add(enterAllergy.getText().toString());
                 enterAllergy.clearListSelection();
             }
