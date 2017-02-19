@@ -68,10 +68,7 @@ public class PreferencesActivity extends AppCompatActivity {
     private EditText usern;
     private EditText password;
     private EditText confirmPassword;
-//    private EditText fnDisplay;
-//    private EditText lnDisplay;
     private LinearLayout basicInfoLayout;
-    //private LinearLayout basicInfoLayout2;
     private LinearLayout dietaryConcernsLayout;
     private LinearLayout allergiesLayout;
     private AutoCompleteTextView enterAllergy;
@@ -83,11 +80,10 @@ public class PreferencesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         CalligraphyConfig.initDefault("fonts/Montserrat-Light.ttf");
         setContentView(R.layout.activity_preferences);
+        currentUser = LoginActivity.getCurrentUser();
 
 
-        //basicInfoLayout2 = (LinearLayout) findViewById(R.id.basicInfoCollapsed);
         basicInfoLayout = (LinearLayout) findViewById(R.id.basicInfoMain);
-        //basicInfoLayout2.setVisibility(View.GONE);
         for (int i = 0; i < basicInfoLayout.getChildCount();  i++ ){
             View view = basicInfoLayout.getChildAt(i);
             view.setEnabled(false);
@@ -130,12 +126,6 @@ public class PreferencesActivity extends AppCompatActivity {
         password.setVisibility(View.GONE);
         confirmPassword.setVisibility(View.GONE);
 
-        if(currentUser.isNewUser()) {
-            logout.setVisibility(View.GONE);
-            deleteAccount.setVisibility(View.GONE);
-            saveAllChanges.setVisibility(View.GONE);
-        }
-
         currentUser = LoginActivity.getCurrentUser();
         try {
             getUserInfo();
@@ -146,8 +136,6 @@ public class PreferencesActivity extends AppCompatActivity {
         saveBasic.setVisibility(View.GONE);
         saveDietary.setVisibility(View.GONE);
         saveAllergies.setVisibility(View.GONE);
-
-
 
         final List<String> dietaryRestrictions = new ArrayList<>();
 
@@ -289,7 +277,13 @@ public class PreferencesActivity extends AppCompatActivity {
 
         saveAllChanges.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(PreferencesActivity.this, CalibrationActivity.class);
+                Intent intent = new Intent(PreferencesActivity.this, MealPlanActivity.class);
+                if(currentUser.isNewUser())
+                {
+                    currentUser.setNewUser(false);
+                    intent = new Intent(PreferencesActivity.this, CalibrationActivity.class);
+                }
+
                 startActivity(intent);
             }
         });
@@ -317,43 +311,48 @@ public class PreferencesActivity extends AppCompatActivity {
         });
 
         // Tab Screen Change Logic
-        if(!currentUser.isNewUser()) {
-            TabLayout tabs = (TabLayout) findViewById(R.id.tabs);
-            TabLayout.Tab tab = tabs.getTabAt(3);
-            tab.select();
-            tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-                @Override
-                public void onTabSelected(TabLayout.Tab tab) {
-                    // called when tab selected
-                    int tabIndex = tab.getPosition();
-                    Intent intent;
-                    switch (tabIndex) {
-                        case 0:
-                            intent = new Intent(PreferencesActivity.this, MealPlanActivity.class);
-                            startActivity(intent);
-                            break;
-                        case 1:
-                            break;
-                        case 2:
-                            break;
-                        case 3:
-                            break;
-                        default:
-                            break;
-                    }
-
+        TabLayout tabs = (TabLayout) findViewById(R.id.tabs);
+        TabLayout.Tab tab = tabs.getTabAt(3);
+        tab.select();
+        tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                // called when tab selected
+                int tabIndex = tab.getPosition();
+                Intent intent;
+                switch (tabIndex) {
+                    case 0:
+                        intent = new Intent(PreferencesActivity.this, MealPlanActivity.class);
+                        startActivity(intent);
+                        break;
+                    case 1:
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        break;
+                    default:
+                        break;
                 }
 
-                @Override
-                public void onTabUnselected(TabLayout.Tab tab) {
-                    // called when tab unselected
-                }
+            }
 
-                @Override
-                public void onTabReselected(TabLayout.Tab tab) {
-                    // called when a tab is reselected
-                }
-            });
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+                // called when tab unselected
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+                // called when a tab is reselected
+            }
+        });
+
+        // Make the page look correctly for new users after registration
+        if(currentUser.isNewUser()) {
+            logout.setVisibility(View.GONE);
+            deleteAccount.setVisibility(View.GONE);
+            tabs.setVisibility(View.GONE);
         }
     }
 
