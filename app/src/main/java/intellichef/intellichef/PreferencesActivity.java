@@ -3,6 +3,7 @@ package intellichef.intellichef;
 import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
+import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -18,6 +19,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -25,6 +27,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 
@@ -51,8 +54,10 @@ public class PreferencesActivity extends AppCompatActivity {
     private Button saveAllChanges;
     private Button saveBasic;
     private Button saveDietary;
+    private ImageButton addAllergy;
     private Button saveAllergies;
     private ImageButton editAllergies;
+    private ListView allergyList;
     private ImageButton changePicture;
     private ImageButton editBasic;
     private ImageButton editDietary;
@@ -106,6 +111,8 @@ public class PreferencesActivity extends AppCompatActivity {
         editBasic = (ImageButton) findViewById(R.id.editBasicInfo);
         saveDietary = (Button) findViewById(R.id.saveDietaryConcerns);
         editDietary = (ImageButton) findViewById(R.id.editDietaryConcerns);
+        addAllergy = (ImageButton) findViewById(R.id.addAllergy);
+        allergyList = (ListView) findViewById(R.id.allergyList);
         editAllergies = (ImageButton) findViewById(R.id.editAllergies);
         enterAllergy = (AutoCompleteTextView) findViewById((R.id.enterAllergy));
         saveAllChanges = (Button) findViewById(R.id.saveAll);
@@ -222,29 +229,37 @@ public class PreferencesActivity extends AppCompatActivity {
             }
         });
 
-        final ArrayAdapter<String> allergyList;
-        allergyList = new ArrayAdapter<String>(this, R.layout.activity_preferences, dietaryRestrictions);
+        // Allergies
+        enterAllergy.setVisibility(View.GONE);
+        addAllergy.setVisibility(View.GONE);
+        final ArrayAdapter<String> allergyListAdpater;
+        allergyListAdpater = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, dietaryRestrictions);
+        allergyList.setAdapter(allergyListAdpater);
 
         editAllergies.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                for (int i = 0; i < allergiesLayout.getChildCount();  i++ ){
-                    View view = allergiesLayout.getChildAt(i);
-                    view.setEnabled(true);
-                }
+                enterAllergy.setVisibility(View.VISIBLE);
+                addAllergy.setVisibility(View.VISIBLE);
                 saveAllergies.setVisibility(View.VISIBLE);
-                dietaryRestrictions.add(enterAllergy.getText().toString());
                 enterAllergy.clearListSelection();
+            }
+        });
+
+        addAllergy.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                dietaryRestrictions.add(enterAllergy.getText().toString());
+                allergyListAdpater.notifyDataSetChanged();
+                InputMethodManager imm = (InputMethodManager)PreferencesActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(v.getApplicationWindowToken(), 0);
+                enterAllergy.setText("");
             }
         });
 
         saveAllergies.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 //collapse();
-                for (int i = 0; i < allergiesLayout.getChildCount();  i++) {
-                    View view = allergiesLayout.getChildAt(i);
-                    view.setEnabled(false);
-                }
-                saveAllergies.setEnabled(true);
+                addAllergy.setVisibility(View.GONE);
+                enterAllergy.setVisibility(View.GONE);
                 saveAllergies.setVisibility(View.GONE);
                 editDietary.setEnabled(true);
             }
