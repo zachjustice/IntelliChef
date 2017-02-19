@@ -4,23 +4,23 @@
     android:orientation="horizontal"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:padding="15dp">
+    android:paddingLeft="15dp">
 
     <ImageView android:id="@+id/recipeImage"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_centerVertical="true"
         />
 
     <TextView android:id="@+id/recipeName"
-        android:layout_width="150dp"
-        android:layout_height= "50dp"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
         android:layout_below="@id/recipeImage"
         android:layout_centerVertical="true"
         android:gravity="center_horizontal"
         android:layout_toRightOf="@+id/recipeImage"
         android:textStyle="bold"
-        android:textSize="10dp"
+        android:textSize="8pt"
         android:textColor="#ffffff" />
 
 </RelativeLayout>

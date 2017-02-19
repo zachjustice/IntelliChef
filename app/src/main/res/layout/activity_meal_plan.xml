@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_meal_plan"
     android:layout_height="match_parent"
+    android:background="#f15c48"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -11,6 +12,36 @@
     tools:context="intellichef.intellichef.MealPlanActivity"
     android:layout_width="match_parent">
 
+
+    <TextView
+        android:text="Meal Plan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/dateText"
+        android:textSize="9pt"
+        android:layout_marginLeft="32dp"
+        android:layout_marginStart="32dp"
+        android:layout_toRightOf="@+id/prevRecipe"
+        android:layout_toEndOf="@+id/prevRecipe" />
+
+    <Button
+
+        android:id="@+id/prevRecipe"
+        android:layout_width="16dp"
+        android:layout_height="20dp"
+        android:paddingLeft="40dp"
+
+        android:background="@drawable/left" />
+
+    <Button
+        android:id="@+id/nextRecipe"
+        android:layout_width="16dp"
+        android:layout_height="20dp"
+        android:paddingLeft="40dp"
+        android:background="@drawable/right" />
+
+
+    <!--breakfast-->
     <TextView
         android:text="TextView"
         android:layout_width="wrap_content"
@@ -18,76 +49,8 @@
         android:layout_below="@+id/breakfast_pic"
         android:id="@+id/breakfast_name"
         android:textSize="20sp"
-        android:layout_alignLeft="@+id/dateText"
-        android:layout_alignStart="@+id/dateText" />
-
-    <ImageView
-        android:layout_height="100dp"
-        app:srcCompat="@android:drawable/btn_star_big_on"
-        android:id="@+id/lunch_pic"
-        android:minHeight="85dp"
-        android:minWidth="170dp"
-        android:paddingLeft="80dp"
-        android:layout_below="@+id/breakfast_name"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:scaleType="fitXY"
-        android:layout_width="170dp" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/prevRecipe"
-        android:textSize="24sp"
-        android:minWidth="50dp"
-        android:layout_alignBottom="@+id/lunch_pic"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:background="@android:drawable/btn_star_big_off" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/nextRecipe"
-        android:minWidth="50dp"
-        android:textSize="24sp"
-        android:layout_alignBottom="@+id/lunch_pic"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:background="@android:drawable/btn_star_big_off" />
-
-    <TextView
-        android:text="TextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="17dp"
-        android:id="@+id/lunch_name"
-        android:textSize="20sp"
-        android:layout_below="@+id/lunch_pic"
-        android:layout_alignLeft="@+id/breakfast_name"
-        android:layout_alignStart="@+id/breakfast_name" />
-
-    <TextView
-        android:text="TextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/dinner_pic"
-        android:id="@+id/dinner_name"
-        android:textSize="20sp"
-        android:layout_alignLeft="@+id/lunch_name"
-        android:layout_alignStart="@+id/lunch_name" />
-
-    <TextView
-        android:text="Meal Plan"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/dateText"
-        android:textSize="30sp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginStart="32dp"
-        android:layout_toRightOf="@+id/prevRecipe"
-        android:layout_toEndOf="@+id/prevRecipe" />
-
+        android:paddingRight="15dp"
+        />
     <TextView
         android:text="TextView"
         android:layout_width="wrap_content"
@@ -96,8 +59,46 @@
         android:layout_marginEnd="11dp"
         android:id="@+id/breakfast_rating"
         android:layout_above="@+id/lunch_pic"
-        android:layout_toLeftOf="@+id/nextRecipe"
-        android:layout_toStartOf="@+id/nextRecipe" />
+        android:layout_toRightOf="@+id/breakfast_name"
+        android:textSize="20sp"
+        />
+    <ImageView
+        android:id="@+id/breakfast_pic"
+        android:layout_width="200dp"
+        android:layout_height="125dp"
+        android:scaleType="fitXY"
+        android:layout_below="@+id/dateText"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="20dp"
+        />
+
+    <!--lunch-->
+    <ImageView
+        android:id="@+id/lunch_pic"
+        android:layout_width="200dp"
+        android:layout_height="125dp"
+        app:srcCompat="@android:drawable/btn_star_big_on"
+        android:layout_below="@+id/breakfast_name"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:scaleType="fitXY"
+        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="20dp"/>
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/lunch_name"
+        android:textSize="20sp"
+        android:layout_below="@+id/lunch_pic"
+        android:layout_alignLeft="@+id/breakfast_name"
+        android:layout_alignStart="@+id/breakfast_name"
+        android:paddingRight="15dp" />
 
     <TextView
         android:text="TextView"
@@ -106,8 +107,24 @@
         android:id="@+id/lunch_rating"
         android:layout_above="@+id/dinner_pic"
         android:layout_alignLeft="@+id/breakfast_rating"
-        android:layout_alignStart="@+id/breakfast_rating" />
+        android:layout_alignStart="@+id/breakfast_rating"
+        android:layout_marginRight="11dp"
+        android:layout_marginEnd="11dp"
+        android:layout_toRightOf="@+id/breakfast_name"
+        android:textSize="20sp"/>
 
+
+    <!--dinner-->
+    <TextView
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/dinner_pic"
+        android:id="@+id/dinner_name"
+        android:textSize="20sp"
+        android:layout_alignLeft="@+id/lunch_name"
+        android:layout_alignStart="@+id/lunch_name"
+        android:paddingRight="15dp" />
     <TextView
         android:text="TextView"
         android:layout_width="wrap_content"
@@ -115,35 +132,27 @@
         android:id="@+id/dinner_rating"
         android:layout_below="@+id/dinner_pic"
         android:layout_alignLeft="@+id/lunch_rating"
-        android:layout_alignStart="@+id/lunch_rating" />
-
+        android:layout_alignStart="@+id/lunch_rating"
+        android:layout_marginRight="11dp"
+        android:layout_marginEnd="11dp"
+        android:layout_above="@+id/lunch_pic"
+        android:layout_toRightOf="@+id/breakfast_name"
+        android:textSize="20sp"/>
     <ImageView
-        android:layout_width="170dp"
-        android:layout_height="100dp"
-        app:srcCompat="@android:drawable/btn_star_big_on"
-        android:id="@+id/breakfast_pic"
-        android:minHeight="85dp"
-        android:minWidth="170dp"
-        android:paddingLeft="80dp"
-        android:scaleType="fitXY"
-        android:layout_below="@+id/dateText"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <ImageView
-        android:layout_height="100dp"
-        app:srcCompat="@android:drawable/btn_star_big_on"
         android:id="@+id/dinner_pic"
-        android:minHeight="85dp"
-        android:minWidth="170dp"
-        android:paddingLeft="80dp"
-        android:scaleType="fitXY"
+
+        android:layout_width="200dp"
+        android:layout_height="125dp"
+        app:srcCompat="@android:drawable/btn_star_big_on"
         android:layout_below="@+id/lunch_name"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:maxHeight="100dp"
-        android:maxWidth="200dp"
-        android:layout_width="170dp" />
+        android:scaleType="fitXY"
+        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="20dp"
+
+        />
 
     <android.support.design.widget.TabLayout
         android:layout_height="wrap_content"
@@ -152,40 +161,36 @@
         android:layout_width="match_parent"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        app:tabIndicatorColor="#ffffff">
+
 
         <android.support.design.widget.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@android:drawable/ic_menu_my_calendar"
             android:id="@+id/mealplan_tab"
             android:contextClickable="true"
             android:longClickable="true"
-            android:icon="@android:drawable/ic_menu_my_calendar" />
+            android:icon="@drawable/calendar_icon" />
 
         <android.support.design.widget.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="hist"
+            android:icon="@drawable/history_icon"
             android:id="@+id/history_tab" />
 
         <android.support.design.widget.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/grocery_tab"
-            android:text="grocery" />
+            android:icon="@drawable/grocery_icon"  />
 
         <android.support.design.widget.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="profile"
+            android:icon="@drawable/profile_icon"
             android:id="@+id/profile_tab" />
 
-        <android.support.design.widget.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/logout_tab"
-            android:text="logout?" />
     </android.support.design.widget.TabLayout>
 
 </RelativeLayout>
