@@ -14,6 +14,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
@@ -298,6 +299,41 @@ public class PreferencesActivity extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+            }
+        });
+        // Tab Screen Change Logic
+        TabLayout tabs = (TabLayout) findViewById(R.id.tabs);
+        tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                // called when tab selected
+                int tabIndex = tab.getPosition();
+                Intent intent;
+                switch (tabIndex) {
+                    case 0:
+                        intent = new Intent(PreferencesActivity.this, MealPlanActivity.class);
+                        startActivity(intent);
+                        break;
+                    case 1:
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        break;
+                    default:
+                        break;
+                }
+
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+// called when tab unselected
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+// called when a tab is reselected
             }
         });
     }

@@ -158,8 +158,6 @@ public class MealPlanActivity extends AppCompatActivity {
                         Intent intent = new Intent(MealPlanActivity.this, PreferencesActivity.class);
                         startActivity(intent);
                         break;
-                    case 4:
-                        break;
                     default:
                         break;
                 }
