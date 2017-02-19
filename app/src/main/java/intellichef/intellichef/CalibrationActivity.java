@@ -77,6 +77,8 @@ public class CalibrationActivity extends AppCompatActivity {
                     }
                 }
                 Log.v("Calibrated", "" + calibrationPks.size());
+                Intent intent = new Intent(CalibrationActivity.this, MealPlanActivity.class);
+                startActivity(intent);
 //                try {
 //                    post calibration picks
 //                    switch screens
