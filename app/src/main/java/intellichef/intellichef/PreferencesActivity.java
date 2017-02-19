@@ -306,6 +306,8 @@ public class PreferencesActivity extends AppCompatActivity {
         });
         // Tab Screen Change Logic
         TabLayout tabs = (TabLayout) findViewById(R.id.tabs);
+        TabLayout.Tab tab = tabs.getTabAt(3);
+        tab.select();
         tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
