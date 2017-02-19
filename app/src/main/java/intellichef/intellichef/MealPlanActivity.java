@@ -67,6 +67,10 @@ public class MealPlanActivity extends AppCompatActivity {
         lunchRating = (TextView) findViewById(R.id.lunch_rating);
         dinnerRating = (TextView) findViewById(R.id.dinner_rating);
 
+        breakfastRating.setVisibility(View.GONE);
+        lunchRating.setVisibility(View.GONE);
+        dinnerRating.setVisibility(View.GONE);
+
         // Dynamic date display
 //        Calendar c = Calendar.getInstance();
 //        SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, MMM dd yyyy");
