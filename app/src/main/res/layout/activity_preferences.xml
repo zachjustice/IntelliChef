@@ -105,12 +105,12 @@
                     android:textColorHint="#ffffff"
                     android:textColor="#ffffff"
                     android:textSize="7pt"
-                    android:inputType="none" />
+                    android:inputType="textPersonName" />
 
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="none"
+                    android:inputType="textPersonName"
                     android:ems="10"
                     android:id="@+id/ln"
                     android:layout_below="@+id/fn"
@@ -124,7 +124,7 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="none"
+                    android:inputType="textEmailAddress"
                     android:ems="10"
                     android:layout_below="@+id/ln"
                     android:layout_toRightOf="@+id/profilePic"
@@ -147,7 +147,7 @@
                     android:textColorHint="#ffffff"
                     android:textColor="#ffffff"
                     android:textSize="7pt"
-                    android:inputType="none" />
+                    android:inputType="textPersonName" />
 
                 <EditText
                     android:layout_width="match_parent"
