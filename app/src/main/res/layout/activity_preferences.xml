@@ -26,16 +26,31 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ImageButton
-                app:srcCompat="@android:drawable/ic_menu_camera"
-                android:id="@+id/profilePic"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:adjustViewBounds="true"
-                android:visibility="visible"
-                android:layout_width="100dp"
-                android:layout_height="100dp" />
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageButton
+                    app:srcCompat="@android:drawable/ic_menu_camera"
+                    android:id="@+id/profilePic"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:adjustViewBounds="true"
+                    android:visibility="visible"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp" />
+
+                <Button
+                    android:text="Done"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginLeft="120dp"
+                    android:id="@+id/saveAll" />
+
+            </LinearLayout>
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -293,7 +308,7 @@
                         <AutoCompleteTextView
                             android:layout_width="200dp"
                             android:layout_height="wrap_content"
-                            android:id="@+id/autoCompleteTextView"
+                            android:id="@+id/enterAllergy"
                             android:completionHint="enter allergy"
                             android:textColorHint="#ffffff"
                             android:textColor="#ffffff"/>
@@ -324,7 +339,6 @@
             <Button
                 android:text="Delete Account"
                 android:id="@+id/deleteAccount"
-                style="@style/Widget.AppCompat.Button.Colored"
                 android:textColor="#f15c48"
                 android:background="#ffffff"
                 android:drawableBottom="#ffffff"
@@ -339,7 +353,6 @@
             <Button
                 android:text="Logout"
                 android:id="@+id/logout"
-                style="@style/Widget.AppCompat.Button.Colored"
 
                 android:textColor="#f15c48"
                 android:background="#ffffff"

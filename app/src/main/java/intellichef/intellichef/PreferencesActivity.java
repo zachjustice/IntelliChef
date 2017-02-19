@@ -18,6 +18,8 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -30,6 +32,8 @@ import org.json.JSONObject;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
@@ -44,6 +48,8 @@ public class PreferencesActivity extends AppCompatActivity {
     private Button deleteAccount;
     private Button saveBasic;
     private Button saveDietary;
+    private Button saveAllChanges;
+    private ImageButton addAllergy;
     private ImageButton changePicture;
     private ImageButton editBasic;
     private ImageButton editDietary;
@@ -58,6 +64,7 @@ public class PreferencesActivity extends AppCompatActivity {
     private LinearLayout basicInfoLayout;
     //private LinearLayout basicInfoLayout2;
     private LinearLayout dietaryConcernsLayout;
+    private AutoCompleteTextView enterAllergy;
     private User currentUser;
     private static int GET_FROM_GALLERY = 1;
 
@@ -89,6 +96,9 @@ public class PreferencesActivity extends AppCompatActivity {
         editBasic = (ImageButton) findViewById(R.id.editBasicInfo);
         saveDietary = (Button) findViewById(R.id.saveDietaryConcerns);
         editDietary = (ImageButton) findViewById(R.id.editDietaryConcerns);
+        addAllergy = (ImageButton) findViewById(R.id.addAllergy);
+        enterAllergy = (AutoCompleteTextView) findViewById((R.id.enterAllergy));
+        saveAllChanges = (Button) findViewById(R.id.saveAll);
 
         first = (EditText) findViewById(R.id.fn);
         last = (EditText) findViewById(R.id.ln);
@@ -105,6 +115,8 @@ public class PreferencesActivity extends AppCompatActivity {
 
         saveBasic.setVisibility(View.GONE);
         saveDietary.setVisibility(View.GONE);
+
+        final List<String> dietaryRestrictions = new ArrayList<>();
 
         changePicture.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -158,6 +170,23 @@ public class PreferencesActivity extends AppCompatActivity {
                 }
                 saveDietary.setEnabled(true);
                 saveDietary.setVisibility(View.GONE);
+            }
+        });
+
+        final ArrayAdapter<String> allergyList;
+        allergyList = new ArrayAdapter<String>(this, R.layout.activity_preferences, dietaryRestrictions);
+        addAllergy.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                //collapse();
+                dietaryRestrictions.add(enterAllergy.getText().toString());
+                enterAllergy.clearListSelection();
+            }
+        });
+
+        saveAllChanges.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(PreferencesActivity.this, CalibrationActivity.class);
+                startActivity(intent);
             }
         });
 
