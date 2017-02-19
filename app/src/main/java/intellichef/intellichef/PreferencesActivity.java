@@ -47,10 +47,11 @@ public class PreferencesActivity extends AppCompatActivity {
 
     private Button logout;
     private Button deleteAccount;
+    private Button saveAllChanges;
     private Button saveBasic;
     private Button saveDietary;
-    private Button saveAllChanges;
-    private ImageButton addAllergy;
+    private Button saveAllergies;
+    private ImageButton editAllergies;
     private ImageButton changePicture;
     private ImageButton editBasic;
     private ImageButton editDietary;
@@ -104,9 +105,10 @@ public class PreferencesActivity extends AppCompatActivity {
         editBasic = (ImageButton) findViewById(R.id.editBasicInfo);
         saveDietary = (Button) findViewById(R.id.saveDietaryConcerns);
         editDietary = (ImageButton) findViewById(R.id.editDietaryConcerns);
-        addAllergy = (ImageButton) findViewById(R.id.addAllergy);
+        editAllergies = (ImageButton) findViewById(R.id.editAllergies);
         enterAllergy = (AutoCompleteTextView) findViewById((R.id.enterAllergy));
         saveAllChanges = (Button) findViewById(R.id.saveAll);
+        saveAllergies = (Button) findViewById(R.id.saveAllergies);
 
         first = (EditText) findViewById(R.id.fn);
         last = (EditText) findViewById(R.id.ln);
@@ -116,8 +118,8 @@ public class PreferencesActivity extends AppCompatActivity {
         confirmPassword = (EditText) findViewById(R.id.cpw);
 
         // Hide the password and confirmPassword field from the user
-        password.setVisibility(View.INVISIBLE);
-        confirmPassword.setVisibility(View.INVISIBLE);
+        password.setVisibility(View.GONE);
+        confirmPassword.setVisibility(View.GONE);
 
         currentUser = LoginActivity.getCurrentUser();
         try {
@@ -125,13 +127,10 @@ public class PreferencesActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-//        first.setText(currentUser.getRegistrationInfo().getFirstName());
-//        last.setText(currentUser.getRegistrationInfo().getLastName());
-//        email.setText(currentUser.getRegistrationInfo().getEmail());
-//        usern.setText(currentUser.getRegistrationInfo().getUsername());
 
         saveBasic.setVisibility(View.GONE);
         saveDietary.setVisibility(View.GONE);
+        saveAllergies.setVisibility(View.GONE);
 
         final List<String> dietaryRestrictions = new ArrayList<>();
 
@@ -149,6 +148,7 @@ public class PreferencesActivity extends AppCompatActivity {
                     View view = basicInfoLayout.getChildAt(i);
                     view.setEnabled(true);
                 }
+                // Show password fields for the user to edit
                 password.setVisibility(View.VISIBLE);
                 confirmPassword.setVisibility(View.VISIBLE);
                 editBasic.setEnabled(false);
@@ -163,6 +163,7 @@ public class PreferencesActivity extends AppCompatActivity {
                     View view = basicInfoLayout.getChildAt(i);
                     view.setEnabled(false);
                 }
+                // Hide password fields again
                 password.setVisibility(View.GONE);
                 confirmPassword.setVisibility(View.GONE);
                 editBasic.setEnabled(true);
@@ -197,14 +198,29 @@ public class PreferencesActivity extends AppCompatActivity {
 
         final ArrayAdapter<String> allergyList;
         allergyList = new ArrayAdapter<String>(this, R.layout.activity_preferences, dietaryRestrictions);
-        addAllergy.setOnClickListener(new View.OnClickListener() {
+
+        editAllergies.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 for (int i = 0; i < allergiesLayout.getChildCount();  i++ ){
                     View view = allergiesLayout.getChildAt(i);
                     view.setEnabled(true);
                 }
+                saveAllergies.setVisibility(View.VISIBLE);
                 dietaryRestrictions.add(enterAllergy.getText().toString());
                 enterAllergy.clearListSelection();
+            }
+        });
+
+        saveAllergies.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                //collapse();
+                for (int i = 0; i < allergiesLayout.getChildCount();  i++) {
+                    View view = allergiesLayout.getChildAt(i);
+                    view.setEnabled(false);
+                }
+                saveAllergies.setEnabled(true);
+                saveAllergies.setVisibility(View.GONE);
+                editDietary.setEnabled(true);
             }
         });
 
@@ -351,10 +367,6 @@ public class PreferencesActivity extends AppCompatActivity {
             }
         });
     }
-    //TODO: IntelliServerAPI.getUserInfo
-    //v2.0/entities/<int:entity_pk> GET
-    //Set textfields in onSuccess
-    //PUT route with new user info
 
     private void getUserInfo() throws JSONException {
         int entity_pk = LoginActivity.getCurrentUser().getEntityPk();
@@ -377,10 +389,6 @@ public class PreferencesActivity extends AppCompatActivity {
             }
         });
     }
-    //TODO: IntelliServerAPI.getUserInfo
-    //v2.0/entities/<int:entity_pk> GET
-    //Set textfields in onSuccess
-    //PUT route with new user info
 
     private void removeAccount() throws JSONException {
         String email = LoginActivity.getCurrentUser().getRegistrationInfo().getEmail();
