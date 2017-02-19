@@ -299,7 +299,8 @@
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="10dp">
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp">
 
                     <TextView
                         android:text="allergies"
@@ -408,7 +409,9 @@
                 android:layout_height="25dp"
                 android:layout_alignParentBottom="true"
                 android:layout_alignLeft="@+id/deleteAccount"
-                android:layout_alignStart="@+id/deleteAccount" />
+                android:layout_alignStart="@+id/deleteAccount"
+                android:layout_marginBottom="10dp"
+                />
 
         </LinearLayout>
 
