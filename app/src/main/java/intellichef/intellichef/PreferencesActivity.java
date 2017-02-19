@@ -55,23 +55,20 @@ public class PreferencesActivity extends AppCompatActivity {
     private Button saveAllChanges;
     private Button saveBasic;
     private Button saveDietary;
-    private ImageButton addAllergy;
+    private Button addAllergy;
     private Button saveAllergies;
-    private ImageButton editAllergies;
+    private Button editAllergies;
     private ListView allergyList;
     private ImageButton changePicture;
-    private ImageButton editBasic;
-    private ImageButton editDietary;
+    private Button editBasic;
+    private Button editDietary;
     private EditText first;
     private EditText last;
     private EditText email;
     private EditText usern;
     private EditText password;
     private EditText confirmPassword;
-//    private EditText fnDisplay;
-//    private EditText lnDisplay;
     private LinearLayout basicInfoLayout;
-    //private LinearLayout basicInfoLayout2;
     private LinearLayout dietaryConcernsLayout;
     private LinearLayout allergiesLayout;
     private AutoCompleteTextView enterAllergy;
@@ -83,11 +80,10 @@ public class PreferencesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         CalligraphyConfig.initDefault("fonts/Montserrat-Light.ttf");
         setContentView(R.layout.activity_preferences);
+        currentUser = LoginActivity.getCurrentUser();
 
 
-        //basicInfoLayout2 = (LinearLayout) findViewById(R.id.basicInfoCollapsed);
         basicInfoLayout = (LinearLayout) findViewById(R.id.basicInfoMain);
-        //basicInfoLayout2.setVisibility(View.GONE);
         for (int i = 0; i < basicInfoLayout.getChildCount();  i++ ){
             View view = basicInfoLayout.getChildAt(i);
             view.setEnabled(false);
@@ -109,12 +105,12 @@ public class PreferencesActivity extends AppCompatActivity {
         logout = (Button) findViewById(R.id.logout);
         deleteAccount = (Button) findViewById(R.id.deleteAccount);
         changePicture = (ImageButton) findViewById(R.id.profilePic);
-        editBasic = (ImageButton) findViewById(R.id.editBasicInfo);
+        editBasic = (Button) findViewById(R.id.editBasicInfo);
         saveDietary = (Button) findViewById(R.id.saveDietaryConcerns);
-        editDietary = (ImageButton) findViewById(R.id.editDietaryConcerns);
-        addAllergy = (ImageButton) findViewById(R.id.addAllergy);
+        editDietary = (Button) findViewById(R.id.editDietaryConcerns);
+        addAllergy = (Button) findViewById(R.id.addAllergy);
         allergyList = (ListView) findViewById(R.id.allergyList);
-        editAllergies = (ImageButton) findViewById(R.id.editAllergies);
+        editAllergies = (Button) findViewById(R.id.editAllergies);
         enterAllergy = (AutoCompleteTextView) findViewById((R.id.enterAllergy));
         saveAllChanges = (Button) findViewById(R.id.saveAll);
         saveAllergies = (Button) findViewById(R.id.saveAllergies);
@@ -160,7 +156,7 @@ public class PreferencesActivity extends AppCompatActivity {
                 // Show password fields for the user to edit
                 password.setVisibility(View.VISIBLE);
                 confirmPassword.setVisibility(View.VISIBLE);
-                editBasic.setEnabled(false);
+                editBasic.setVisibility(View.GONE);
                 saveBasic.setVisibility(View.VISIBLE);
             }
         });
@@ -189,7 +185,7 @@ public class PreferencesActivity extends AppCompatActivity {
                 // Hide password fields again
                 password.setVisibility(View.GONE);
                 confirmPassword.setVisibility(View.GONE);
-                editBasic.setEnabled(true);
+                editBasic.setVisibility(View.VISIBLE);
                 saveBasic.setVisibility(View.GONE);
                 editDietary.setEnabled(true);
             }
@@ -201,7 +197,7 @@ public class PreferencesActivity extends AppCompatActivity {
                     View view = dietaryConcernsLayout.getChildAt(i);
                     view.setEnabled(true);
                 }
-                editDietary.setEnabled(false);
+                editDietary.setVisibility(View.GONE);
                 saveDietary.setVisibility(View.VISIBLE);
             }
         });
@@ -226,6 +222,7 @@ public class PreferencesActivity extends AppCompatActivity {
                 }
                 saveDietary.setEnabled(true);
                 saveDietary.setVisibility(View.GONE);
+                editDietary.setVisibility(View.VISIBLE);
                 editDietary.setEnabled(true);
             }
         });
@@ -243,6 +240,7 @@ public class PreferencesActivity extends AppCompatActivity {
                 addAllergy.setVisibility(View.VISIBLE);
                 saveAllergies.setVisibility(View.VISIBLE);
                 enterAllergy.clearListSelection();
+                editAllergies.setVisibility(View.GONE);
             }
         });
 
@@ -272,13 +270,20 @@ public class PreferencesActivity extends AppCompatActivity {
                 addAllergy.setVisibility(View.GONE);
                 enterAllergy.setVisibility(View.GONE);
                 saveAllergies.setVisibility(View.GONE);
+                editAllergies.setVisibility(View.VISIBLE);
                 editDietary.setEnabled(true);
             }
         });
 
         saveAllChanges.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(PreferencesActivity.this, CalibrationActivity.class);
+                Intent intent = new Intent(PreferencesActivity.this, MealPlanActivity.class);
+                if(currentUser.isNewUser())
+                {
+                    currentUser.setNewUser(false);
+                    intent = new Intent(PreferencesActivity.this, CalibrationActivity.class);
+                }
+
                 startActivity(intent);
             }
         });
@@ -304,8 +309,11 @@ public class PreferencesActivity extends AppCompatActivity {
                 }
             }
         });
+
         // Tab Screen Change Logic
         TabLayout tabs = (TabLayout) findViewById(R.id.tabs);
+        TabLayout.Tab tab = tabs.getTabAt(3);
+        tab.select();
         tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -331,14 +339,21 @@ public class PreferencesActivity extends AppCompatActivity {
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-// called when tab unselected
+                // called when tab unselected
             }
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-// called when a tab is reselected
+                // called when a tab is reselected
             }
         });
+
+        // Make the page look correctly for new users after registration
+        if(currentUser.isNewUser()) {
+            logout.setVisibility(View.GONE);
+            deleteAccount.setVisibility(View.GONE);
+            tabs.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -465,6 +480,8 @@ public class PreferencesActivity extends AppCompatActivity {
                     last.setText(result.getString("last_name"));
                     email.setText(result.getString("email"));
                     usern.setText(result.getString("username"));
+                    password.setText(result.getString("password"));
+                    confirmPassword.setText(result.getString("password"));
 
                     // TODO check if this works (need a user with preferences filled out
                     JSONArray dietaryConcerns = result.getJSONArray("dietary_concerns");

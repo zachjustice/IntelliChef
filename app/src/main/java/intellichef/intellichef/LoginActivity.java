@@ -119,6 +119,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     currentUser = new User(registrationInfo);
                     currentUser.setEntityPk(entityPk);
+                    currentUser.setNewUser(false);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -127,8 +128,7 @@ public class LoginActivity extends AppCompatActivity {
                     mEmailView.setError("Invalid email address or password.");
                     mEmailView.requestFocus();
                 } else {
-                    Intent intent = new Intent(LoginActivity.this, PreferencesActivity.class);
-//                    Intent intent = new Intent(LoginActivity.this, CalibrationActivity.class);
+                    Intent intent = new Intent(LoginActivity.this, MealPlanActivity.class);
                     startActivity(intent);
                 }
             }
