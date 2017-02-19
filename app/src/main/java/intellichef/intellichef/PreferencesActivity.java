@@ -306,6 +306,8 @@ public class PreferencesActivity extends AppCompatActivity {
         });
         // Tab Screen Change Logic
         TabLayout tabs = (TabLayout) findViewById(R.id.tabs);
+        TabLayout.Tab tab = tabs.getTabAt(3);
+        tab.select();
         tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -331,12 +333,12 @@ public class PreferencesActivity extends AppCompatActivity {
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-// called when tab unselected
+                // called when tab unselected
             }
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-// called when a tab is reselected
+                // called when a tab is reselected
             }
         });
     }
