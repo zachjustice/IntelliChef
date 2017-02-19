@@ -145,7 +145,7 @@ public class MealPlanActivity extends AppCompatActivity {
         tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-// called when tab selected
+                // called when tab selected
                 int tabIndex = tab.getPosition();
                 switch (tabIndex) {
                     case 0:
@@ -157,8 +157,6 @@ public class MealPlanActivity extends AppCompatActivity {
                     case 3:
                         Intent intent = new Intent(MealPlanActivity.this, PreferencesActivity.class);
                         startActivity(intent);
-                        break;
-                    case 4:
                         break;
                     default:
                         break;

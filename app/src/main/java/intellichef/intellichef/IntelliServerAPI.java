@@ -168,10 +168,37 @@ public class IntelliServerAPI {
         };
 
         RequestParams params = new RequestParams();
-        params.put("entity_pk", entity_pk);
+//        params.put("entity_pk", entity_pk);
 
-        IntelliServerRestClient.get("v2.0/entities/<int:entity_pk>", params, responseHandler);
+        IntelliServerRestClient.get("v2.0/entities/" + entity_pk, params, responseHandler);
 
+    }
+
+    public static void updateUserInfo(int entity_pk, JSONObject userInfo, Context context, final JsonHttpResponseHandler callback) throws JSONException {
+
+        final JsonHttpResponseHandler responseHandler = new JsonHttpResponseHandler() {
+
+            public void onFailure(int statusCode, Header[] headers, JSONArray response) {
+                Log.v("JSONObject", response.toString() );
+            }
+
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                // Pull out the first event on the public timeline
+                // Do something with the response
+                Log.v("JSONObject", response.toString() );
+                callback.onSuccess(statusCode, headers, response);
+            }
+        };
+
+        StringEntity requestData = null;
+
+        try {
+            requestData = new StringEntity(userInfo.toString());
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        IntelliServerRestClient.put(context, "v2.0/entities/" + entity_pk, requestData, "application/json", responseHandler);
     }
 
     public static void getCalibratedMeals(final JsonHttpResponseHandler callback ) throws JSONException {

@@ -3,6 +3,7 @@ package intellichef.intellichef;
 import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
+import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -13,20 +14,25 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -46,10 +52,13 @@ public class PreferencesActivity extends AppCompatActivity {
 
     private Button logout;
     private Button deleteAccount;
+    private Button saveAllChanges;
     private Button saveBasic;
     private Button saveDietary;
-    private Button saveAllChanges;
     private ImageButton addAllergy;
+    private Button saveAllergies;
+    private ImageButton editAllergies;
+    private ListView allergyList;
     private ImageButton changePicture;
     private ImageButton editBasic;
     private ImageButton editDietary;
@@ -59,11 +68,12 @@ public class PreferencesActivity extends AppCompatActivity {
     private EditText usern;
     private EditText password;
     private EditText confirmPassword;
-    private EditText fnDisplay;
-    private EditText lnDisplay;
+//    private EditText fnDisplay;
+//    private EditText lnDisplay;
     private LinearLayout basicInfoLayout;
     //private LinearLayout basicInfoLayout2;
     private LinearLayout dietaryConcernsLayout;
+    private LinearLayout allergiesLayout;
     private AutoCompleteTextView enterAllergy;
     private User currentUser;
     private static int GET_FROM_GALLERY = 1;
@@ -89,6 +99,12 @@ public class PreferencesActivity extends AppCompatActivity {
             view.setEnabled(false);
         }
 
+        allergiesLayout = (LinearLayout) findViewById(R.id.allergies);
+//        for (int i = 0; i < allergiesLayout.getChildCount();  i++ ){
+//            View view = allergiesLayout.getChildAt(i);
+//            view.setEnabled(false);
+//        }
+
         saveBasic = (Button) findViewById(R.id.saveBasicInfo);
         logout = (Button) findViewById(R.id.logout);
         deleteAccount = (Button) findViewById(R.id.deleteAccount);
@@ -97,8 +113,11 @@ public class PreferencesActivity extends AppCompatActivity {
         saveDietary = (Button) findViewById(R.id.saveDietaryConcerns);
         editDietary = (ImageButton) findViewById(R.id.editDietaryConcerns);
         addAllergy = (ImageButton) findViewById(R.id.addAllergy);
+        allergyList = (ListView) findViewById(R.id.allergyList);
+        editAllergies = (ImageButton) findViewById(R.id.editAllergies);
         enterAllergy = (AutoCompleteTextView) findViewById((R.id.enterAllergy));
         saveAllChanges = (Button) findViewById(R.id.saveAll);
+        saveAllergies = (Button) findViewById(R.id.saveAllergies);
 
         first = (EditText) findViewById(R.id.fn);
         last = (EditText) findViewById(R.id.ln);
@@ -107,14 +126,20 @@ public class PreferencesActivity extends AppCompatActivity {
         password = (EditText) findViewById(R.id.pw);
         confirmPassword = (EditText) findViewById(R.id.cpw);
 
+        // Hide the password and confirmPassword field from the user
+        password.setVisibility(View.GONE);
+        confirmPassword.setVisibility(View.GONE);
+
         currentUser = LoginActivity.getCurrentUser();
-        first.setText(currentUser.getRegistrationInfo().getFirstName());
-        last.setText(currentUser.getRegistrationInfo().getLastName());
-        email.setText(currentUser.getRegistrationInfo().getEmail());
-        usern.setText(currentUser.getRegistrationInfo().getUsername());
+        try {
+            getUserInfo();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         saveBasic.setVisibility(View.GONE);
         saveDietary.setVisibility(View.GONE);
+        saveAllergies.setVisibility(View.GONE);
 
         final List<String> dietaryRestrictions = new ArrayList<>();
 
@@ -132,6 +157,9 @@ public class PreferencesActivity extends AppCompatActivity {
                     View view = basicInfoLayout.getChildAt(i);
                     view.setEnabled(true);
                 }
+                // Show password fields for the user to edit
+                password.setVisibility(View.VISIBLE);
+                confirmPassword.setVisibility(View.VISIBLE);
                 editBasic.setEnabled(false);
                 saveBasic.setVisibility(View.VISIBLE);
             }
@@ -140,18 +168,35 @@ public class PreferencesActivity extends AppCompatActivity {
         saveBasic.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 //collapse();
+                JSONObject userInfo = new JSONObject();
+                try {
+                    // Create new user inforamtion json object to update the server
+                    userInfo.put("first_name", first.getText().toString());
+                    userInfo.put("last_name", last.getText().toString());
+                    userInfo.put("email", email.getText().toString());
+                    String newPassword = password.getText().toString();
+                    if (!newPassword.isEmpty()) {
+                        userInfo.put("password", newPassword);
+                    }
+                    updateUserInfo(userInfo);
+                } catch(JSONException e) {
+                    e.printStackTrace();
+                }
                 for (int i = 0; i < basicInfoLayout.getChildCount();  i++) {
                     View view = basicInfoLayout.getChildAt(i);
                     view.setEnabled(false);
                 }
+                // Hide password fields again
+                password.setVisibility(View.GONE);
+                confirmPassword.setVisibility(View.GONE);
                 editBasic.setEnabled(true);
                 saveBasic.setVisibility(View.GONE);
+                editDietary.setEnabled(true);
             }
         });
 
         editDietary.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                //expand();
                 for (int i = 0; i < dietaryConcernsLayout.getChildCount();  i++ ){
                     View view = dietaryConcernsLayout.getChildAt(i);
                     view.setEnabled(true);
@@ -164,22 +209,70 @@ public class PreferencesActivity extends AppCompatActivity {
         saveDietary.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 //collapse();
+                JSONArray newDiets = new JSONArray();
+                JSONObject updatedUser = new JSONObject();
                 for (int i = 0; i < dietaryConcernsLayout.getChildCount();  i++) {
                     View view = dietaryConcernsLayout.getChildAt(i);
+                    if (view instanceof CheckBox && ((CheckBox) view).isChecked()) {
+                        newDiets.put(((CheckBox) view).getText());
+                    }
                     view.setEnabled(false);
+                }
+                try {
+                    updatedUser.put("dietary_concerns", newDiets);
+                    updateUserInfo(updatedUser);
+                } catch(JSONException e) {
+                    e.printStackTrace();
                 }
                 saveDietary.setEnabled(true);
                 saveDietary.setVisibility(View.GONE);
+                editDietary.setEnabled(true);
             }
         });
 
-        final ArrayAdapter<String> allergyList;
-        allergyList = new ArrayAdapter<String>(this, R.layout.activity_preferences, dietaryRestrictions);
+        // Allergies
+        enterAllergy.setVisibility(View.GONE);
+        addAllergy.setVisibility(View.GONE);
+        final ArrayAdapter<String> allergyListAdpater;
+        allergyListAdpater = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, dietaryRestrictions);
+        allergyList.setAdapter(allergyListAdpater);
+
+        editAllergies.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                enterAllergy.setVisibility(View.VISIBLE);
+                addAllergy.setVisibility(View.VISIBLE);
+                saveAllergies.setVisibility(View.VISIBLE);
+                enterAllergy.clearListSelection();
+            }
+        });
+
         addAllergy.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                String newAllergy = enterAllergy.getText().toString();
+                if (!newAllergy.isEmpty()) {
+                    dietaryRestrictions.add(newAllergy);
+                    allergyListAdpater.notifyDataSetChanged();
+                    InputMethodManager imm = (InputMethodManager) PreferencesActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getApplicationWindowToken(), 0);
+                    enterAllergy.setText("");
+                }
+            }
+        });
+
+        saveAllergies.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
                 //collapse();
-                dietaryRestrictions.add(enterAllergy.getText().toString());
-                enterAllergy.clearListSelection();
+                JSONObject updatedUser = new JSONObject();
+                try {
+                    updatedUser.put("allergies", new JSONArray(dietaryRestrictions));
+                    updateUserInfo(updatedUser);
+                } catch (JSONException e) {
+                    e.printStackTrace();;
+                }
+                addAllergy.setVisibility(View.GONE);
+                enterAllergy.setVisibility(View.GONE);
+                saveAllergies.setVisibility(View.GONE);
+                editDietary.setEnabled(true);
             }
         });
 
@@ -209,6 +302,41 @@ public class PreferencesActivity extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+            }
+        });
+        // Tab Screen Change Logic
+        TabLayout tabs = (TabLayout) findViewById(R.id.tabs);
+        tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                // called when tab selected
+                int tabIndex = tab.getPosition();
+                Intent intent;
+                switch (tabIndex) {
+                    case 0:
+                        intent = new Intent(PreferencesActivity.this, MealPlanActivity.class);
+                        startActivity(intent);
+                        break;
+                    case 1:
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        break;
+                    default:
+                        break;
+                }
+
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+// called when tab unselected
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+// called when a tab is reselected
             }
         });
     }
@@ -326,29 +454,51 @@ public class PreferencesActivity extends AppCompatActivity {
             }
         });
     }
-    //TODO: IntelliServerAPI.getUserInfo
-    //v2.0/entities/<int:entity_pk> GET
-    //Set textfields in onSuccess
-    //PUT route with new user info
 
     private void getUserInfo() throws JSONException {
-        int entity_pk = LoginActivity.getCurrentUser().getEntityPk();
+        int entity_pk = currentUser.getEntityPk();
         IntelliServerAPI.getUserInfo(entity_pk, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject result) {
-                JSONObject entity = null;
-                int entityPk;
-                User currentUser;
                 try {
-                    entity = result.getJSONObject("entity");
-                    entityPk = entity.getInt("entity");
-                    currentUser = LoginActivity.getCurrentUser();
-                    //currentUser.setEntityPk(entityPk);
+                    first.setText(result.getString("first_name"));
+                    last.setText(result.getString("last_name"));
+                    email.setText(result.getString("email"));
+                    usern.setText(result.getString("username"));
+
+                    // TODO check if this works (need a user with preferences filled out
+                    JSONArray dietaryConcerns = result.getJSONArray("dietary_concerns");
+                    for (int i = 0; i < dietaryConcernsLayout.getChildCount() - 1; i++) {
+                        CheckBox diet = (CheckBox) dietaryConcernsLayout.getChildAt(i);
+                        diet.setChecked(false);
+                        //TODO find better/efficient way
+                        if (dietaryConcerns.toString().contains(diet.getText())) {
+                            diet.setChecked(true);
+                        }
+                    }
+
+                    JSONArray allergies = result.getJSONArray("allergies");
+                    for (int i = 0; i < allergies.length(); i++) {
+                        String allergy = allergies.getString(i);
+//                        // TODO I don't know how it's structured...
+//                        dietaryRestrictions.add(allergy);
+                    }
+
 
 
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+            }
+        });
+    }
+
+    private void updateUserInfo(JSONObject userInfo) throws JSONException {
+        int entity_pk = currentUser.getEntityPk();
+        IntelliServerAPI.updateUserInfo(entity_pk, userInfo, this.getApplicationContext(), new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject result) {
+                //TODO what to do...
             }
         });
     }

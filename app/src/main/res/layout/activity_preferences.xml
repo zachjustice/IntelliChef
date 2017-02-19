@@ -18,7 +18,8 @@
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:layout_above="@+id/tabs">
 
         <LinearLayout
             android:id="@+id/mainLayout"
@@ -115,7 +116,6 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textPersonName"
                     android:ems="10"
                     android:id="@+id/fn"
                     android:layout_alignParentTop="false"
@@ -125,7 +125,7 @@
                     android:textColorHint="#ffffff"
                     android:textColor="#ffffff"
                     android:textSize="7pt"
-                    />
+                    android:inputType="textPersonName" />
 
                 <EditText
                     android:layout_width="match_parent"
@@ -158,7 +158,6 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textPersonName"
                     android:ems="10"
                     android:layout_below="@+id/em"
                     android:layout_alignLeft="@+id/em"
@@ -167,12 +166,12 @@
                     android:hint="username"
                     android:textColorHint="#ffffff"
                     android:textColor="#ffffff"
-                    android:textSize="7pt"/>
+                    android:textSize="7pt"
+                    android:inputType="textPersonName" />
 
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textPassword"
                     android:ems="10"
                     android:layout_below="@+id/un"
                     android:layout_alignLeft="@+id/un"
@@ -181,7 +180,8 @@
                     android:hint="password"
                     android:textColorHint="#ffffff"
                     android:textColor="#ffffff"
-                    android:textSize="7pt"/>
+                    android:textSize="7pt"
+                    android:inputType="textPassword" />
 
                 <EditText
                     android:layout_width="match_parent"
@@ -352,9 +352,20 @@
                             android:layout_toRightOf="@+id/userBasicInfo"
                             android:layout_toEndOf="@+id/userBasicInfo" />
 
-
-
                     </LinearLayout>
+
+                    <Button
+                        android:text="Save"
+                        android:layout_width="100dp"
+                        android:textColor="#f15c48"
+                        android:background="#ffffff"
+                        android:drawableBottom="#ffffff"
+                        android:textSize="6pt"
+                        android:layout_marginTop="0dp"
+                        android:id="@+id/saveAllergies"
+                        android:enabled="true"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
 
                 </LinearLayout>
 
@@ -400,6 +411,44 @@
 
     </ScrollView>
 
+    <android.support.design.widget.TabLayout
+        android:layout_height="wrap_content"
+        android:id="@+id/tabs"
+        android:background="@color/colorPrimary"
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        app:tabIndicatorColor="#ffffff">
+
+
+        <android.support.design.widget.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/mealplan_tab"
+            android:contextClickable="true"
+            android:longClickable="true"
+            android:icon="@drawable/calendar_icon" />
+
+        <android.support.design.widget.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:icon="@drawable/history_icon"
+            android:id="@+id/history_tab" />
+
+        <android.support.design.widget.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/grocery_tab"
+            android:icon="@drawable/grocery_icon"  />
+
+        <android.support.design.widget.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:icon="@drawable/profile_icon"
+            android:id="@+id/profile_tab" />
+
+    </android.support.design.widget.TabLayout>
     <!--
         <LinearLayout
             android:id="@+id/basicInfoCollapsed"
