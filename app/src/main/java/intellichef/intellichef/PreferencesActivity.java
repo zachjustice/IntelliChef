@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -153,6 +154,20 @@ public class PreferencesActivity extends AppCompatActivity {
         saveBasic.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 //collapse();
+                JSONObject userInfo = new JSONObject();
+                try {
+                    // Create new user inforamtion json object to update the server
+                    userInfo.put("first_name", first.getText().toString());
+                    userInfo.put("last_name", last.getText().toString());
+                    userInfo.put("email", email.getText().toString());
+                    String newPassword = password.getText().toString();
+                    if (!newPassword.isEmpty()) {
+                        userInfo.put("password", newPassword);
+                    }
+                    updateUserInfo(userInfo);
+                } catch(JSONException e) {
+                    e.printStackTrace();
+                }
                 for (int i = 0; i < basicInfoLayout.getChildCount();  i++) {
                     View view = basicInfoLayout.getChildAt(i);
                     view.setEnabled(false);
@@ -180,9 +195,20 @@ public class PreferencesActivity extends AppCompatActivity {
         saveDietary.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 //collapse();
+                JSONArray newDiets = new JSONArray();
+                JSONObject updatedUser = new JSONObject();
                 for (int i = 0; i < dietaryConcernsLayout.getChildCount();  i++) {
                     View view = dietaryConcernsLayout.getChildAt(i);
+                    if (view instanceof CheckBox && ((CheckBox) view).isChecked()) {
+                        newDiets.put(((CheckBox) view).getText());
+                    }
                     view.setEnabled(false);
+                }
+                try {
+                    updatedUser.put("dietary_concerns", newDiets);
+                    updateUserInfo(updatedUser);
+                } catch(JSONException e) {
+                    e.printStackTrace();
                 }
                 saveDietary.setEnabled(true);
                 saveDietary.setVisibility(View.GONE);
@@ -348,7 +374,7 @@ public class PreferencesActivity extends AppCompatActivity {
     //PUT route with new user info
 
     private void getUserInfo() throws JSONException {
-        int entity_pk = LoginActivity.getCurrentUser().getEntityPk();
+        int entity_pk = currentUser.getEntityPk();
         IntelliServerAPI.getUserInfo(entity_pk, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject result) {
@@ -358,13 +384,39 @@ public class PreferencesActivity extends AppCompatActivity {
                     email.setText(result.getString("email"));
                     usern.setText(result.getString("username"));
 
+                    // TODO check if this works (need a user with preferences filled out
                     JSONArray dietaryConcerns = result.getJSONArray("dietary_concerns");
+                    for (int i = 0; i < dietaryConcernsLayout.getChildCount() - 1; i++) {
+                        CheckBox diet = (CheckBox) dietaryConcernsLayout.getChildAt(i);
+                        diet.setChecked(false);
+                        //TODO find better/efficient way
+                        if (dietaryConcerns.toString().contains(diet.getText())) {
+                            diet.setChecked(true);
+                        }
+                    }
+
+                    JSONArray allergies = result.getJSONArray("allergies");
+                    for (int i = 0; i < allergies.length(); i++) {
+                        String allergy = allergies.getString(i);
+//                        // TODO I don't know how it's structured...
+//                        dietaryRestrictions.add(allergy);
+                    }
 
 
 
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+            }
+        });
+    }
+
+    private void updateUserInfo(JSONObject userInfo) throws JSONException {
+        int entity_pk = currentUser.getEntityPk();
+        IntelliServerAPI.updateUserInfo(entity_pk, userInfo, this.getApplicationContext(), new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject result) {
+                //TODO what to do...
             }
         });
     }
