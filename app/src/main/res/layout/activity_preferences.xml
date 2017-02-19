@@ -38,7 +38,7 @@
                     android:layout_height="match_parent">
 
                     <ImageButton
-                        app:srcCompat="@drawable/camera_icon"
+                        android:background="@android:drawable/ic_menu_camera"
                         android:id="@+id/profilePic"
                         android:layout_alignParentTop="true"
                         android:layout_alignParentLeft="true"
@@ -50,7 +50,7 @@
                         android:paddingBottom="30dp"
                         android:layout_marginBottom="20dp"
                         android:paddingLeft="100dp"
-                        android:layout_gravity="left"/>
+                        android:layout_gravity="center"/>
 
 
                     <Button
@@ -93,8 +93,8 @@
                     android:text="Edit"
                     android:layout_width="60dp"
                     android:layout_height="20dp"
-                    android:textColor="#f15c48"
-                    android:background="#ffffff"
+                    android:textColor="#ffffff"
+                    android:background="#f17460"
                     android:drawableBottom="#ffffff"
                     android:textSize="6pt"
                     android:layout_marginTop="0dp"
@@ -232,8 +232,8 @@
                     android:text="Edit"
                     android:layout_width="60dp"
                     android:layout_height="20dp"
-                    android:textColor="#f15c48"
-                    android:background="#ffffff"
+                    android:textColor="#ffffff"
+                    android:background="#f17460"
                     android:drawableBottom="#ffffff"
                     android:textSize="6pt"
                     android:layout_marginTop="0dp"
@@ -318,8 +318,8 @@
                         android:text="Edit"
                         android:layout_width="60dp"
                         android:layout_height="20dp"
-                        android:textColor="#f15c48"
-                        android:background="#ffffff"
+                        android:textColor="#ffffff"
+                        android:background="#f17460"
                         android:drawableBottom="#ffffff"
                         android:textSize="6pt"
                         android:layout_marginTop="0dp"
@@ -350,8 +350,8 @@
                             android:text="Add"
                             android:layout_width="60dp"
                             android:layout_height="20dp"
-                            android:textColor="#f15c48"
-                            android:background="#ffffff"
+                            android:textColor="#ffffff"
+                            android:background="#f17460"
                             android:drawableBottom="#ffffff"
                             android:textSize="6pt"
                             android:layout_marginTop="0dp"

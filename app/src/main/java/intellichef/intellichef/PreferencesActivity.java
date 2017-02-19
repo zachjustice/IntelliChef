@@ -160,7 +160,7 @@ public class PreferencesActivity extends AppCompatActivity {
                 // Show password fields for the user to edit
                 password.setVisibility(View.VISIBLE);
                 confirmPassword.setVisibility(View.VISIBLE);
-                editBasic.setEnabled(false);
+                editBasic.setVisibility(View.GONE);
                 saveBasic.setVisibility(View.VISIBLE);
             }
         });
@@ -189,7 +189,7 @@ public class PreferencesActivity extends AppCompatActivity {
                 // Hide password fields again
                 password.setVisibility(View.GONE);
                 confirmPassword.setVisibility(View.GONE);
-                editBasic.setEnabled(true);
+                editBasic.setVisibility(View.VISIBLE);
                 saveBasic.setVisibility(View.GONE);
                 editDietary.setEnabled(true);
             }
@@ -201,7 +201,7 @@ public class PreferencesActivity extends AppCompatActivity {
                     View view = dietaryConcernsLayout.getChildAt(i);
                     view.setEnabled(true);
                 }
-                editDietary.setEnabled(false);
+                editDietary.setVisibility(View.GONE);
                 saveDietary.setVisibility(View.VISIBLE);
             }
         });
@@ -226,6 +226,7 @@ public class PreferencesActivity extends AppCompatActivity {
                 }
                 saveDietary.setEnabled(true);
                 saveDietary.setVisibility(View.GONE);
+                editDietary.setVisibility(View.VISIBLE);
                 editDietary.setEnabled(true);
             }
         });
@@ -243,6 +244,7 @@ public class PreferencesActivity extends AppCompatActivity {
                 addAllergy.setVisibility(View.VISIBLE);
                 saveAllergies.setVisibility(View.VISIBLE);
                 enterAllergy.clearListSelection();
+                editAllergies.setVisibility(View.GONE);
             }
         });
 
@@ -272,6 +274,7 @@ public class PreferencesActivity extends AppCompatActivity {
                 addAllergy.setVisibility(View.GONE);
                 enterAllergy.setVisibility(View.GONE);
                 saveAllergies.setVisibility(View.GONE);
+                editAllergies.setVisibility(View.VISIBLE);
                 editDietary.setEnabled(true);
             }
         });
