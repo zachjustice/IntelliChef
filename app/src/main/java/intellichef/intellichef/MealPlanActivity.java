@@ -67,6 +67,10 @@ public class MealPlanActivity extends AppCompatActivity {
         lunchRating = (TextView) findViewById(R.id.lunch_rating);
         dinnerRating = (TextView) findViewById(R.id.dinner_rating);
 
+        breakfastRating.setVisibility(View.GONE);
+        lunchRating.setVisibility(View.GONE);
+        dinnerRating.setVisibility(View.GONE);
+
         // Dynamic date display
 //        Calendar c = Calendar.getInstance();
 //        SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, MMM dd yyyy");
@@ -166,15 +170,14 @@ public class MealPlanActivity extends AppCompatActivity {
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-// called when tab unselected
+                // called when tab unselected
             }
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-// called when a tab is reselected
+                // called when a tab is reselected
             }
         });
-
     }
 
 

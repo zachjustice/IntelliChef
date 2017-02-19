@@ -130,6 +130,12 @@ public class PreferencesActivity extends AppCompatActivity {
         password.setVisibility(View.GONE);
         confirmPassword.setVisibility(View.GONE);
 
+        if(currentUser.isNewUser()) {
+            logout.setVisibility(View.GONE);
+            deleteAccount.setVisibility(View.GONE);
+            saveAllChanges.setVisibility(View.GONE);
+        }
+
         currentUser = LoginActivity.getCurrentUser();
         try {
             getUserInfo();
@@ -140,6 +146,8 @@ public class PreferencesActivity extends AppCompatActivity {
         saveBasic.setVisibility(View.GONE);
         saveDietary.setVisibility(View.GONE);
         saveAllergies.setVisibility(View.GONE);
+
+
 
         final List<String> dietaryRestrictions = new ArrayList<>();
 
@@ -307,43 +315,46 @@ public class PreferencesActivity extends AppCompatActivity {
                 }
             }
         });
+
         // Tab Screen Change Logic
-        TabLayout tabs = (TabLayout) findViewById(R.id.tabs);
-        TabLayout.Tab tab = tabs.getTabAt(3);
-        tab.select();
-        tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                // called when tab selected
-                int tabIndex = tab.getPosition();
-                Intent intent;
-                switch (tabIndex) {
-                    case 0:
-                        intent = new Intent(PreferencesActivity.this, MealPlanActivity.class);
-                        startActivity(intent);
-                        break;
-                    case 1:
-                        break;
-                    case 2:
-                        break;
-                    case 3:
-                        break;
-                    default:
-                        break;
+        if(!currentUser.isNewUser()) {
+            TabLayout tabs = (TabLayout) findViewById(R.id.tabs);
+            TabLayout.Tab tab = tabs.getTabAt(3);
+            tab.select();
+            tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+                @Override
+                public void onTabSelected(TabLayout.Tab tab) {
+                    // called when tab selected
+                    int tabIndex = tab.getPosition();
+                    Intent intent;
+                    switch (tabIndex) {
+                        case 0:
+                            intent = new Intent(PreferencesActivity.this, MealPlanActivity.class);
+                            startActivity(intent);
+                            break;
+                        case 1:
+                            break;
+                        case 2:
+                            break;
+                        case 3:
+                            break;
+                        default:
+                            break;
+                    }
+
                 }
 
-            }
+                @Override
+                public void onTabUnselected(TabLayout.Tab tab) {
+                    // called when tab unselected
+                }
 
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-                // called when tab unselected
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-                // called when a tab is reselected
-            }
-        });
+                @Override
+                public void onTabReselected(TabLayout.Tab tab) {
+                    // called when a tab is reselected
+                }
+            });
+        }
     }
 
     @Override
