@@ -29,27 +29,45 @@
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                >
 
-                <ImageButton
-                    app:srcCompat="@android:drawable/ic_menu_camera"
-                    android:id="@+id/profilePic"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:adjustViewBounds="true"
-                    android:visibility="visible"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:paddingBottom="30dp"/>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-                <Button
-                    android:text="Done"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginLeft="120dp"
-                    android:id="@+id/saveAll" />
+                    <ImageButton
+                        app:srcCompat="@drawable/camera_icon"
+                        android:id="@+id/profilePic"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:adjustViewBounds="true"
+                        android:visibility="visible"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:paddingBottom="30dp"
+                        android:layout_marginBottom="20dp"
+                        android:paddingLeft="100dp"
+                        android:layout_gravity="left"/>
+
+
+                    <Button
+                        android:text="Done"
+
+                        android:layout_alignParentRight="true"
+
+                        android:id="@+id/saveAll"
+                        android:textColor="#f15c48"
+                        android:background="#ffffff"
+                        android:drawableBottom="#ffffff"
+                        android:textSize="6pt"
+
+                        android:layout_width="100dp"
+                        android:layout_height="30dp"
+
+                        />
+                </RelativeLayout>
 
             </LinearLayout>
 
@@ -70,14 +88,15 @@
                     android:layout_toStartOf="@+id/deleteAccount" />
 
                 <ImageButton
-                    app:srcCompat="@android:drawable/ic_menu_edit"
+                    app:srcCompat="@drawable/edit_icon"
                     android:id="@+id/editBasicInfo"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:adjustViewBounds="true"
                     android:visibility="visible"
                     android:layout_toRightOf="@+id/userBasicInfo"
-                    android:layout_toEndOf="@+id/userBasicInfo" />
+                    android:layout_toEndOf="@+id/userBasicInfo"
+                    android:paddingLeft="10dp"/>
 
             </LinearLayout>
 
@@ -208,14 +227,15 @@
                     android:layout_toStartOf="@+id/deleteAccount" />
 
                 <ImageButton
-                    app:srcCompat="@android:drawable/ic_menu_edit"
+                    app:srcCompat="@drawable/edit_icon"
                     android:id="@+id/editDietaryConcerns"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:adjustViewBounds="true"
                     android:visibility="visible"
                     android:layout_toRightOf="@+id/userDietaryConcerns"
-                    android:layout_toEndOf="@+id/userDietaryConcerns" />
+                    android:layout_toEndOf="@+id/userDietaryConcerns"
+                    android:paddingLeft="10dp"/>
 
             </LinearLayout>
 
@@ -291,14 +311,15 @@
                         android:layout_toStartOf="@+id/deleteAccount" />
 
                     <ImageButton
-                        app:srcCompat="@android:drawable/ic_menu_edit"
+                        app:srcCompat="@drawable/edit_icon"
                         android:id="@+id/editAllergies"
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:adjustViewBounds="true"
                         android:visibility="visible"
                         android:layout_toRightOf="@+id/userDietaryConcerns"
-                        android:layout_toEndOf="@+id/userDietaryConcerns" />
+                        android:layout_toEndOf="@+id/userDietaryConcerns"
+                        android:paddingLeft="10dp"/>
 
                 </LinearLayout>
 
@@ -322,7 +343,7 @@
                             android:textColor="#ffffff"/>
 
                         <ImageButton
-                            app:srcCompat="@android:drawable/ic_menu_add"
+                            app:srcCompat="@drawable/edit_icon"
                             android:id="@+id/addAllergy"
                             android:layout_width="25dp"
                             android:layout_height="25dp"
@@ -347,28 +368,29 @@
             <Button
                 android:text="Delete Account"
                 android:id="@+id/deleteAccount"
-                android:textColor="#f15c48"
-                android:background="#ffffff"
-                android:drawableBottom="#ffffff"
-                android:textSize="6pt"
-                android:layout_gravity="center"
+                android:textColor="#ffffff"
+                android:background="#f15c48"
+                android:drawableBottom="#f15c48"
+                android:textSize="5pt"
+                android:layout_gravity="left"
                 android:layout_width="150dp"
-                android:layout_height="30dp"
+                android:layout_height="25dp"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="12dp"/>
 
             <Button
                 android:text="Logout"
                 android:id="@+id/logout"
-
-                android:textColor="#f15c48"
-                android:background="#ffffff"
-                android:drawableBottom="#ffffff"
-                android:textSize="6pt"
-                android:layout_gravity="center"
+                android:layout_marginTop="6dp"
+                android:textColor="#ffffff"
+                android:background="#f15c48"
+                android:drawableBottom="#f15c48"
+                android:textSize="5pt"
+                android:layout_gravity="left"
                 android:layout_width="150dp"
-                android:layout_height="30dp"
+                android:layout_height="25dp"
                 android:layout_alignParentBottom="true"
                 android:layout_alignLeft="@+id/deleteAccount"
                 android:layout_alignStart="@+id/deleteAccount" />
