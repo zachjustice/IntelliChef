@@ -332,11 +332,13 @@
                     android:id="@+id/allergies"
                     android:orientation="vertical"
                     android:layout_width="match_parent"
+                    android:textColor="#FFFFFF"
                     android:layout_height="match_parent">
 
                     <LinearLayout
                         android:orientation="horizontal"
                         android:layout_width="match_parent"
+                        android:textColor="#FFFFFF"
                         android:layout_height="match_parent">
 
                         <AutoCompleteTextView

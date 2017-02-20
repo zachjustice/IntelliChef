@@ -74,6 +74,8 @@ public class PreferencesActivity extends AppCompatActivity {
     private AutoCompleteTextView enterAllergy;
     private User currentUser;
     private static int GET_FROM_GALLERY = 1;
+    private List<String> dietaryRestrictions;
+    private ArrayAdapter<String> allergyListAdpater;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,10 +98,6 @@ public class PreferencesActivity extends AppCompatActivity {
         }
 
         allergiesLayout = (LinearLayout) findViewById(R.id.allergies);
-//        for (int i = 0; i < allergiesLayout.getChildCount();  i++ ){
-//            View view = allergiesLayout.getChildAt(i);
-//            view.setEnabled(false);
-//        }
 
         saveBasic = (Button) findViewById(R.id.saveBasicInfo);
         logout = (Button) findViewById(R.id.logout);
@@ -127,6 +125,11 @@ public class PreferencesActivity extends AppCompatActivity {
         confirmPassword.setVisibility(View.GONE);
 
         currentUser = LoginActivity.getCurrentUser();
+
+
+        dietaryRestrictions = new ArrayList<>();
+        allergyListAdpater = new ArrayAdapter<>(this, R.layout.mytextview, dietaryRestrictions);
+        allergyList.setAdapter(allergyListAdpater);
         try {
             getUserInfo();
         } catch (JSONException e) {
@@ -137,7 +140,6 @@ public class PreferencesActivity extends AppCompatActivity {
         saveDietary.setVisibility(View.GONE);
         saveAllergies.setVisibility(View.GONE);
 
-        final List<String> dietaryRestrictions = new ArrayList<>();
 
         changePicture.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -230,9 +232,6 @@ public class PreferencesActivity extends AppCompatActivity {
         // Allergies
         enterAllergy.setVisibility(View.GONE);
         addAllergy.setVisibility(View.GONE);
-        final ArrayAdapter<String> allergyListAdpater;
-        allergyListAdpater = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, dietaryRestrictions);
-        allergyList.setAdapter(allergyListAdpater);
 
         editAllergies.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -497,9 +496,9 @@ public class PreferencesActivity extends AppCompatActivity {
                     JSONArray allergies = result.getJSONArray("allergies");
                     for (int i = 0; i < allergies.length(); i++) {
                         String allergy = allergies.getString(i);
-//                        // TODO I don't know how it's structured...
-//                        dietaryRestrictions.add(allergy);
+                        dietaryRestrictions.add(allergy);
                     }
+                    allergyListAdpater.notifyDataSetChanged();
 
 
 
