@@ -147,24 +147,9 @@ public class RegistrationActivity extends AppCompatActivity {
         return mPassword.getText().length() >= 6;
     }
 
-    public static User getCurrentUser() {
-        return currentUser;
-    }
-
     public static String getCurrentEmail() {
         return currentUser.getRegistrationInfo().getEmail();
     }
 
-    public static String getCurrentFirstName() {
-        return currentUser.getRegistrationInfo().getFirstName();
-    }
-
-    public static String getCurrentLastName() {
-        return currentUser.getRegistrationInfo().getLastName();
-    }
-
-    public static String getCurrentUsername() {
-        return currentUser.getRegistrationInfo().getUsername();
-    }
 
 }

@@ -25,7 +25,6 @@
         android:id="@+id/nextRecipe"
         android:layout_width="16dp"
         android:layout_height="20dp"
-
         android:background="@drawable/right"
         android:layout_alignParentRight="true"
         android:layout_marginRight="50dp"
@@ -40,21 +39,20 @@
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="50dp"
         android:layout_marginTop="5dp"
-
         android:background="@drawable/left"
-
         />
 
 
 
-
     <!--breakfast-->
+
+
     <TextView
         android:text="TextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/breakfast_pic"
+        android:layout_below="@+id/breakfastLayout"
         android:id="@+id/breakfast_name"
         android:textSize="8pt"
         android:paddingRight="15dp"
@@ -67,32 +65,63 @@
         android:layout_marginRight="11dp"
         android:layout_marginEnd="11dp"
         android:id="@+id/breakfast_rating"
-        android:layout_above="@+id/lunch_pic"
+        android:layout_above="@+id/lunchLayout"
         android:layout_toRightOf="@+id/breakfast_name"
         android:textSize="20sp"
         android:textColor="#ffffff"
         />
-    <ImageView
-        android:id="@+id/breakfast_pic"
+
+    <FrameLayout
+        android:id="@+id/breakfastLayout"
         android:layout_width="200dp"
         android:layout_height="125dp"
         android:scaleType="fitXY"
         android:layout_below="@+id/dateText"
         android:layout_centerHorizontal="true"
         android:layout_centerInParent="true"
-        android:layout_marginTop="20dp"
-        />
+        android:layout_marginTop="20dp">
+
+        <Button
+            android:text="Replace"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/replaceBreakfast"
+            android:layout_gravity="right" />
+
+        <ImageView
+            android:id="@+id/breakfast_pic"
+            android:layout_width="200dp"
+            android:layout_height="125dp"
+            android:scaleType="fitXY" />
+
+    </FrameLayout>
+
+
 
     <!--lunch-->
-    <ImageView
-        android:id="@+id/lunch_pic"
+    <FrameLayout
+        android:id="@+id/lunchLayout"
         android:layout_width="200dp"
         android:layout_height="125dp"
-        android:layout_below="@+id/breakfast_name"
-        android:scaleType="fitXY"
+        android:layout_below="@+id/breakfastLayout"
         android:layout_centerHorizontal="true"
         android:layout_centerInParent="true"
-        android:layout_marginTop="15dp"/>
+        android:layout_marginTop="30dp">
+
+        <Button
+            android:text="Replace"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/replaceLunch"
+            android:layout_gravity="right" />
+
+        <ImageView
+            android:id="@+id/lunch_pic"
+            android:layout_width="200dp"
+            android:layout_height="125dp"
+            android:scaleType="fitXY" />
+
+    </FrameLayout>
 
     <TextView
         android:text="TextView"
@@ -100,7 +129,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/lunch_name"
         android:textSize="8pt"
-        android:layout_below="@+id/lunch_pic"
+        android:layout_below="@+id/lunchLayout"
         android:layout_centerHorizontal="true"
         android:layout_centerInParent="true"
 
@@ -112,7 +141,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/lunch_rating"
-        android:layout_above="@+id/dinner_pic"
+        android:layout_above="@+id/dinnerLayout"
         android:layout_alignLeft="@+id/breakfast_rating"
         android:layout_alignStart="@+id/breakfast_rating"
         android:layout_marginRight="11dp"
@@ -128,11 +157,10 @@
         android:text="TextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/dinner_pic"
+        android:layout_below="@+id/dinnerLayout"
         android:id="@+id/dinner_name"
         android:textSize="8pt"
         android:layout_centerHorizontal="true"
-
         android:paddingRight="15dp"
         android:textColor="#ffffff"
         />
@@ -141,29 +169,42 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/dinner_rating"
-        android:layout_below="@+id/dinner_pic"
+        android:layout_below="@+id/dinnerLayout"
         android:layout_alignLeft="@+id/lunch_rating"
         android:layout_alignStart="@+id/lunch_rating"
         android:layout_marginRight="11dp"
         android:layout_marginEnd="11dp"
-        android:layout_above="@+id/lunch_pic"
+        android:layout_above="@+id/lunchLayout"
         android:layout_toRightOf="@+id/breakfast_name"
         android:textSize="20sp"
         android:textColor="#ffffff"
         />
-    <ImageView
-        android:id="@+id/dinner_pic"
 
+    <FrameLayout
+        android:id="@+id/dinnerLayout"
         android:layout_width="200dp"
         android:layout_height="125dp"
         android:layout_below="@+id/lunch_name"
-
         android:scaleType="fitXY"
         android:layout_centerHorizontal="true"
         android:layout_centerInParent="true"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="8dp">
 
-        />
+        <Button
+            android:text="Replace"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/replaceDinner"
+            android:layout_gravity="right" />
+
+        <ImageView
+            android:id="@+id/dinner_pic"
+            android:layout_width="200dp"
+            android:layout_height="125dp"
+            android:scaleType="fitXY" />
+
+    </FrameLayout>
+
 
     <android.support.design.widget.TabLayout
         android:layout_height="wrap_content"
