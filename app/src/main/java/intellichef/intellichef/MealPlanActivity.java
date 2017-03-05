@@ -183,6 +183,8 @@ public class MealPlanActivity extends AppCompatActivity {
 
     private void showMealPlans(String date) throws JSONException {
 
+        final String dateCopy = date;
+
         IntelliServerAPI.getRecipes(date, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject result) {
@@ -195,6 +197,7 @@ public class MealPlanActivity extends AppCompatActivity {
                 breakfastName.setText(breakfastRecipe.getName());
                 ImageExtractor.loadIntoImage(getApplicationContext(), breakfastRecipe.getPhotoUrl(), breakfastPic);
                 breakfastRating.setText("" + breakfastRecipe.getRating());
+                breakfastPic.setTag("breakfast " + dateCopy);
 
                 Recipe lunchRecipe = new Recipe();
                 try {
@@ -205,6 +208,7 @@ public class MealPlanActivity extends AppCompatActivity {
                 lunchName.setText(lunchRecipe.getName());
                 ImageExtractor.loadIntoImage(getApplicationContext(), lunchRecipe.getPhotoUrl(), lunchPic);
                 lunchRating.setText("" + lunchRecipe.getRating());
+                lunchPic.setTag("lunch" + dateCopy);
 
                 Recipe dinnerRecipe = new Recipe();
                 try {
@@ -215,9 +219,41 @@ public class MealPlanActivity extends AppCompatActivity {
                 dinnerName.setText(dinnerRecipe.getName());
                 ImageExtractor.loadIntoImage(getApplicationContext(), dinnerRecipe.getPhotoUrl(), dinnerPic);
                 dinnerRating.setText("" + dinnerRecipe.getRating());
+                dinnerPic.setTag("dinner" + dateCopy);
             }
         });
 
+    }
+
+    // TODO Is there a way to store a Recipe object created in showMealPlans function
+    public void onRecipeImageClick(View view) {
+        String[] mealDate = ((String) view.getTag()).split(" ");
+        System.out.println(mealDate[0] + " " + mealDate[1]);
+        try {
+            showRecipe(mealDate[1], mealDate[0]);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void showRecipe(String date, String meal) throws JSONException {
+
+        final String mealCopy = meal;
+        IntelliServerAPI.getRecipes(date, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject result) {
+                int recipePK;
+                try {
+                    recipePK = result.getJSONObject(mealCopy).getInt("recipe");
+
+                    Intent intent = new Intent(getBaseContext(), ViewRecipeActivity.class);
+                    intent.putExtra("recipePK", recipePK);
+                    startActivity(intent);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
 }

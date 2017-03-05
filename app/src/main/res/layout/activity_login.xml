@@ -7,7 +7,7 @@
     android:background="#f15c48"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
->
+    >
 
     <ImageView
         android:layout_width="262dp"
