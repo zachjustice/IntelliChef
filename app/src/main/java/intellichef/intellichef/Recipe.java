@@ -10,19 +10,19 @@ import org.json.JSONObject;
 public class Recipe {
     private String description;
     private String name;
-    private String instruction;
+    private String[] instructions;
     private int recipePK;
     private double rating;
     private String photoUrl;
     private int prepTime;
 
     public Recipe() {
-        this("", "", "" , -1, -1, "", -1);
+        this("", "", new String[0], -1, -1, "", -1);
     }
-    public Recipe(String description, String name, String instruction, int recipePK, double rating, String photoUrl, int prepTime) {
+    public Recipe(String description, String name, String[] instruction, int recipePK, double rating, String photoUrl, int prepTime) {
         this.description = description;
         this.name = name;
-        this.instruction = instruction;
+        this.instructions = instruction;
         this.recipePK = recipePK;
         this.rating = rating;
         this.photoUrl = photoUrl;
@@ -37,8 +37,8 @@ public class Recipe {
         this.name = name;
     }
 
-    public void setInstruction(String instruction) {
-        this.instruction = instruction;
+    public void setInstructions(String[] instructions) {
+        this.instructions = instructions;
     }
 
     public void setRecipePK(int recipePK) {
@@ -52,8 +52,8 @@ public class Recipe {
         return name;
     }
 
-    public String getInstruction() {
-        return instruction;
+    public String[] getInstructions() {
+        return instructions;
     }
 
     public int getRecipePK() {
@@ -73,12 +73,12 @@ public class Recipe {
             this.description = recipe.getString("description");
             this.recipePK = recipe.getInt("recipe");
             this.name = recipe.getString("name");
-            this.instruction = recipe.getString("instructions");
             this.rating = recipe.getDouble("rating");
             this.photoUrl = recipe.getString("url");
             if (recipe.has("preparation_time")) {
                 this.prepTime = recipe.getInt("preparation_time");
             }
+            this.instructions = recipe.getString("instructions").split("\\n");
         } catch (JSONException e) {
             e.printStackTrace();
         }

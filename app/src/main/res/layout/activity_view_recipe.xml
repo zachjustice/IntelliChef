@@ -71,43 +71,32 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/notes" />
 
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true">
-
-                <ListView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:layout_above="@+id/addNotesField"
-                    android:id="@+id/notesList" />
-
-            </LinearLayout>
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:paddingRight="15dp"
-                android:layout_centerHorizontal="true"
-                android:textSize="8pt"
-                android:textColor="#ffffff"
-                android:id="@+id/addNotesField"
-                android:inputType="text"
-                android:hint="Leave a note to yourself!" />
-
             <Button
-                android:text="Submit"
+                android:text="Edit"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/addNotesField"
                 android:layout_gravity="right"
                 android:layout_marginRight="11dp"
                 android:layout_marginEnd="11dp"
-                android:id="@+id/noteButton" />
+                android:layout_above = "@id/addNotesField"
+                android:id="@+id/noteButton"
+                android:saveEnabled="true"
+                android:enabled="true" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:ems="10"
+                android:paddingRight="15dp"
+                android:layout_centerHorizontal="true"
+                android:textSize="8pt"
+                android:textColor="#ffffff"
+                android:id="@+id/addNotesField"
+                android:scrollbars = "vertical"
+                android:inputType="text|textMultiLine"
+                android:hint="Leave a note to yourself!"
+                android:layout_height="wrap_content"
+                android:enabled="false" />
 
         </LinearLayout>
     </ScrollView>

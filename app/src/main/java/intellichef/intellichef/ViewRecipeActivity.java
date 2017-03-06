@@ -3,6 +3,7 @@ package intellichef.intellichef;
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Scroller;
 import android.widget.TextView;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -29,12 +31,13 @@ public class ViewRecipeActivity extends AppCompatActivity {
     private TextView recipeName;
     private ImageView recipeImage;
     private TextView description;
-    private ListView notesList;
+//    private ListView notesList;
     private ArrayAdapter<String> notesAdapter;
     private EditText addNotes;
     private ArrayAdapter<String> recipeViewAdapter;
     private ListView recipeViewList;
     private Button addNoteButton;
+    ArrayList<String> instructionArray;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +47,7 @@ public class ViewRecipeActivity extends AppCompatActivity {
         recipeName = (TextView) findViewById(R.id.recipeName);
         recipeImage = (ImageView) findViewById(R.id.recipeImage);
         description = (TextView) findViewById(R.id.description);
-        notesList = (ListView) findViewById(R.id.notesList);
+//        notesList = (ListView) findViewById(R.id.notesList);
         addNotes = (EditText) findViewById(R.id.addNotesField);
         addNoteButton = (Button) findViewById(R.id.noteButton);
 
@@ -53,7 +56,7 @@ public class ViewRecipeActivity extends AppCompatActivity {
 //        } catch (JSONException e) {
 //            e.printStackTrace();
 //        }
-        final ArrayList<String> instructionArray = new ArrayList<>();
+        instructionArray = new ArrayList<>();
         recipeViewList = (ListView) findViewById(R.id.recipeView);
         recipeViewAdapter = new ArrayAdapter(ViewRecipeActivity.this, R.layout.mytextview, instructionArray);
         recipeViewList.setAdapter(recipeViewAdapter);
@@ -81,21 +84,15 @@ public class ViewRecipeActivity extends AppCompatActivity {
         });
 
         // Adding notes logic
-        // When user presses "submit" button, if the user has some input in the comment text box,
-        // show that in the list
-        final ArrayList<String> notesArray = new ArrayList<>();
-        notesAdapter = new ArrayAdapter(ViewRecipeActivity.this, R.layout.mytextview, notesArray);
-        notesList.setAdapter(notesAdapter);
         addNoteButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                String newNote = addNotes.getText().toString();
-                if (!newNote.isEmpty()) {
-                    notesArray.add(newNote);
-                    notesAdapter.notifyDataSetChanged();
-                    InputMethodManager imm = (InputMethodManager) ViewRecipeActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(v.getApplicationWindowToken(), 0);
-                    addNotes.setFocusable(false);
-                    addNotes.setText("");
+                if (addNoteButton.getText().equals("Edit")) {
+                    addNotes.setEnabled(true);
+                    addNoteButton.setText("Done");
+                } else {
+                    addNotes.setEnabled(false);
+                    addNoteButton.setText("Edit");
+                    //TODO API call to save the notes
                 }
             }
         });
@@ -107,15 +104,20 @@ public class ViewRecipeActivity extends AppCompatActivity {
         IntelliServerAPI.getRecipe(recipePK, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject result) {
+
                 Recipe recipe = new Recipe();
                 recipe.fillParams(result);
+                String[] instructions = recipe.getInstructions();
+                for (String instruction: instructions) {
+                    instructionArray.add(instruction);
+                }
+                recipeViewAdapter.notifyDataSetChanged();
                 setListViewHeightBasedOnChildren(recipeViewList);
 
-//                try {
-//
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
+                recipeName.setText(recipe.getName());
+                ImageExtractor.loadIntoImage(getApplicationContext(), recipe.getPhotoUrl(), recipeImage);
+                description.setText(recipe.getDescription());
+
             }
         });
     }
