@@ -35,6 +35,9 @@ public class MealPlanActivity extends AppCompatActivity {
     private TextView breakfastRating;
     private TextView lunchRating;
     private TextView dinnerRating;
+    private Recipe breakfastRecipe;
+    private Recipe lunchRecipe;
+    private Recipe dinnerRecipe;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,6 +135,23 @@ public class MealPlanActivity extends AppCompatActivity {
             }
         });
 
+        // Show recipe clicked
+        breakfastPic.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                openRecipeScreen(breakfastRecipe);
+            }
+        });
+        lunchPic.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                openRecipeScreen(lunchRecipe);
+            }
+        });
+        dinnerPic.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                openRecipeScreen(dinnerRecipe);
+            }
+        });
+
         // Tab Screen Change Logic
         TabLayout tabs = (TabLayout) findViewById(R.id.tabs);
         tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -176,7 +196,7 @@ public class MealPlanActivity extends AppCompatActivity {
         IntelliServerAPI.getMealPlans(date, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject result) {
-                Recipe breakfastRecipe = new Recipe();
+                breakfastRecipe = new Recipe();
                 try {
                     breakfastRecipe.fillParams(result.getJSONObject("breakfast"));
                 } catch (JSONException e) {
@@ -187,7 +207,7 @@ public class MealPlanActivity extends AppCompatActivity {
                 breakfastRating.setText("" + breakfastRecipe.getRating());
                 breakfastPic.setTag("breakfast " + dateCopy);
 
-                Recipe lunchRecipe = new Recipe();
+                lunchRecipe = new Recipe();
                 try {
                     lunchRecipe.fillParams(result.getJSONObject("lunch"));
                 } catch (JSONException e) {
@@ -198,7 +218,7 @@ public class MealPlanActivity extends AppCompatActivity {
                 lunchRating.setText("" + lunchRecipe.getRating());
                 lunchPic.setTag("lunch " + dateCopy);
 
-                Recipe dinnerRecipe = new Recipe();
+                dinnerRecipe = new Recipe();
                 try {
                     dinnerRecipe.fillParams(result.getJSONObject("dinner"));
                 } catch (JSONException e) {
@@ -214,34 +234,44 @@ public class MealPlanActivity extends AppCompatActivity {
     }
 
     // TODO Is there a way to store a Recipe object created in showMealPlans function
-    public void onRecipeImageClick(View view) {
-        String[] mealDate = ((String) view.getTag()).split(" ");
-        System.out.println(mealDate[0] + " " + mealDate[1]);
-        try {
-            openRecipeScreen(mealDate[1], mealDate[0]);
-        } catch (JSONException e) {
-            e.printStackTrace();
+//    public void onRecipeImageClick(View view) {
+//        String[] mealDate = ((String) view.getTag()).split(" ");
+//        System.out.println(mealDate[0] + " " + mealDate[1]);
+//        try {
+//            openRecipeScreen(mealDate[1], mealDate[0]);
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//    }
+
+//    public void openRecipeScreen(String date, String meal) throws JSONException {
+//
+//        final String mealCopy = meal;
+//        IntelliServerAPI.getMealPlans(date, new JsonHttpResponseHandler() {
+//            @Override
+//            public void onSuccess(int statusCode, Header[] headers, JSONObject result) {
+//                int recipePK;
+//                try {
+//                    recipePK = result.getJSONObject(mealCopy).getInt("recipe");
+//
+//                    Intent intent = new Intent(getBaseContext(), ViewRecipeActivity.class);
+//                    intent.putExtra("recipePK", recipePK);
+//                    startActivity(intent);
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
+//    }
+
+    public void openRecipeScreen(Recipe recipe) {
+        if (recipe == null) {
+            System.out.println("Recipe is null");
+            return;
         }
-    }
-
-    public void openRecipeScreen(String date, String meal) throws JSONException {
-
-        final String mealCopy = meal;
-        IntelliServerAPI.getMealPlans(date, new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject result) {
-                int recipePK;
-                try {
-                    recipePK = result.getJSONObject(mealCopy).getInt("recipe");
-
-                    Intent intent = new Intent(getBaseContext(), ViewRecipeActivity.class);
-                    intent.putExtra("recipePK", recipePK);
-                    startActivity(intent);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+        Intent intent = new Intent(getBaseContext(), ViewRecipeActivity.class);
+        intent.putExtra("recipePk", recipe.getRecipePK());
+        startActivity(intent);
     }
 
 }
