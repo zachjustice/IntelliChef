@@ -14,17 +14,19 @@ public class Recipe {
     private int recipePK;
     private double rating;
     private String photoUrl;
+    private int prepTime;
 
     public Recipe() {
-        this("", "", "" , -1, -1, "");
+        this("", "", "" , -1, -1, "", -1);
     }
-    public Recipe(String description, String name, String instruction, int recipePK, double rating, String photoUrl) {
+    public Recipe(String description, String name, String instruction, int recipePK, double rating, String photoUrl, int prepTime) {
         this.description = description;
         this.name = name;
         this.instruction = instruction;
         this.recipePK = recipePK;
         this.rating = rating;
         this.photoUrl = photoUrl;
+        this.prepTime = prepTime;
     }
 
     public void setDescription(String description) {
@@ -74,6 +76,9 @@ public class Recipe {
             this.instruction = recipe.getString("instructions");
             this.rating = recipe.getDouble("rating");
             this.photoUrl = recipe.getString("url");
+            if (recipe.has("preparation_time")) {
+                this.prepTime = recipe.getInt("preparation_time");
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }

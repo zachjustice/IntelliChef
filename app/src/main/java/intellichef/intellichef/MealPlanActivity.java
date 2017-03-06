@@ -1,24 +1,15 @@
 package intellichef.intellichef;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.net.Uri;
-import android.support.design.widget.TabItem;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TabHost;
 import android.widget.TextView;
 
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.appindexing.Thing;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONException;
@@ -30,9 +21,6 @@ import java.util.Calendar;
 
 import cz.msebera.android.httpclient.Header;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
-
-import static android.R.drawable.btn_star_big_off;
-import static android.R.drawable.btn_star_big_on;
 
 public class MealPlanActivity extends AppCompatActivity {
     private TextView date;
@@ -185,7 +173,7 @@ public class MealPlanActivity extends AppCompatActivity {
 
         final String dateCopy = date;
 
-        IntelliServerAPI.getRecipes(date, new JsonHttpResponseHandler() {
+        IntelliServerAPI.getMealPlans(date, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject result) {
                 Recipe breakfastRecipe = new Recipe();
@@ -208,7 +196,7 @@ public class MealPlanActivity extends AppCompatActivity {
                 lunchName.setText(lunchRecipe.getName());
                 ImageExtractor.loadIntoImage(getApplicationContext(), lunchRecipe.getPhotoUrl(), lunchPic);
                 lunchRating.setText("" + lunchRecipe.getRating());
-                lunchPic.setTag("lunch" + dateCopy);
+                lunchPic.setTag("lunch " + dateCopy);
 
                 Recipe dinnerRecipe = new Recipe();
                 try {
@@ -219,7 +207,7 @@ public class MealPlanActivity extends AppCompatActivity {
                 dinnerName.setText(dinnerRecipe.getName());
                 ImageExtractor.loadIntoImage(getApplicationContext(), dinnerRecipe.getPhotoUrl(), dinnerPic);
                 dinnerRating.setText("" + dinnerRecipe.getRating());
-                dinnerPic.setTag("dinner" + dateCopy);
+                dinnerPic.setTag("dinner " + dateCopy);
             }
         });
 
@@ -230,16 +218,16 @@ public class MealPlanActivity extends AppCompatActivity {
         String[] mealDate = ((String) view.getTag()).split(" ");
         System.out.println(mealDate[0] + " " + mealDate[1]);
         try {
-            showRecipe(mealDate[1], mealDate[0]);
+            openRecipeScreen(mealDate[1], mealDate[0]);
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
-    public void showRecipe(String date, String meal) throws JSONException {
+    public void openRecipeScreen(String date, String meal) throws JSONException {
 
         final String mealCopy = meal;
-        IntelliServerAPI.getRecipes(date, new JsonHttpResponseHandler() {
+        IntelliServerAPI.getMealPlans(date, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject result) {
                 int recipePK;
