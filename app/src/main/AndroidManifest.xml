@@ -25,7 +25,8 @@
         <activity android:name=".PreferencesActivity" />
         <activity android:name=".CalibrationActivity" />
         <activity android:name=".MealPlanActivity" />
-        <activity android:name=".ViewRecipeActivity"></activity>
+        <activity android:name=".ViewRecipeActivity" />
+        <activity android:name=".ReplaceActivity"></activity>
     </application>
 
 </manifest>
