@@ -17,11 +17,6 @@ import cz.msebera.android.httpclient.message.BasicHeader;
  */
 
 public class IntelliServerAPI {
-    private static IntelliServerRestClient api;
-
-    public static void initialize() {
-        api = new IntelliServerRestClient();
-    }
 
     public static void login(String email, String password, Context context, final JsonHttpResponseHandler callback) throws JSONException {
         final JsonHttpResponseHandler responseHandler = new JsonHttpResponseHandler() {
