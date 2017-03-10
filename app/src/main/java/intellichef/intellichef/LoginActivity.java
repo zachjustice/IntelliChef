@@ -39,7 +39,6 @@ public class LoginActivity extends AppCompatActivity {
         CalligraphyConfig.initDefault("fonts/Montserrat-Light.ttf");
         setContentView(R.layout.activity_login);
 
-        IntelliServerAPI.initialize();
 
         mEmailView = (EditText) findViewById(R.id.email);
         mPasswordView = (EditText) findViewById(R.id.password);
@@ -97,8 +96,14 @@ public class LoginActivity extends AppCompatActivity {
 
         IntelliServerAPI.login(currentUserEmail, password, this.getApplicationContext(), new JsonHttpResponseHandler() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject result) {
-                JSONObject entity = null;
+            public void onFailure(int statusCode, Header[] headers, String result, Throwable throwable) {
+                if( statusCode == 401) { // 401 status code corresponds to unauthorized access
+                    mEmailView.setError("Invalid email address or password.");
+                    mEmailView.requestFocus();
+                }
+            }
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject entity) {
                 int entityPk;
                 String username;
                 String first_name;
@@ -107,9 +112,8 @@ public class LoginActivity extends AppCompatActivity {
                 String password;
 
                 try {
-                    entity = result.getJSONObject("entity");
                     username = entity.getString("username");
-                    entityPk = entity.getInt("entity");
+                    entityPk = entity.getInt("entity_pk");
                     first_name = entity.getString("first_name");
                     last_name = entity.getString("last_name");
                     email = entity.getString("email");

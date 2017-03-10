@@ -12,7 +12,16 @@ import cz.msebera.android.httpclient.HttpEntity;
 public class IntelliServerRestClientv2 {
     private static final String BASE_URL = "http://intellichef.pro/api/";
 
-    private static AsyncHttpClient client = new AsyncHttpClient();
+    private static AsyncHttpClient client;
+
+    public static void initialize(String username, String password) {
+        initialize();
+        client.setBasicAuth(username, password);
+    }
+
+    public static void initialize() {
+        client = new AsyncHttpClient();
+    }
 
     public static void get(String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
         client.get(getAbsoluteUrl(url), params, responseHandler);

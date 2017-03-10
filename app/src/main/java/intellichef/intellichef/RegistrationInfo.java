@@ -27,8 +27,8 @@ public class RegistrationInfo {
         try {
             jsonObject.put("email", email);
             jsonObject.put("password", password);
-            jsonObject.put("firstName", firstName);
-            jsonObject.put("lastName", lastName);
+            jsonObject.put("first_name", firstName);
+            jsonObject.put("last_name", lastName);
             jsonObject.put("username", username);
         } catch (JSONException e) {
             e.printStackTrace();
