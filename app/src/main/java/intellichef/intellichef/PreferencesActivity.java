@@ -60,7 +60,7 @@ public class PreferencesActivity extends AppCompatActivity {
     private EditText first;
     private EditText last;
     private EditText email;
-    private EditText usern;
+    private EditText username;
     private EditText password;
     private EditText confirmPassword;
     private LinearLayout basicInfoLayout;
@@ -111,7 +111,7 @@ public class PreferencesActivity extends AppCompatActivity {
         first = (EditText) findViewById(R.id.fn);
         last = (EditText) findViewById(R.id.ln);
         email = (EditText) findViewById(R.id.em);
-        usern = (EditText) findViewById(R.id.un);
+        username = (EditText) findViewById(R.id.un);
         password = (EditText) findViewById(R.id.pw);
         confirmPassword = (EditText) findViewById(R.id.cpw);
 
@@ -466,16 +466,17 @@ public class PreferencesActivity extends AppCompatActivity {
 
     private void getUserInfo() throws JSONException {
         int entity_pk = currentUser.getEntityPk();
-        IntelliServerAPI.getUserInfo(entity_pk, new JsonHttpResponseHandler() {
+        String entityEmail = currentUser.getRegistrationInfo().getEmail();
+        String entityPassword = currentUser.getRegistrationInfo().getPassword();
+
+        IntelliServerAPI.getUserInfo(entity_pk, entityEmail, entityPassword, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject result) {
                 try {
                     first.setText(result.getString("first_name"));
                     last.setText(result.getString("last_name"));
                     email.setText(result.getString("email"));
-                    usern.setText(result.getString("username"));
-                    password.setText(result.getString("password"));
-                    confirmPassword.setText(result.getString("password"));
+                    username.setText(result.getString("username"));
 
                     // TODO check if this works (need a user with preferences filled out
                     JSONArray dietaryConcerns = result.getJSONArray("dietary_concerns");
@@ -494,8 +495,6 @@ public class PreferencesActivity extends AppCompatActivity {
                         dietaryRestrictions.add(allergy);
                     }
                     allergyListAdapter.notifyDataSetChanged();
-
-
 
                 } catch (JSONException e) {
                     e.printStackTrace();
