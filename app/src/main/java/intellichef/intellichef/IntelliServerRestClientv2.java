@@ -9,10 +9,19 @@ import cz.msebera.android.httpclient.HttpEntity;
  * Created by zachjustice on 1/25/17.
  */
 
-public class IntelliServerRestClient {
-    private static final String BASE_URL = "https://intelliserver-156421.appspot.com/api/";
+public class IntelliServerRestClientv2 {
+    private static final String BASE_URL = "http://intellichef.pro/api/";
 
-    private static AsyncHttpClient client = new AsyncHttpClient();
+    private static AsyncHttpClient client;
+
+    public static void initialize(String username, String password) {
+        initialize();
+        client.setBasicAuth(username, password);
+    }
+
+    public static void initialize() {
+        client = new AsyncHttpClient();
+    }
 
     public static void get(String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
         client.get(getAbsoluteUrl(url), params, responseHandler);
@@ -31,3 +40,4 @@ public class IntelliServerRestClient {
         return BASE_URL + relativeUrl;
     }
 }
+

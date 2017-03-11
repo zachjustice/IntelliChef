@@ -31,7 +31,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText mPasswordView;
     private Button registerButton;
     private Button loginButton;
-    private static String currentUser;
+    private static User currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +39,6 @@ public class LoginActivity extends AppCompatActivity {
         CalligraphyConfig.initDefault("fonts/Montserrat-Light.ttf");
         setContentView(R.layout.activity_login);
 
-        IntelliServerAPI.initialize();
 
         mEmailView = (EditText) findViewById(R.id.email);
         mPasswordView = (EditText) findViewById(R.id.password);
@@ -97,29 +96,54 @@ public class LoginActivity extends AppCompatActivity {
 
         IntelliServerAPI.login(currentUserEmail, password, this.getApplicationContext(), new JsonHttpResponseHandler() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject result) {
-                boolean loginSuccessful = false;
+            public void onFailure(int statusCode, Header[] headers, String result, Throwable throwable) {
+                if( statusCode == 401) { // 401 status code corresponds to unauthorized access
+                    mEmailView.setError("Invalid email address or password.");
+                    mEmailView.requestFocus();
+                }
+            }
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject entity) {
+                int entityPk;
+                String username;
+                String first_name;
+                String last_name;
+                String email;
+                String password;
+
                 try {
-                    loginSuccessful = result.getBoolean("status");
+                    username = entity.getString("username");
+                    entityPk = entity.getInt("entity_pk");
+                    first_name = entity.getString("first_name");
+                    last_name = entity.getString("last_name");
+                    email = entity.getString("email");
+                    password = entity.getString("password");
+
+                    RegistrationInfo registrationInfo = new RegistrationInfo(first_name, last_name, email, username, password);
+
+                    currentUser = new User(registrationInfo);
+                    currentUser.setEntityPk(entityPk);
+                    currentUser.setNewUser(false);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
-                if (!loginSuccessful) {
+                if (entity == null) {
                     mEmailView.setError("Invalid email address or password.");
                     mEmailView.requestFocus();
                 } else {
-                    currentUser = currentUserEmail;
-                    Intent intent = new Intent(LoginActivity.this, PreferencesActivity.class);
+                    Intent intent = new Intent(LoginActivity.this, MealPlanActivity.class);
                     startActivity(intent);
                 }
             }
         });
     }
 
-    public static String getCurrentEmail() {
+    public static User getCurrentUser() {
         return currentUser;
     }
 
-    /* my lambda function */
+    public static void setCurrentUser(User currentUser) {
+        LoginActivity.currentUser = currentUser;
+    }
 }

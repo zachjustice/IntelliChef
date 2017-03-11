@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -31,7 +32,7 @@ public class RegistrationActivity extends AppCompatActivity {
     private EditText mPassword;
     private EditText mConfirmPassword;
     private Button create;
-    private static String currentUser;
+    private static User currentUser;
 
 
     @Override
@@ -74,8 +75,8 @@ public class RegistrationActivity extends AppCompatActivity {
         mPassword.setError(null);
         mConfirmPassword.setError(null);
 
-        String firstName = mFirstNameView.getText().toString();
-        String lastName = mLastNameView.getText().toString();
+        final String firstName = mFirstNameView.getText().toString();
+        final String lastName = mLastNameView.getText().toString();
         String email = mEmailView.getText().toString();
         String username = mUsernameView.getText().toString();
         String password = mPassword.getText().toString();
@@ -112,26 +113,32 @@ public class RegistrationActivity extends AppCompatActivity {
         }
 
         RegistrationInfo registrationInfo = new RegistrationInfo(firstName, lastName, email, username, password);
-        currentUser = email;
+        currentUser = new User(registrationInfo);
+        currentUser.setNewUser(true);
 
         IntelliServerAPI.register(registrationInfo, this.getApplicationContext(), new JsonHttpResponseHandler() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject result) {
-                /* my func */
-                boolean registrationSuccessful = false;
+            public void onFailure(int statusCode, Header[] headers, String result, Throwable throwable) {
+                if( statusCode == 400) { // 401 status code corresponds to unauthorized access
+                    mEmailView.setError("Email address or username already exists.");
+                    mEmailView.requestFocus();
+                }
+            }
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject entity) {
+                int entityPk;
+
                 try {
-                    registrationSuccessful = result.getBoolean("status");
+                    entityPk = entity.getInt("entity_pk");
+
+                    currentUser.setEntityPk(entityPk);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
-                if (!registrationSuccessful) {
-                    mEmailView.setError("Email address or username already exists.");
-                    mEmailView.requestFocus();
-                } else {
-                    Intent intent = new Intent(RegistrationActivity.this, PreferencesActivity.class);
-                    startActivity(intent);
-                }
+                LoginActivity.setCurrentUser(currentUser);
+                Intent intent = new Intent(RegistrationActivity.this, PreferencesActivity.class);
+                startActivity(intent);
             }
         });
     }
@@ -141,7 +148,8 @@ public class RegistrationActivity extends AppCompatActivity {
     }
 
     public static String getCurrentEmail() {
-        return currentUser;
+        return currentUser.getRegistrationInfo().getEmail();
     }
+
 
 }

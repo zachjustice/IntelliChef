@@ -12,69 +12,486 @@
     tools:context="intellichef.intellichef.PreferencesActivity"
     android:background="#f15c48">
 
-    <Button
-        android:text="Logout"
-        android:id="@+id/logout"
-        style="@style/Widget.AppCompat.Button.Colored"
 
-        android:textColor="#f15c48"
-        android:background="#ffffff"
-        android:drawableBottom="#ffffff"
-        android:textSize="6pt"
-        android:layout_gravity="center"
-        android:layout_width="150dp"
-        android:layout_height="30dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignLeft="@+id/deleteAccount"
-        android:layout_alignStart="@+id/deleteAccount" />
-
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@android:drawable/ic_menu_camera"
-        android:id="@+id/profilePic"
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:adjustViewBounds="true"
-        android:layout_toLeftOf="@+id/deleteAccount"
-        android:layout_toStartOf="@+id/deleteAccount"
-        android:cropToPadding="false" />
+        android:layout_above="@+id/tabs">
 
-    <EditText
-        android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/mainLayout"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                >
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageButton
+                        android:background="@android:drawable/ic_menu_camera"
+                        android:id="@+id/profilePic"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:adjustViewBounds="true"
+                        android:visibility="visible"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:paddingBottom="30dp"
+                        android:layout_marginBottom="20dp"
+                        android:paddingLeft="100dp"
+                        android:layout_gravity="center"/>
+
+
+                    <Button
+                        android:text="Done"
+
+                        android:layout_alignParentRight="true"
+
+                        android:id="@+id/saveAll"
+                        android:textColor="#f15c48"
+                        android:background="#ffffff"
+                        android:drawableBottom="#ffffff"
+                        android:textSize="6pt"
+
+                        android:layout_width="100dp"
+                        android:layout_height="30dp"
+
+                        />
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:text="basic info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/userBasicInfo"
+                    android:textColor="#ffffff"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:layout_marginRight="20dp"
+                    android:layout_above="@+id/basicInfoMain"
+                    android:layout_toLeftOf="@+id/deleteAccount"
+                    android:layout_toStartOf="@+id/deleteAccount" />
+
+                <Button
+                    android:text="Edit"
+                    android:layout_width="60dp"
+                    android:layout_height="20dp"
+                    android:textColor="#ffffff"
+                    android:background="#f17460"
+                    android:drawableBottom="#ffffff"
+                    android:textSize="6pt"
+                    android:layout_marginTop="0dp"
+                    android:id="@+id/editBasicInfo" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/basicInfoMain"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:animateLayoutChanges="true"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:id="@+id/fn"
+                    android:layout_alignParentTop="false"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:hint="first name"
+                    android:textColorHint="#ffffff"
+                    android:textColor="#ffffff"
+                    android:textSize="7pt"
+                    android:inputType="textPersonName" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPersonName"
+                    android:ems="10"
+                    android:id="@+id/ln"
+                    android:layout_below="@+id/fn"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:hint="last name"
+                    android:textColorHint="#ffffff"
+                    android:textColor="#ffffff"
+                    android:textSize="7pt"/>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textEmailAddress"
+                    android:ems="10"
+                    android:layout_below="@+id/ln"
+                    android:layout_toRightOf="@+id/profilePic"
+                    android:layout_toEndOf="@+id/profilePic"
+                    android:id="@+id/em"
+                    android:hint="email address"
+                    android:textColorHint="#ffffff"
+                    android:textColor="#ffffff"
+                    android:textSize="7pt"/>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:layout_below="@+id/em"
+                    android:layout_alignLeft="@+id/em"
+                    android:layout_alignStart="@+id/em"
+                    android:id="@+id/un"
+                    android:hint="username"
+                    android:textColorHint="#ffffff"
+                    android:textColor="#ffffff"
+                    android:textSize="7pt"
+                    android:inputType="textPersonName" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:layout_below="@+id/un"
+                    android:layout_alignLeft="@+id/un"
+                    android:layout_alignStart="@+id/un"
+                    android:id="@+id/pw"
+                    android:hint="password"
+                    android:textColorHint="#ffffff"
+                    android:textColor="#ffffff"
+                    android:textSize="7pt"
+                    android:inputType="textPassword" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword"
+                    android:ems="10"
+                    android:id="@+id/cpw"
+                    android:layout_below="@+id/linearLayout"
+                    android:layout_centerHorizontal="true"
+                    android:hint="confirm password"
+                    android:textColorHint="#ffffff"
+                    android:textColor="#ffffff"
+                    android:textSize="7pt"/>
+
+                <Button
+                    android:text="Save"
+                    android:layout_width="60dp"
+                    android:layout_height="20dp"
+                    android:textColor="#f15c48"
+                    android:background="#ffffff"
+                    android:drawableBottom="#ffffff"
+                    android:textSize="6pt"
+                    android:layout_marginTop="0dp"
+                    android:id="@+id/saveBasicInfo" />
+
+        </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="15dp">
+
+                <TextView
+                    android:text="dietary concerns"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/userDietaryConcerns"
+                    android:textColor="#ffffff"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:layout_marginRight="20dp"
+                    android:layout_above="@+id/basicInfoMain"
+                    android:layout_toLeftOf="@+id/deleteAccount"
+                    android:layout_toStartOf="@+id/deleteAccount" />
+
+                <Button
+                    android:text="Edit"
+                    android:layout_width="60dp"
+                    android:layout_height="20dp"
+                    android:textColor="#ffffff"
+                    android:background="#f17460"
+                    android:drawableBottom="#ffffff"
+                    android:textSize="6pt"
+                    android:layout_marginTop="0dp"
+                    android:id="@+id/editDietaryConcerns" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:id="@+id/dietaryConcerns">
+
+                <CheckBox
+                    android:text="gluten-free"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/glutenFree"
+                    android:textColor="#ffffff"/>
+
+                <CheckBox
+                    android:text="lactose-free"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/lactoseFree"
+                    android:textColor="#ffffff"/>
+
+                <CheckBox
+                    android:text="pescatarian"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/pescatarian"
+                    android:textColor="#ffffff"/>
+
+                <CheckBox
+                    android:text="vegan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/vegan"
+                    android:textColor="#ffffff"/>
+
+                <CheckBox
+                    android:text="vegetarian"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/vegetarian"
+                    android:textColor="#ffffff"/>
+
+                <Button
+                    android:text="Save"
+                    android:layout_width="60dp"
+                    android:layout_height="20dp"
+                    android:textColor="#f15c48"
+                    android:background="#ffffff"
+                    android:drawableBottom="#ffffff"
+                    android:textSize="6pt"
+                    android:layout_marginTop="0dp"
+                    android:id="@+id/saveDietaryConcerns" />
+
+            </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp">
+
+                    <TextView
+                        android:text="allergies"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/userAllergies"
+                        android:textColor="#ffffff"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:layout_marginRight="20dp"
+                        android:layout_above="@+id/basicInfoMain"
+                        android:layout_toLeftOf="@+id/deleteAccount"
+                        android:layout_toStartOf="@+id/deleteAccount" />
+
+
+                    <Button
+                        android:text="Edit"
+                        android:layout_width="60dp"
+                        android:layout_height="20dp"
+                        android:textColor="#ffffff"
+                        android:background="#f17460"
+                        android:drawableBottom="#ffffff"
+                        android:textSize="6pt"
+                        android:layout_marginTop="0dp"
+                        android:id="@+id/editAllergies" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/allergies"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:textColor="#FFFFFF"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:textColor="#FFFFFF"
+                        android:layout_height="match_parent">
+
+                        <AutoCompleteTextView
+                            android:layout_width="200dp"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/enterAllergy"
+                            android:completionHint="enter allergy"
+                            android:textColorHint="#ffffff"
+                            android:textColor="#ffffff"/>
+
+                        <Button
+                            android:text="Add"
+                            android:layout_width="60dp"
+                            android:layout_height="20dp"
+                            android:textColor="#ffffff"
+                            android:background="#f17460"
+                            android:drawableBottom="#ffffff"
+                            android:textSize="6pt"
+                            android:layout_marginTop="0dp"
+                            android:id="@+id/addAllergy" />
+
+                    </LinearLayout>
+                    <ListView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/allergyList"
+                        android:textColor="#ffffff" />
+
+                    <Button
+                        android:text="Save"
+                        android:layout_width="60dp"
+                        android:layout_height="20dp"
+                        android:textColor="#f15c48"
+                        android:background="#ffffff"
+                        android:drawableBottom="#ffffff"
+                        android:textSize="6pt"
+                        android:layout_marginTop="0dp"
+                        android:id="@+id/saveAllergies"
+                        android:enabled="true"
+                        android:layout_weight="1" />
+
+                </LinearLayout>
+
+
+            <Button
+                android:text="Delete Account"
+                android:id="@+id/deleteAccount"
+                android:textColor="#ffffff"
+                android:background="#f15c48"
+                android:drawableBottom="#f15c48"
+                android:textSize="5pt"
+                android:layout_gravity="left"
+                android:layout_width="150dp"
+                android:layout_height="25dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="12dp"/>
+
+            <Button
+                android:text="Logout"
+                android:id="@+id/logout"
+                android:layout_marginTop="6dp"
+                android:textColor="#ffffff"
+                android:background="#f15c48"
+                android:drawableBottom="#f15c48"
+                android:textSize="5pt"
+                android:layout_gravity="left"
+                android:layout_width="150dp"
+                android:layout_height="25dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignLeft="@+id/deleteAccount"
+                android:layout_alignStart="@+id/deleteAccount"
+                android:layout_marginBottom="10dp"
+                />
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+    <android.support.design.widget.TabLayout
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:id="@+id/fn"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:id="@+id/ln"
-        android:layout_below="@+id/fn"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
-    <Button
-        android:text="Delete Account"
-        android:id="@+id/deleteAccount"
-        style="@style/Widget.AppCompat.Button.Colored"
-
-        android:textColor="#f15c48"
-        android:background="#ffffff"
-        android:drawableBottom="#ffffff"
-        android:textSize="6pt"
-        android:layout_gravity="center"
-        android:layout_width="150dp"
-        android:layout_height="30dp"
-        android:layout_marginBottom="33dp"
+        android:id="@+id/tabs"
+        android:background="@color/colorPrimary"
+        android:layout_width="match_parent"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        app:tabIndicatorColor="#ffffff">
+
+
+        <android.support.design.widget.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/mealplan_tab"
+            android:contextClickable="true"
+            android:longClickable="true"
+            android:icon="@drawable/calendar_icon" />
+
+        <android.support.design.widget.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:icon="@drawable/history_icon"
+            android:id="@+id/history_tab" />
+
+        <android.support.design.widget.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/grocery_tab"
+            android:icon="@drawable/grocery_icon"  />
+
+        <android.support.design.widget.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:icon="@drawable/profile_icon"
+            android:id="@+id/profile_tab" />
+
+    </android.support.design.widget.TabLayout>
+    <!--
+        <LinearLayout
+            android:id="@+id/basicInfoCollapsed"
+            android:orientation="vertical"
+            android:layout_width="228dp"
+            android:layout_height="65dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:layout_below="@+id/editBasicInfo"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" >
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:ems="10"
+                android:id="@+id/fn2"
+                android:layout_alignParentTop="false"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:ems="10"
+                android:id="@+id/ln2"
+                android:layout_below="@+id/fn2"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+
+
+        </LinearLayout>
+    -->
 
 </RelativeLayout>

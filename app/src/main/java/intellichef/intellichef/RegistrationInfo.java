@@ -22,23 +22,39 @@ public class RegistrationInfo {
         this.password = password;
     }
 
-    /**
-     * Getter method for user's first name
-     * @return firstName
-     */
     public JSONObject toJSONObject() {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("email", email);
             jsonObject.put("password", password);
-            jsonObject.put("firstName", firstName);
-            jsonObject.put("lastName", lastName);
+            jsonObject.put("first_name", firstName);
+            jsonObject.put("last_name", lastName);
             jsonObject.put("username", username);
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
         return jsonObject;
+    }
+    
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     /**
