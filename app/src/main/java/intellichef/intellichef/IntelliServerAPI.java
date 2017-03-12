@@ -124,7 +124,7 @@ public class IntelliServerAPI {
         }
 
         Log.v("JSON", "" + requestData);
-        IntelliServerRestClientv2.initialize();
+        IntelliServerRestClientv2.initialize(registrationInfo.getEmail(), registrationInfo.getPassword());
         IntelliServerRestClientv2.post(context, "v2.0/entities", requestData, "application/json", responseHandler);
     }
 
@@ -148,8 +148,6 @@ public class IntelliServerAPI {
         IntelliServerRestClient.get("v2.0/meal_plans", params, responseHandler);
     }
 
-    //TODO: getUserInfo
-    //(method in LoginActivity) params.put("entity_pk", *user info from static method*)
     public static void getUserInfo(int entity_pk, final JsonHttpResponseHandler callback) throws JSONException {
         final JsonHttpResponseHandler responseHandler = new JsonHttpResponseHandler() {
             public void onFailure(int statusCode, Header[] headers, JSONObject response) {
@@ -192,7 +190,7 @@ public class IntelliServerAPI {
             e.printStackTrace();
         }
 
-        IntelliServerRestClient.put(context, "v2.0/entities/" + entity_pk, requestData, "application/json", responseHandler);
+        IntelliServerRestClientv2.put(context, "v2.0/entities/" + entity_pk, requestData, "application/json", responseHandler);
     }
 
     public static void getCalibratedMeals(final JsonHttpResponseHandler callback ) throws JSONException {

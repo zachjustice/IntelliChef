@@ -112,7 +112,7 @@ public class RegistrationActivity extends AppCompatActivity {
             return;
         }
 
-        RegistrationInfo registrationInfo = new RegistrationInfo(firstName, lastName, email, username);
+        RegistrationInfo registrationInfo = new RegistrationInfo(firstName, lastName, email, username, password);
         currentUser = new User(registrationInfo);
         currentUser.setNewUser(true);
         LoginActivity.setCurrentUser(currentUser);
