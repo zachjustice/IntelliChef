@@ -128,7 +128,7 @@ public class IntelliServerAPI {
         IntelliServerRestClientv2.post(context, "v2.0/entities", requestData, "application/json", responseHandler);
     }
 
-    public static void getRecipes(String date, final JsonHttpResponseHandler callback) throws JSONException {
+    public static void getRecipes(int entityPk, String date, final JsonHttpResponseHandler callback) throws JSONException {
         final JsonHttpResponseHandler responseHandler = new JsonHttpResponseHandler() {
             public void onFailure(int statusCode, Header[] headers, JSONObject response) {
                 Log.v("JSONObject", response.toString() );

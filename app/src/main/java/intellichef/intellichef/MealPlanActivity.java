@@ -63,7 +63,6 @@ public class MealPlanActivity extends AppCompatActivity {
         CalligraphyConfig.initDefault("fonts/Montserrat-Light.ttf");
         setContentView(R.layout.activity_meal_plan);
         RelativeLayout layout = (RelativeLayout) findViewById(R.id.activity_meal_plan);
-        currentUser = LoginActivity.getCurrentUser();
         date = (TextView) findViewById(R.id.dateText);
         breakfastName = (TextView) findViewById(R.id.breakfast_name);
         lunchName = (TextView) findViewById(R.id.lunch_name);
@@ -87,7 +86,7 @@ public class MealPlanActivity extends AppCompatActivity {
         final DateTimeFormatter displayFormatter = DateTimeFormat.forPattern("EEEE, MMMM d");
 
         //change today for testing
-        today = new DateTime(); // .plusDays(1);
+        today = new DateTime();//.plusDays(1);
         viewDate = new DateTime();
 
         final int weekDay = today.getDayOfWeek();
@@ -129,10 +128,8 @@ public class MealPlanActivity extends AppCompatActivity {
         }
         nextButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                //TODO: setOnTouchListener for pressed effects
                 //show prev button
                 prevButton.setVisibility(View.VISIBLE);
-                calendarFrom.add(Calendar.DATE, 1);
                 try {
                     viewDate = viewDate.plusDays(1);
                     showMealPlans(entityPk, formatter.print(viewDate));
