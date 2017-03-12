@@ -150,7 +150,7 @@ public class IntelliServerAPI {
 
     //TODO: getUserInfo
     //(method in LoginActivity) params.put("entity_pk", *user info from static method*)
-    public static void getUserInfo(int entity_pk, String email, String password, final JsonHttpResponseHandler callback) throws JSONException {
+    public static void getUserInfo(int entity_pk, final JsonHttpResponseHandler callback) throws JSONException {
         final JsonHttpResponseHandler responseHandler = new JsonHttpResponseHandler() {
             public void onFailure(int statusCode, Header[] headers, JSONObject response) {
                 Log.v("JSONObject", response.toString());
@@ -164,7 +164,6 @@ public class IntelliServerAPI {
             }
         };
 
-        IntelliServerRestClientv2.initialize(email, password);
         IntelliServerRestClientv2.get("v2.0/entities/" + entity_pk, null, responseHandler);
 
     }

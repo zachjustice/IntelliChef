@@ -12,21 +12,18 @@ public class RegistrationInfo {
     private String lastName;
     private String email;
     private String username;
-    private String password;
 
-    public RegistrationInfo(String firstName, String lastName, String email, String username, String password) {
+    public RegistrationInfo(String firstName, String lastName, String email, String username) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.username = username;
-        this.password = password;
     }
 
     public JSONObject toJSONObject() {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("email", email);
-            jsonObject.put("password", password);
             jsonObject.put("first_name", firstName);
             jsonObject.put("last_name", lastName);
             jsonObject.put("username", username);
@@ -53,10 +50,6 @@ public class RegistrationInfo {
         return username;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
     /**
      * Change user's last name
      * @param lastName
@@ -71,14 +64,6 @@ public class RegistrationInfo {
      */
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    /**
-     * Change user's password
-     * @param password
-     */
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public void setFirstName(String firstName) {

@@ -112,9 +112,10 @@ public class RegistrationActivity extends AppCompatActivity {
             return;
         }
 
-        RegistrationInfo registrationInfo = new RegistrationInfo(firstName, lastName, email, username, password);
+        RegistrationInfo registrationInfo = new RegistrationInfo(firstName, lastName, email, username);
         currentUser = new User(registrationInfo);
         currentUser.setNewUser(true);
+        LoginActivity.setCurrentUser(currentUser);
 
         IntelliServerAPI.register(registrationInfo, this.getApplicationContext(), new JsonHttpResponseHandler() {
             @Override

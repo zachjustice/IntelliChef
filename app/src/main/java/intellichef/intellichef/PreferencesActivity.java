@@ -82,7 +82,9 @@ public class PreferencesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         CalligraphyConfig.initDefault("fonts/Montserrat-Light.ttf");
         setContentView(R.layout.activity_preferences);
-        currentUser = LoginActivity.getCurrentUser();
+        if (currentUser == null) {
+            currentUser = LoginActivity.getCurrentUser();
+        }
 
 
         basicInfoLayout = (LinearLayout) findViewById(R.id.basicInfoMain);
@@ -123,9 +125,6 @@ public class PreferencesActivity extends AppCompatActivity {
         // Hide the password and confirmPassword field from the user
         password.setVisibility(View.GONE);
         confirmPassword.setVisibility(View.GONE);
-
-        currentUser = LoginActivity.getCurrentUser();
-
 
         dietaryRestrictions = new ArrayList<>();
         allergyListAdpater = new ArrayAdapter<>(this, R.layout.mytextview, dietaryRestrictions);
@@ -471,10 +470,8 @@ public class PreferencesActivity extends AppCompatActivity {
 
     private void getUserInfo() throws JSONException {
         int entity_pk = currentUser.getEntityPk();
-        String entityEmail = currentUser.getRegistrationInfo().getEmail();
-        String entityPassword = currentUser.getRegistrationInfo().getPassword();
 
-        IntelliServerAPI.getUserInfo(entity_pk, entityEmail, entityPassword, new JsonHttpResponseHandler() {
+        IntelliServerAPI.getUserInfo(entity_pk, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject result) {
                 try {
