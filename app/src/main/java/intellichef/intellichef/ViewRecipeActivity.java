@@ -43,7 +43,7 @@ public class ViewRecipeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_recipe);
-        recipePK = getIntent().getIntExtra("recipePK", -1);
+        recipePK = getIntent().getIntExtra("recipePk", -1);
         recipeName = (TextView) findViewById(R.id.recipeName);
         recipeImage = (ImageView) findViewById(R.id.recipeImage);
         description = (TextView) findViewById(R.id.description);
@@ -114,6 +114,7 @@ public class ViewRecipeActivity extends AppCompatActivity {
                 }
                 recipeViewAdapter.notifyDataSetChanged();
                 setListViewHeightBasedOnChildren(recipeViewList);
+                System.out.println("hello");
 
                 recipeName.setText(recipe.getName());
                 ImageExtractor.loadIntoImage(getApplicationContext(), recipe.getPhotoUrl(), recipeImage);
