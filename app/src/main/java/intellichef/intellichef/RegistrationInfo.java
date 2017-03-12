@@ -14,6 +14,13 @@ public class RegistrationInfo {
     private String username;
     private String password;
 
+    public RegistrationInfo(String firstName, String lastName, String email, String username) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.username = username;
+    }
+
     public RegistrationInfo(String firstName, String lastName, String email, String username, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -26,10 +33,10 @@ public class RegistrationInfo {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("email", email);
-            jsonObject.put("password", password);
             jsonObject.put("first_name", firstName);
             jsonObject.put("last_name", lastName);
             jsonObject.put("username", username);
+            jsonObject.put("password", password);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -53,10 +60,6 @@ public class RegistrationInfo {
         return username;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
     /**
      * Change user's last name
      * @param lastName
@@ -73,19 +76,19 @@ public class RegistrationInfo {
         this.email = email;
     }
 
-    /**
-     * Change user's password
-     * @param password
-     */
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

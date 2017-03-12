@@ -55,8 +55,6 @@ public class CalibrationActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-
-                //LILY ADD IMAGE CHANGING/OVERLAYING LOGIC HERE!!!
                 CalibrationItem selected = calibrationItems.get(position);
                 selected.toggleSelected();
                 if (selected.isSelected()) {

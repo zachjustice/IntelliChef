@@ -117,14 +117,14 @@ public class LoginActivity extends AppCompatActivity {
                     first_name = entity.getString("first_name");
                     last_name = entity.getString("last_name");
                     email = entity.getString("email");
-                    password = entity.getString("password");
 
-                    RegistrationInfo registrationInfo = new RegistrationInfo(first_name, last_name, email, username, password);
+                    RegistrationInfo registrationInfo = new RegistrationInfo(first_name, last_name, email, username);
 
                     currentUser = new User(registrationInfo);
                     currentUser.setEntityPk(entityPk);
                     currentUser.setNewUser(false);
                 } catch (JSONException e) {
+                    Log.wtf("JSON", "ERRORing bro");
                     e.printStackTrace();
                 }
 
