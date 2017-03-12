@@ -8,6 +8,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -21,18 +22,24 @@ import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 import cz.msebera.android.httpclient.Header;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 import static android.R.drawable.btn_star_big_off;
 import static android.R.drawable.btn_star_big_on;
+
+
 
 public class MealPlanActivity extends AppCompatActivity {
     private TextView date;
@@ -47,6 +54,8 @@ public class MealPlanActivity extends AppCompatActivity {
     private TextView breakfastRating;
     private TextView lunchRating;
     private TextView dinnerRating;
+    private DateTime viewDate;
+    private DateTime today;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,32 +80,22 @@ public class MealPlanActivity extends AppCompatActivity {
         lunchRating.setVisibility(View.GONE);
         dinnerRating.setVisibility(View.GONE);
 
-        // Dynamic date display
-//        Calendar c = Calendar.getInstance();
-//        SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, MMM dd yyyy");
-//        date.setText(dateFormat.format(c.getTime()));
-//        dateFormat = new SimpleDateFormat("M-d-yyyy");
-//        getMealPlans(dateFormat.foramt(c.getTime()));
+        //for query
+        final DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
+        //for textfield
+        final DateTimeFormatter displayFormatter = DateTimeFormat.forPattern("EEEE, MMMM d");
 
-        // Date Display from March 1 to 7
-        String s1 = "Mar 01, 2017";
-        String s2 = "Mar 07, 2017";
-        final SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy");
-        final Calendar calendarFrom = Calendar.getInstance();
-        final Calendar calendarUntil = Calendar.getInstance();
+        //change today for testing
+        today = new DateTime(); // .plusDays(1);
+        viewDate = new DateTime();
+
+        final int weekDay = today.getDayOfWeek();
+        final int entityPk = LoginActivity.getCurrentUser().getEntityPk();
+
+        date.setText(displayFormatter.print(viewDate));
 
         try {
-            calendarFrom.setTime(dateFormat.parse(s1));
-            calendarUntil.setTime(dateFormat.parse(s2));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        date.setText(dateFormat.format(calendarFrom.getTime()));
-
-        // Show meal plan for Mar 1
-        try {
-            showMealPlans("3-1-2017");
+            showMealPlans(entityPk, formatter.print(viewDate));
         } catch (Exception e) {
             System.out.println("Failed to show recipes");
         }
@@ -108,15 +107,14 @@ public class MealPlanActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Show next button
                 nextButton.setVisibility(View.VISIBLE);
-                calendarFrom.add(Calendar.DATE, -1);
                 try {
-                    showMealPlans("3-" + calendarFrom.get(Calendar.DATE) + "-2017");
-                } catch (JSONException e) {
+                    viewDate = viewDate.plusDays(-1);
+                    showMealPlans(entityPk, formatter.print(viewDate));
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
-                date.setText(dateFormat.format(calendarFrom.getTime()));
-                if (calendarFrom.get(Calendar.DATE) == 1) {
-                    //If on the first page (Mar 1), hide prev button so that the user can't go before Mar 1
+                date.setText(displayFormatter.print(viewDate));
+                if (viewDate.getDayOfWeek() == today.getDayOfWeek()) {
                     prevButton.setVisibility(View.INVISIBLE);
                 }
 
@@ -125,20 +123,21 @@ public class MealPlanActivity extends AppCompatActivity {
         });
 
         nextButton = (Button) findViewById(R.id.nextRecipe);
+        if (weekDay == 7) {
+            nextButton.setVisibility(View.INVISIBLE);
+        }
         nextButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                //TODO: setOnTouchListener for pressed effects
                 //show prev button
                 prevButton.setVisibility(View.VISIBLE);
-                calendarFrom.add(Calendar.DATE, 1);
                 try {
-                    showMealPlans("3-" + calendarFrom.get(Calendar.DATE) + "-2017");
-                } catch (JSONException e) {
+                    viewDate = viewDate.plusDays(1);
+                    showMealPlans(entityPk, formatter.print(viewDate));
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
-                date.setText(dateFormat.format(calendarFrom.getTime()));
-                if (calendarFrom.compareTo(calendarUntil) == 0) {
-                    // if on the last screen (Mar 7), hide the next button
+                date.setText(displayFormatter.print(viewDate));
+                if (viewDate.getDayOfWeek() == 7) {
                     nextButton.setVisibility(View.INVISIBLE);
                 }
             }
@@ -181,9 +180,9 @@ public class MealPlanActivity extends AppCompatActivity {
     }
 
 
-    private void showMealPlans(String date) throws JSONException {
+    private void showMealPlans(int entityPk, String date) throws JSONException {
 
-        IntelliServerAPI.getRecipes(date, new JsonHttpResponseHandler() {
+        IntelliServerAPI.getRecipes(entityPk, date, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject result) {
                 Recipe breakfastRecipe = new Recipe();
@@ -194,7 +193,7 @@ public class MealPlanActivity extends AppCompatActivity {
                 }
                 breakfastName.setText(breakfastRecipe.getName());
                 ImageExtractor.loadIntoImage(getApplicationContext(), breakfastRecipe.getPhotoUrl(), breakfastPic);
-                breakfastRating.setText("" + breakfastRecipe.getRating());
+                //breakfastRating.setText("" + breakfastRecipe.getRating());
 
                 Recipe lunchRecipe = new Recipe();
                 try {
@@ -204,7 +203,7 @@ public class MealPlanActivity extends AppCompatActivity {
                 }
                 lunchName.setText(lunchRecipe.getName());
                 ImageExtractor.loadIntoImage(getApplicationContext(), lunchRecipe.getPhotoUrl(), lunchPic);
-                lunchRating.setText("" + lunchRecipe.getRating());
+                //lunchRating.setText("" + lunchRecipe.getRating());
 
                 Recipe dinnerRecipe = new Recipe();
                 try {
@@ -214,7 +213,7 @@ public class MealPlanActivity extends AppCompatActivity {
                 }
                 dinnerName.setText(dinnerRecipe.getName());
                 ImageExtractor.loadIntoImage(getApplicationContext(), dinnerRecipe.getPhotoUrl(), dinnerPic);
-                dinnerRating.setText("" + dinnerRecipe.getRating());
+                //dinnerRating.setText("" + dinnerRecipe.getRating());
             }
         });
 
