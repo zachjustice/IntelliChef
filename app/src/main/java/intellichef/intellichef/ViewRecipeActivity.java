@@ -51,15 +51,16 @@ public class ViewRecipeActivity extends AppCompatActivity {
         addNotes = (EditText) findViewById(R.id.addNotesField);
         addNoteButton = (Button) findViewById(R.id.noteButton);
 
-//        try {
-//            showRecipe(recipePK);
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
         instructionArray = new ArrayList<>();
         recipeViewList = (ListView) findViewById(R.id.recipeView);
         recipeViewAdapter = new ArrayAdapter(ViewRecipeActivity.this, R.layout.mytextview, instructionArray);
         recipeViewList.setAdapter(recipeViewAdapter);
+
+        try {
+            showRecipe(recipePK);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         instructionArray.add("Hello");
         instructionArray.add("Hello");
         instructionArray.add("Hello");

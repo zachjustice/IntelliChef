@@ -234,6 +234,6 @@ public class IntelliServerAPI {
 
         RequestParams params = new RequestParams();
 
-        IntelliServerRestClient.get("v2.0/meal_plans" + recipePK, params, responseHandler);
+        IntelliServerRestClient.get("api/v2.0/recipes/" + recipePK, params, responseHandler);
     }
 }
