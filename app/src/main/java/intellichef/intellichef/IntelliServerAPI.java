@@ -128,7 +128,7 @@ public class IntelliServerAPI {
         IntelliServerRestClientv2.post(context, "v2.0/entities", requestData, "application/json", responseHandler);
     }
 
-    public static void getRecipes(String date, final JsonHttpResponseHandler callback) throws JSONException {
+    public static void getRecipes(String date, int entity_pk, final JsonHttpResponseHandler callback) throws JSONException {
         final JsonHttpResponseHandler responseHandler = new JsonHttpResponseHandler() {
             public void onFailure(int statusCode, Header[] headers, JSONObject response) {
                 Log.v("JSONObject", response.toString() );
@@ -145,7 +145,7 @@ public class IntelliServerAPI {
         RequestParams params = new RequestParams();
         params.put("date", date);
 
-        IntelliServerRestClient.get("v2.0/meal_plans", params, responseHandler);
+        IntelliServerRestClientv2.get("v2.0/entities/" + entity_pk + "/meal_plans", params, responseHandler);
     }
 
     public static void getUserInfo(int entity_pk, final JsonHttpResponseHandler callback) throws JSONException {

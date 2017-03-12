@@ -69,11 +69,11 @@ public class Recipe {
     public void fillParams(JSONObject recipe) {
         try {
             this.description = recipe.getString("description");
-            this.recipePK = recipe.getInt("recipe");
+            this.recipePK = recipe.getInt("recipe_pk");
             this.name = recipe.getString("name");
             this.instruction = recipe.getString("instructions");
-            this.rating = recipe.getDouble("rating");
-            this.photoUrl = recipe.getString("url");
+            this.rating = 3.4;
+            this.photoUrl = recipe.getString("image_url");
         } catch (JSONException e) {
             e.printStackTrace();
         }

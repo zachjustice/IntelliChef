@@ -47,6 +47,7 @@ public class MealPlanActivity extends AppCompatActivity {
     private TextView breakfastRating;
     private TextView lunchRating;
     private TextView dinnerRating;
+    private User currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +55,7 @@ public class MealPlanActivity extends AppCompatActivity {
         CalligraphyConfig.initDefault("fonts/Montserrat-Light.ttf");
         setContentView(R.layout.activity_meal_plan);
         RelativeLayout layout = (RelativeLayout) findViewById(R.id.activity_meal_plan);
+        currentUser = LoginActivity.getCurrentUser();
         date = (TextView) findViewById(R.id.dateText);
         breakfastName = (TextView) findViewById(R.id.breakfast_name);
         lunchName = (TextView) findViewById(R.id.lunch_name);
@@ -79,8 +81,8 @@ public class MealPlanActivity extends AppCompatActivity {
 //        getMealPlans(dateFormat.foramt(c.getTime()));
 
         // Date Display from March 1 to 7
-        String s1 = "Mar 01, 2017";
-        String s2 = "Mar 07, 2017";
+        String s1 = "Mar 12, 2017";
+        String s2 = "Mar 17, 2017";
         final SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy");
         final Calendar calendarFrom = Calendar.getInstance();
         final Calendar calendarUntil = Calendar.getInstance();
@@ -96,7 +98,7 @@ public class MealPlanActivity extends AppCompatActivity {
 
         // Show meal plan for Mar 1
         try {
-            showMealPlans("3-1-2017");
+            showMealPlans("3-12-2017");
         } catch (Exception e) {
             System.out.println("Failed to show recipes");
         }
@@ -115,7 +117,7 @@ public class MealPlanActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 date.setText(dateFormat.format(calendarFrom.getTime()));
-                if (calendarFrom.get(Calendar.DATE) == 1) {
+                if (calendarFrom.get(Calendar.DATE) == calendarFrom.SUNDAY) {
                     //If on the first page (Mar 1), hide prev button so that the user can't go before Mar 1
                     prevButton.setVisibility(View.INVISIBLE);
                 }
@@ -183,7 +185,8 @@ public class MealPlanActivity extends AppCompatActivity {
 
     private void showMealPlans(String date) throws JSONException {
 
-        IntelliServerAPI.getRecipes(date, new JsonHttpResponseHandler() {
+        int entity_pk = currentUser.getEntityPk();
+        IntelliServerAPI.getRecipes(date, entity_pk, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject result) {
                 Recipe breakfastRecipe = new Recipe();
