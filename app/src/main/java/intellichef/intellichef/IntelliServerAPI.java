@@ -145,7 +145,57 @@ public class IntelliServerAPI {
         RequestParams params = new RequestParams();
         params.put("date", date);
 
-        IntelliServerRestClient.get("v2.0/meal_plans", params, responseHandler);
+        IntelliServerRestClientv2.get("v2.0/entities/" + entityPk + "/meal_plans", params, responseHandler);
+    }
+
+    public static void generateMealPlan(Context context, int entityPk, final JsonHttpResponseHandler callback) throws JSONException {
+        final JsonHttpResponseHandler responseHandler = new JsonHttpResponseHandler() {
+            public void onFailure(int statusCode, Header[] headers, String errMsg, Throwable throwable) {
+                Log.v("Error message", "" + errMsg );
+            }
+
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject result) {
+                Log.v("Error message", "" + result.toString() );
+            }
+
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                Log.v("JSON OBJECT", "" + response.toString());
+                callback.onSuccess(statusCode, headers, response);
+            }
+        };
+
+
+        IntelliServerRestClientv2.post(context, "v2.0/entities/" + entityPk + "/meal_plans", null, "application/json", responseHandler);
+
+    }
+
+    public static void insertUserCalibrationPick(Context context, int entityPk, int recipePk, final JsonHttpResponseHandler callback) throws JSONException {
+        final JsonHttpResponseHandler responseHandler = new JsonHttpResponseHandler() {
+            public void onFailure(int statusCode, Header[] headers, String errMsg, Throwable throwable) {
+                Log.v("JSONObject", errMsg);
+            }
+
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                // Pull out the first event on the public timeline
+                // Do something with the response
+                Log.v("JSONObject", response.toString());
+                callback.onSuccess(statusCode, headers, response);
+            }
+        };
+
+
+        JSONObject params = new JSONObject();
+        params.put("is_calibration_recipe", true);
+        StringEntity requestData = null;
+        try {
+            requestData = new StringEntity(params.toString());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+
+        IntelliServerRestClientv2.post(context, "v2.0/entities/" + entityPk + "/recipes/" + recipePk, requestData, "application/json", responseHandler);
+
     }
 
     public static void getUserInfo(int entity_pk, final JsonHttpResponseHandler callback) throws JSONException {
@@ -174,6 +224,10 @@ public class IntelliServerAPI {
                 Log.v("JSONObject", response.toString() );
             }
 
+            public void onFailure(int statusCode, Header[] headers, String errMsg, Throwable throwable) {
+                Log.v("JSONObject", errMsg);
+            }
+
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                 // Pull out the first event on the public timeline
                 // Do something with the response
@@ -195,6 +249,9 @@ public class IntelliServerAPI {
 
     public static void getCalibratedMeals(final JsonHttpResponseHandler callback ) throws JSONException {
         final JsonHttpResponseHandler responseHandler = new JsonHttpResponseHandler() {
+            public void onFailure(int statusCode, Header[] headers, String errMsg, Throwable throwable) {
+                Log.v("JSONObject", errMsg);
+            }
 
             public void onFailure(int statusCode, Header[] headers, JSONArray response) {
                 Log.v("JSONObject", response.toString() );
@@ -209,9 +266,9 @@ public class IntelliServerAPI {
         };
 
         RequestParams params = new RequestParams();
-        params.put("sort_by", "calibration_recipes");
+        params.put("is_calibration_recipe", true);
 
-        IntelliServerRestClient.get("v2.0/recipes", params, responseHandler);
+        IntelliServerRestClientv2.get("v2.0/recipes", params, responseHandler);
     }
 
     //TODO: Fix getRecipe

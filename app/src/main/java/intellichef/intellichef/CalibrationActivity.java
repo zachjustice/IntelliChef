@@ -26,6 +26,7 @@ import org.json.JSONObject;
 
 import java.io.Console;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import cz.msebera.android.httpclient.Header;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
@@ -80,17 +81,18 @@ public class CalibrationActivity extends AppCompatActivity {
                 for (CalibrationItem c: calibrationItems) {
                     if (c.isSelected()) {
                         calibrationPks.add(c.getCalibrationPk());
+                    } else {
+                        calibrationPks.remove(c.getCalibrationPk());
                     }
                 }
                 Log.v("Calibrated", "" + calibrationPks.size());
-                Intent intent = new Intent(CalibrationActivity.this, MealPlanActivity.class);
-                startActivity(intent);
-//                try {
-//                    post calibration picks
-//                    switch screens
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
+                try {
+                    User currentUser = LoginActivity.getCurrentUser();
+                    updateUserCalibrationPicks(calibrationPks, currentUser.getEntityPk(), CalibrationActivity.this);
+                    generateMealPlan(CalibrationActivity.this, currentUser.getEntityPk());
+                } catch (JSONException e) {
+                    System.out.println(e.getMessage());
+                }
             }
         });
     }
@@ -103,8 +105,10 @@ public class CalibrationActivity extends AppCompatActivity {
                 try {
                     for (int i = 0; i < result.length(); i++) {
                         JSONObject calibratedRecipe = (JSONObject) result.get(i);
-                        calibrationItems.add(new CalibrationItem("" + calibratedRecipe.get("url"), "" + calibratedRecipe.get("name"), (Integer) calibratedRecipe.get("recipe")));
+                        calibrationItems.add(new CalibrationItem("" + calibratedRecipe.get("image_url"), "" + calibratedRecipe.get("name"), (Integer) calibratedRecipe.get("recipe_pk")));
                     }
+                    //randomize
+                    Collections.shuffle(calibrationItems);
                     adapter = new CalibrationAdapter(CalibrationActivity.this, R.layout.calibration_view, calibrationItems);
                     adapter.notifyDataSetChanged();
                     listview.setAdapter(adapter);
@@ -112,6 +116,33 @@ public class CalibrationActivity extends AppCompatActivity {
                 } catch (Exception e) {
                     Log.v("JSONObject", "" + e.getMessage());
                 }
+            }
+        });
+    }
+
+    public void updateUserCalibrationPicks(ArrayList<Integer> calibrationPks, int entityPk, Context context) throws JSONException {
+        for (Integer calibrationPk: calibrationPks) {
+            IntelliServerAPI.insertUserCalibrationPick(context, entityPk, calibrationPk, new JsonHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject result) {
+                    try {
+                        Log.v("calibration", "INSERTING CALIBRATION RECIPE");
+                    } catch (Exception e) {
+                        Log.v("JSONObject", "" + e.getMessage());
+                    }
+                }
+            });
+        }
+    }
+
+    public void generateMealPlan(Context context, int entityPk) throws JSONException {
+
+        IntelliServerAPI.generateMealPlan(context, entityPk, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject result) {
+                    Log.v("MealPlan", "generated succesfully");
+                    Intent intent = new Intent(CalibrationActivity.this, MealPlanActivity.class);
+                    startActivity(intent);
             }
         });
     }

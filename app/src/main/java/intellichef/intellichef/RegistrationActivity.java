@@ -117,7 +117,7 @@ public class RegistrationActivity extends AppCompatActivity {
         currentUser.setNewUser(true);
         LoginActivity.setCurrentUser(currentUser);
 
-        IntelliServerAPI.register(registrationInfo, this.getApplicationContext(), new JsonHttpResponseHandler() {
+        IntelliServerAPI.register(registrationInfo, RegistrationActivity.this, new JsonHttpResponseHandler() {
             @Override
             public void onFailure(int statusCode, Header[] headers, String result, Throwable throwable) {
                 if( statusCode == 400) { // 401 status code corresponds to unauthorized access
