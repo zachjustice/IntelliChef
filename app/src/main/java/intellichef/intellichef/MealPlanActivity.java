@@ -39,8 +39,6 @@ import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import static android.R.drawable.btn_star_big_off;
 import static android.R.drawable.btn_star_big_on;
 
-
-
 public class MealPlanActivity extends AppCompatActivity {
     private TextView date;
     private Button prevButton;
@@ -86,7 +84,7 @@ public class MealPlanActivity extends AppCompatActivity {
         final DateTimeFormatter displayFormatter = DateTimeFormat.forPattern("EEEE, MMMM d");
 
         //change today for testing
-        today = new DateTime();//.plusDays(1);
+        today = new DateTime(); //.plusDays(1);
         viewDate = new DateTime();
 
         final int weekDay = today.getDayOfWeek();

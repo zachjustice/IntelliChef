@@ -150,12 +150,16 @@ public class IntelliServerAPI {
 
     public static void generateMealPlan(Context context, int entityPk, final JsonHttpResponseHandler callback) throws JSONException {
         final JsonHttpResponseHandler responseHandler = new JsonHttpResponseHandler() {
-            public void onFailure(int statusCode, Header[] headers, JSONObject response) {
-                Log.v("LMAO", "" + statusCode );
+            public void onFailure(int statusCode, Header[] headers, String errMsg, Throwable throwable) {
+                Log.v("Error message", "" + errMsg );
+            }
+
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject result) {
+                Log.v("Error message", "" + result.toString() );
             }
 
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                Log.v("LMAO", "" + statusCode);
+                Log.v("JSON OBJECT", "" + response.toString());
                 callback.onSuccess(statusCode, headers, response);
             }
         };
@@ -167,8 +171,8 @@ public class IntelliServerAPI {
 
     public static void insertUserCalibrationPick(Context context, int entityPk, int recipePk, final JsonHttpResponseHandler callback) throws JSONException {
         final JsonHttpResponseHandler responseHandler = new JsonHttpResponseHandler() {
-            public void onFailure(int statusCode, Header[] headers, JSONObject response) {
-                Log.v("JSONObject", response.toString());
+            public void onFailure(int statusCode, Header[] headers, String errMsg, Throwable throwable) {
+                Log.v("JSONObject", errMsg);
             }
 
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -220,6 +224,10 @@ public class IntelliServerAPI {
                 Log.v("JSONObject", response.toString() );
             }
 
+            public void onFailure(int statusCode, Header[] headers, String errMsg, Throwable throwable) {
+                Log.v("JSONObject", errMsg);
+            }
+
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                 // Pull out the first event on the public timeline
                 // Do something with the response
@@ -241,6 +249,9 @@ public class IntelliServerAPI {
 
     public static void getCalibratedMeals(final JsonHttpResponseHandler callback ) throws JSONException {
         final JsonHttpResponseHandler responseHandler = new JsonHttpResponseHandler() {
+            public void onFailure(int statusCode, Header[] headers, String errMsg, Throwable throwable) {
+                Log.v("JSONObject", errMsg);
+            }
 
             public void onFailure(int statusCode, Header[] headers, JSONArray response) {
                 Log.v("JSONObject", response.toString() );
