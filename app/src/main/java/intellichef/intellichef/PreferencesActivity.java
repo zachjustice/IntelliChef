@@ -1,22 +1,17 @@
 package intellichef.intellichef;
 
-import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
-import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,7 +70,7 @@ public class PreferencesActivity extends AppCompatActivity {
     private User currentUser;
     private static int GET_FROM_GALLERY = 1;
     private List<String> dietaryRestrictions;
-    private ArrayAdapter<String> allergyListAdpater;
+    private ArrayAdapter<String> allergyListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,8 +122,8 @@ public class PreferencesActivity extends AppCompatActivity {
         confirmPassword.setVisibility(View.GONE);
 
         dietaryRestrictions = new ArrayList<>();
-        allergyListAdpater = new ArrayAdapter<>(this, R.layout.mytextview, dietaryRestrictions);
-        allergyList.setAdapter(allergyListAdpater);
+        allergyListAdapter = new ArrayAdapter<>(this, R.layout.mytextview, dietaryRestrictions);
+        allergyList.setAdapter(allergyListAdapter);
         try {
             getUserInfo();
         } catch (JSONException e) {
@@ -247,7 +242,7 @@ public class PreferencesActivity extends AppCompatActivity {
                 String newAllergy = enterAllergy.getText().toString();
                 if (!newAllergy.isEmpty()) {
                     dietaryRestrictions.add(newAllergy);
-                    allergyListAdpater.notifyDataSetChanged();
+                    allergyListAdapter.notifyDataSetChanged();
                     InputMethodManager imm = (InputMethodManager) PreferencesActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(v.getApplicationWindowToken(), 0);
                     enterAllergy.setText("");
@@ -496,8 +491,7 @@ public class PreferencesActivity extends AppCompatActivity {
                         String allergy = allergies.getString(i);
                         dietaryRestrictions.add(allergy);
                     }
-
-                    allergyListAdpater.notifyDataSetChanged();
+                    allergyListAdapter.notifyDataSetChanged();
 
                 } catch (JSONException e) {
                     e.printStackTrace();

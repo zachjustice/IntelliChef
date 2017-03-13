@@ -92,6 +92,7 @@
             android:id="@+id/breakfast_pic"
             android:layout_width="200dp"
             android:layout_height="125dp"
+            android:onClick="onRecipeImageClick"
             android:scaleType="fitXY" />
 
     </FrameLayout>
@@ -119,6 +120,7 @@
             android:id="@+id/lunch_pic"
             android:layout_width="200dp"
             android:layout_height="125dp"
+            android:onClick="onRecipeImageClick"
             android:scaleType="fitXY" />
 
     </FrameLayout>
@@ -201,6 +203,7 @@
             android:id="@+id/dinner_pic"
             android:layout_width="200dp"
             android:layout_height="125dp"
+            android:onClick="onRecipeImageClick"
             android:scaleType="fitXY" />
 
     </FrameLayout>
