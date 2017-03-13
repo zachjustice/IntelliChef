@@ -56,6 +56,9 @@ public class MealPlanActivity extends AppCompatActivity {
     private TextView dinnerRating;
     private DateTime viewDate;
     private DateTime today;
+    private Recipe breakfastRecipe;
+    private Recipe lunchRecipe;
+    private Recipe dinnerRecipe;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,6 +146,23 @@ public class MealPlanActivity extends AppCompatActivity {
             }
         });
 
+        // Show recipe clicked
+        breakfastPic.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                openRecipeScreen(breakfastRecipe);
+            }
+        });
+        lunchPic.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                openRecipeScreen(lunchRecipe);
+            }
+        });
+        dinnerPic.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                openRecipeScreen(dinnerRecipe);
+            }
+        });
+
         // Tab Screen Change Logic
         TabLayout tabs = (TabLayout) findViewById(R.id.tabs);
         tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -179,13 +199,13 @@ public class MealPlanActivity extends AppCompatActivity {
         });
     }
 
-
     private void showMealPlans(int entityPk, String date) throws JSONException {
+        final String dateCopy = date;
 
         IntelliServerAPI.getRecipes(entityPk, date, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject result) {
-                Recipe breakfastRecipe = new Recipe();
+                breakfastRecipe = new Recipe();
                 try {
                     breakfastRecipe.fillParams(result.getJSONObject("breakfast"));
                 } catch (JSONException e) {
@@ -194,8 +214,10 @@ public class MealPlanActivity extends AppCompatActivity {
                 breakfastName.setText(breakfastRecipe.getName());
                 ImageExtractor.loadIntoImage(getApplicationContext(), breakfastRecipe.getPhotoUrl(), breakfastPic);
                 //breakfastRating.setText("" + breakfastRecipe.getRating());
+                breakfastPic.setTag("breakfast " + dateCopy);
 
-                Recipe lunchRecipe = new Recipe();
+
+                lunchRecipe = new Recipe();
                 try {
                     lunchRecipe.fillParams(result.getJSONObject("lunch"));
                 } catch (JSONException e) {
@@ -204,8 +226,9 @@ public class MealPlanActivity extends AppCompatActivity {
                 lunchName.setText(lunchRecipe.getName());
                 ImageExtractor.loadIntoImage(getApplicationContext(), lunchRecipe.getPhotoUrl(), lunchPic);
                 //lunchRating.setText("" + lunchRecipe.getRating());
+                lunchPic.setTag("lunch " + dateCopy);
 
-                Recipe dinnerRecipe = new Recipe();
+                dinnerRecipe = new Recipe();
                 try {
                     dinnerRecipe.fillParams(result.getJSONObject("dinner"));
                 } catch (JSONException e) {
@@ -214,9 +237,21 @@ public class MealPlanActivity extends AppCompatActivity {
                 dinnerName.setText(dinnerRecipe.getName());
                 ImageExtractor.loadIntoImage(getApplicationContext(), dinnerRecipe.getPhotoUrl(), dinnerPic);
                 //dinnerRating.setText("" + dinnerRecipe.getRating());
+                dinnerPic.setTag("dinner " + dateCopy);
+
             }
         });
 
+    }
+
+    public void openRecipeScreen(Recipe recipe) {
+        if (recipe == null) {
+            System.out.println("Recipe is null");
+            return;
+        }
+        Intent intent = new Intent(getBaseContext(), ViewRecipeActivity.class);
+        intent.putExtra("recipePk", recipe.getRecipePK());
+        startActivity(intent);
     }
 
 }

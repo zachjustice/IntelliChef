@@ -46,8 +46,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_above="@+id/recipeView"
+                android:layout_above="@+id/ingredients"
                 android:id="@+id/description" />
+
+            <ListView
+                android:id="@+id/ingredients"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/recipeView"/>
 
             <ListView
                 android:layout_width="match_parent"

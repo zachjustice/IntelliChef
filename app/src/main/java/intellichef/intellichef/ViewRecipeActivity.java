@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,9 +36,14 @@ public class ViewRecipeActivity extends AppCompatActivity {
     private ArrayAdapter<String> notesAdapter;
     private EditText addNotes;
     private ArrayAdapter<String> recipeViewAdapter;
+    private ArrayAdapter<String> ingredientsAdapter;
+
     private ListView recipeViewList;
+    private ListView ingredientsList;
     private Button addNoteButton;
     ArrayList<String> instructionArray;
+    ArrayList<String> ingredientArray;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,21 +62,17 @@ public class ViewRecipeActivity extends AppCompatActivity {
         recipeViewAdapter = new ArrayAdapter(ViewRecipeActivity.this, R.layout.mytextview, instructionArray);
         recipeViewList.setAdapter(recipeViewAdapter);
 
+        ingredientArray = new ArrayList<>();
+        ingredientsList = (ListView) findViewById(R.id.ingredients);
+        ingredientsAdapter = new ArrayAdapter(ViewRecipeActivity.this, R.layout.mytextview, ingredientArray);
+        ingredientsList.setAdapter(ingredientsAdapter);
+
+
         try {
             showRecipe(recipePK);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        instructionArray.add("Hello");
-        instructionArray.add("Hello");
-        instructionArray.add("Hello");
-        instructionArray.add("Hello");
-        instructionArray.add("Hello");
-        instructionArray.add("Hello");
-        instructionArray.add("Hello");
-        instructionArray.add("Hello");
-        instructionArray.add("Hello");
-        instructionArray.add("Hello");
         recipeViewAdapter.notifyDataSetChanged();
         setListViewHeightBasedOnChildren(recipeViewList);
 
@@ -109,12 +111,19 @@ public class ViewRecipeActivity extends AppCompatActivity {
                 Recipe recipe = new Recipe();
                 recipe.fillParams(result);
                 String[] instructions = recipe.getInstructions();
+                String[] ingredients = recipe.getIngredients();
                 for (String instruction: instructions) {
                     instructionArray.add(instruction);
                 }
+                for (String ingredient: ingredients) {
+                    Log.wtf("Lmao", ingredient);
+                    ingredientArray.add(ingredient);
+                }
                 recipeViewAdapter.notifyDataSetChanged();
                 setListViewHeightBasedOnChildren(recipeViewList);
-                System.out.println("hello");
+
+                ingredientsAdapter.notifyDataSetChanged();
+                setListViewHeightBasedOnChildren(ingredientsList);
 
                 recipeName.setText(recipe.getName());
                 ImageExtractor.loadIntoImage(getApplicationContext(), recipe.getPhotoUrl(), recipeImage);
