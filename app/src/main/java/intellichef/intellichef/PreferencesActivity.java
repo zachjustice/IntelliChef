@@ -60,7 +60,7 @@ public class PreferencesActivity extends AppCompatActivity {
     private EditText first;
     private EditText last;
     private EditText email;
-    private EditText usern;
+    private EditText username;
     private EditText password;
     private EditText confirmPassword;
     private LinearLayout basicInfoLayout;
@@ -77,7 +77,9 @@ public class PreferencesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         CalligraphyConfig.initDefault("fonts/Montserrat-Light.ttf");
         setContentView(R.layout.activity_preferences);
-        currentUser = LoginActivity.getCurrentUser();
+        if (currentUser == null) {
+            currentUser = LoginActivity.getCurrentUser();
+        }
 
 
         basicInfoLayout = (LinearLayout) findViewById(R.id.basicInfoMain);
@@ -111,16 +113,13 @@ public class PreferencesActivity extends AppCompatActivity {
         first = (EditText) findViewById(R.id.fn);
         last = (EditText) findViewById(R.id.ln);
         email = (EditText) findViewById(R.id.em);
-        usern = (EditText) findViewById(R.id.un);
+        username = (EditText) findViewById(R.id.un);
         password = (EditText) findViewById(R.id.pw);
         confirmPassword = (EditText) findViewById(R.id.cpw);
 
         // Hide the password and confirmPassword field from the user
         password.setVisibility(View.GONE);
         confirmPassword.setVisibility(View.GONE);
-
-        currentUser = LoginActivity.getCurrentUser();
-
 
         dietaryRestrictions = new ArrayList<>();
         allergyListAdapter = new ArrayAdapter<>(this, R.layout.mytextview, dietaryRestrictions);
@@ -466,6 +465,7 @@ public class PreferencesActivity extends AppCompatActivity {
 
     private void getUserInfo() throws JSONException {
         int entity_pk = currentUser.getEntityPk();
+
         IntelliServerAPI.getUserInfo(entity_pk, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject result) {
@@ -473,9 +473,7 @@ public class PreferencesActivity extends AppCompatActivity {
                     first.setText(result.getString("first_name"));
                     last.setText(result.getString("last_name"));
                     email.setText(result.getString("email"));
-                    usern.setText(result.getString("username"));
-                    password.setText(result.getString("password"));
-                    confirmPassword.setText(result.getString("password"));
+                    username.setText(result.getString("username"));
 
                     // TODO check if this works (need a user with preferences filled out
                     JSONArray dietaryConcerns = result.getJSONArray("dietary_concerns");
@@ -494,8 +492,6 @@ public class PreferencesActivity extends AppCompatActivity {
                         dietaryRestrictions.add(allergy);
                     }
                     allergyListAdapter.notifyDataSetChanged();
-
-
 
                 } catch (JSONException e) {
                     e.printStackTrace();

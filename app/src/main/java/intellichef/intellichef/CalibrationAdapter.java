@@ -67,4 +67,17 @@ public class CalibrationAdapter extends ArrayAdapter<CalibrationItem> {
         TextView recipeName;
     }
 
+    @Override
+    public int getViewTypeCount() {
+
+        return getCount();
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+
+        return position;
+    }
+
+
 }

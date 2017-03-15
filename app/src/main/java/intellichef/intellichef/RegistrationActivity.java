@@ -115,30 +115,31 @@ public class RegistrationActivity extends AppCompatActivity {
         RegistrationInfo registrationInfo = new RegistrationInfo(firstName, lastName, email, username, password);
         currentUser = new User(registrationInfo);
         currentUser.setNewUser(true);
+        LoginActivity.setCurrentUser(currentUser);
 
-        IntelliServerAPI.register(registrationInfo, this.getApplicationContext(), new JsonHttpResponseHandler() {
+        IntelliServerAPI.register(registrationInfo, RegistrationActivity.this, new JsonHttpResponseHandler() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject result) {
-                JSONObject entity = null;
+            public void onFailure(int statusCode, Header[] headers, String result, Throwable throwable) {
+                if( statusCode == 400) { // 401 status code corresponds to unauthorized access
+                    mEmailView.setError("Email address or username already exists.");
+                    mEmailView.requestFocus();
+                }
+            }
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject entity) {
                 int entityPk;
 
                 try {
-                    entity = result.getJSONObject("entity");
-                    entityPk = entity.getInt("entity");
+                    entityPk = entity.getInt("entity_pk");
 
                     currentUser.setEntityPk(entityPk);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
-                if (entity == null) {
-                    mEmailView.setError("Email address or username already exists.");
-                    mEmailView.requestFocus();
-                } else {
-                    LoginActivity.setCurrentUser(currentUser);
-                    Intent intent = new Intent(RegistrationActivity.this, PreferencesActivity.class);
-                    startActivity(intent);
-                }
+                LoginActivity.setCurrentUser(currentUser);
+                Intent intent = new Intent(RegistrationActivity.this, PreferencesActivity.class);
+                startActivity(intent);
             }
         });
     }
