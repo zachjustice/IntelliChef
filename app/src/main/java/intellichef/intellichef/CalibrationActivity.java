@@ -93,8 +93,6 @@ public class CalibrationActivity extends AppCompatActivity {
                 } catch (JSONException e) {
                     System.out.println(e.getMessage());
                 }
-                Intent intent = new Intent(CalibrationActivity.this, MealPlanActivity.class);
-                startActivity(intent);
             }
         });
     }
@@ -126,7 +124,7 @@ public class CalibrationActivity extends AppCompatActivity {
         for (Integer calibrationPk: calibrationPks) {
             IntelliServerAPI.insertUserCalibrationPick(context, entityPk, calibrationPk, new JsonHttpResponseHandler() {
                 @Override
-                public void onSuccess(int statusCode, Header[] headers, JSONArray result) {
+                public void onSuccess(int statusCode, Header[] headers, JSONObject result) {
                     try {
                         Log.v("calibration", "INSERTING CALIBRATION RECIPE");
                     } catch (Exception e) {
@@ -141,8 +139,10 @@ public class CalibrationActivity extends AppCompatActivity {
 
         IntelliServerAPI.generateMealPlan(context, entityPk, new JsonHttpResponseHandler() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONArray result) {
+            public void onSuccess(int statusCode, Header[] headers, JSONObject result) {
                     Log.v("MealPlan", "generated succesfully");
+                    Intent intent = new Intent(CalibrationActivity.this, MealPlanActivity.class);
+                    startActivity(intent);
             }
         });
     }

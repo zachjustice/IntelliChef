@@ -15,12 +15,9 @@ public class IntelliServerRestClientv2 {
     private static AsyncHttpClient client;
 
     public static void initialize(String username, String password) {
-        initialize();
-        client.setBasicAuth(username, password);
-    }
-
-    public static void initialize() {
         client = new AsyncHttpClient();
+        client.setTimeout(10000);
+        client.setBasicAuth(username, password);
     }
 
     public static void get(String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
