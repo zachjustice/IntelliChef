@@ -1,6 +1,9 @@
 package intellichef.intellichef;
 
 import android.content.Context;
+import android.content.Intent;
+import android.support.design.widget.TabLayout;
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
@@ -59,12 +62,12 @@ public class ViewRecipeActivity extends AppCompatActivity {
 
         instructionArray = new ArrayList<>();
         recipeViewList = (ListView) findViewById(R.id.recipeView);
-        recipeViewAdapter = new ArrayAdapter(ViewRecipeActivity.this, R.layout.mytextview, instructionArray);
+        recipeViewAdapter = new ArrayAdapter(ViewRecipeActivity.this, R.layout.custom_textview, instructionArray);
         recipeViewList.setAdapter(recipeViewAdapter);
 
         ingredientArray = new ArrayList<>();
         ingredientsList = (ListView) findViewById(R.id.ingredients);
-        ingredientsAdapter = new ArrayAdapter(ViewRecipeActivity.this, R.layout.mytextview, ingredientArray);
+        ingredientsAdapter = new ArrayAdapter(ViewRecipeActivity.this, R.layout.custom_textview, ingredientArray);
         ingredientsList.setAdapter(ingredientsAdapter);
 
 
@@ -97,6 +100,42 @@ public class ViewRecipeActivity extends AppCompatActivity {
                     addNoteButton.setText("Edit");
                     //TODO API call to save the notes
                 }
+            }
+        });
+
+        // Tab Screen Change Logic
+        TabLayout tabs = (TabLayout) findViewById(R.id.tabs);
+        tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                // called when tab selected
+                int tabIndex = tab.getPosition();
+                switch (tabIndex) {
+                    case 0:
+                        Intent intent = new Intent(ViewRecipeActivity.this, MealPlanActivity.class);
+                        startActivity(intent);
+                    case 1:
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        intent = new Intent(ViewRecipeActivity.this, PreferencesActivity.class);
+                        startActivity(intent);
+                        break;
+                    default:
+                        break;
+                }
+
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+                // called when tab unselected
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+                // called when a tab is reselected
             }
         });
 
@@ -152,6 +191,9 @@ public class ViewRecipeActivity extends AppCompatActivity {
         listView.setLayoutParams(params);
         listView.requestLayout();
     }
+
+
+
 
 
 
