@@ -28,6 +28,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class ViewRecipeActivity extends AppCompatActivity {
 
@@ -35,7 +37,7 @@ public class ViewRecipeActivity extends AppCompatActivity {
     private TextView recipeName;
     private ImageView recipeImage;
     private TextView description;
-//    private ListView notesList;
+    //    private ListView notesList;
     private ArrayAdapter<String> notesAdapter;
     private EditText addNotes;
     private ArrayAdapter<String> recipeViewAdapter;
@@ -52,6 +54,7 @@ public class ViewRecipeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_recipe);
+        CalligraphyConfig.initDefault("fonts/Montserrat-Light.ttf");
         recipePK = getIntent().getIntExtra("recipePk", -1);
         recipeName = (TextView) findViewById(R.id.recipeName);
         recipeImage = (ImageView) findViewById(R.id.recipeImage);
@@ -151,10 +154,10 @@ public class ViewRecipeActivity extends AppCompatActivity {
                 recipe.fillParams(result);
                 String[] instructions = recipe.getInstructions();
                 String[] ingredients = recipe.getIngredients();
-                for (String instruction: instructions) {
+                for (String instruction : instructions) {
                     instructionArray.add(instruction);
                 }
-                for (String ingredient: ingredients) {
+                for (String ingredient : ingredients) {
                     Log.wtf("Lmao", ingredient);
                     ingredientArray.add(ingredient);
                 }
@@ -192,9 +195,8 @@ public class ViewRecipeActivity extends AppCompatActivity {
         listView.requestLayout();
     }
 
-
-
-
-
-
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(new CalligraphyContextWrapper(newBase));
+    }
 }

@@ -1,5 +1,6 @@
 package intellichef.intellichef;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -35,6 +36,7 @@ import java.util.Date;
 
 import cz.msebera.android.httpclient.Header;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 import static android.R.drawable.btn_star_big_off;
 import static android.R.drawable.btn_star_big_on;
@@ -146,6 +148,8 @@ public class MealPlanActivity extends AppCompatActivity {
             }
         });
 
+
+
         // Show recipe clicked
         breakfastPic.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -252,6 +256,11 @@ public class MealPlanActivity extends AppCompatActivity {
         Intent intent = new Intent(getBaseContext(), ViewRecipeActivity.class);
         intent.putExtra("recipePk", recipe.getRecipePK());
         startActivity(intent);
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(new CalligraphyContextWrapper(newBase));
     }
 
 }
