@@ -1,22 +1,15 @@
 package intellichef.intellichef;
 
-import android.app.ListFragment;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 
@@ -24,7 +17,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.Console;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -35,9 +27,9 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class CalibrationActivity extends AppCompatActivity {
 
     Button submit;
-    ArrayList<CalibrationItem> calibrationItems;
+    ArrayList<RecipeItem> recipeItems;
     ListView listview;
-    CalibrationAdapter adapter;
+    RecipeAdapter adapter;
     ArrayList<Integer> calibrationPks = new ArrayList<Integer>();
 
 
@@ -48,7 +40,7 @@ public class CalibrationActivity extends AppCompatActivity {
         CalligraphyConfig.initDefault("fonts/Montserrat-Light.ttf");
 
         listview = (ListView) findViewById(R.id.listView);
-        calibrationItems = new ArrayList<>();
+        recipeItems = new ArrayList<>();
         submit = (Button) findViewById(R.id.submit);
 
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -56,7 +48,7 @@ public class CalibrationActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-                CalibrationItem selected = calibrationItems.get(position);
+                RecipeItem selected = recipeItems.get(position);
                 selected.toggleSelected();
                 if (selected.isSelected()) {
                     view.setBackgroundResource(R.drawable.layout);
@@ -78,11 +70,11 @@ public class CalibrationActivity extends AppCompatActivity {
 
         submit.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                for (CalibrationItem c: calibrationItems) {
+                for (RecipeItem c: recipeItems) {
                     if (c.isSelected()) {
-                        calibrationPks.add(c.getCalibrationPk());
+                        calibrationPks.add(c.getRecipePk());
                     } else {
-                        calibrationPks.remove(c.getCalibrationPk());
+                        calibrationPks.remove(c.getRecipePk());
                     }
                 }
                 Log.v("Calibrated", "" + calibrationPks.size());
@@ -105,14 +97,15 @@ public class CalibrationActivity extends AppCompatActivity {
                 try {
                     for (int i = 0; i < result.length(); i++) {
                         JSONObject calibratedRecipe = (JSONObject) result.get(i);
-                        calibrationItems.add(new CalibrationItem("" + calibratedRecipe.get("image_url"), "" + calibratedRecipe.get("name"), (Integer) calibratedRecipe.get("recipe_pk")));
+                        recipeItems.add(new RecipeItem("" + calibratedRecipe.get("image_url"), "" + calibratedRecipe.get("name"), (Integer) calibratedRecipe.get("recipe_pk")));
                     }
                     //randomize
-                    Collections.shuffle(calibrationItems);
-                    adapter = new CalibrationAdapter(CalibrationActivity.this, R.layout.calibration_view, calibrationItems);
+                    Collections.shuffle(recipeItems);
+                    adapter = new RecipeAdapter(CalibrationActivity.this, R.layout.recipe_view, recipeItems);
                     adapter.notifyDataSetChanged();
                     listview.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
+
                 } catch (Exception e) {
                     Log.v("JSONObject", "" + e.getMessage());
                 }

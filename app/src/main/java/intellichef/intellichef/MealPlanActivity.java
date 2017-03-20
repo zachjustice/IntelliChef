@@ -2,25 +2,16 @@ package intellichef.intellichef;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.net.Uri;
-import android.support.design.widget.TabItem;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TabHost;
 import android.widget.TextView;
 
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.appindexing.Thing;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.joda.time.DateTime;
@@ -29,18 +20,9 @@ import org.joda.time.format.DateTimeFormatter;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-
 import cz.msebera.android.httpclient.Header;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
-
-import static android.R.drawable.btn_star_big_off;
-import static android.R.drawable.btn_star_big_on;
-
 
 
 public class MealPlanActivity extends AppCompatActivity {
@@ -58,9 +40,12 @@ public class MealPlanActivity extends AppCompatActivity {
     private TextView dinnerRating;
     private DateTime viewDate;
     private DateTime today;
-    private Recipe breakfastRecipe;
-    private Recipe lunchRecipe;
-    private Recipe dinnerRecipe;
+    private Meal breakfastMeal;
+    private Meal lunchMeal;
+    private Meal dinnerMeal;
+    private Button breakfastReplaceButton;
+    private Button lunchReplaceButton;
+    private Button dinnerReplaceButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,6 +112,7 @@ public class MealPlanActivity extends AppCompatActivity {
 
         });
 
+
         nextButton = (Button) findViewById(R.id.nextRecipe);
         if (weekDay == 7) {
             nextButton.setVisibility(View.INVISIBLE);
@@ -153,17 +139,17 @@ public class MealPlanActivity extends AppCompatActivity {
         // Show recipe clicked
         breakfastPic.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                openRecipeScreen(breakfastRecipe);
+                openRecipeScreen(breakfastMeal);
             }
         });
         lunchPic.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                openRecipeScreen(lunchRecipe);
+                openRecipeScreen(lunchMeal);
             }
         });
         dinnerPic.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                openRecipeScreen(dinnerRecipe);
+                openRecipeScreen(dinnerMeal);
             }
         });
 
@@ -206,46 +192,72 @@ public class MealPlanActivity extends AppCompatActivity {
     private void showMealPlans(int entityPk, String date) throws JSONException {
         final String dateCopy = date;
 
-        IntelliServerAPI.getRecipes(entityPk, date, new JsonHttpResponseHandler() {
+        IntelliServerAPI.getMealPlan(entityPk, date, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject result) {
-                breakfastRecipe = new Recipe();
+                breakfastMeal = new Meal();
                 try {
-                    breakfastRecipe.fillParams(result.getJSONObject("breakfast"));
+                    breakfastMeal.fillParams(result.getJSONObject("breakfast"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                breakfastName.setText(breakfastRecipe.getName());
-                ImageExtractor.loadIntoImage(getApplicationContext(), breakfastRecipe.getPhotoUrl(), breakfastPic);
-                //breakfastRating.setText("" + breakfastRecipe.getRating());
+                breakfastName.setText(breakfastMeal.getName());
+                ImageExtractor.loadIntoImage(getApplicationContext(), breakfastMeal.getPhotoUrl(), breakfastPic);
+                //breakfastRating.setText("" + breakfastMeal.getRating());
                 breakfastPic.setTag("breakfast " + dateCopy);
 
-
-                lunchRecipe = new Recipe();
+                lunchMeal = new Meal();
                 try {
-                    lunchRecipe.fillParams(result.getJSONObject("lunch"));
+                    lunchMeal.fillParams(result.getJSONObject("lunch"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                lunchName.setText(lunchRecipe.getName());
-                ImageExtractor.loadIntoImage(getApplicationContext(), lunchRecipe.getPhotoUrl(), lunchPic);
-                //lunchRating.setText("" + lunchRecipe.getRating());
+                lunchName.setText(lunchMeal.getName());
+                ImageExtractor.loadIntoImage(getApplicationContext(), lunchMeal.getPhotoUrl(), lunchPic);
+                //lunchRating.setText("" + lunchMeal.getRating());
                 lunchPic.setTag("lunch " + dateCopy);
 
-                dinnerRecipe = new Recipe();
+                dinnerMeal = new Meal();
                 try {
-                    dinnerRecipe.fillParams(result.getJSONObject("dinner"));
+                    dinnerMeal.fillParams(result.getJSONObject("dinner"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                dinnerName.setText(dinnerRecipe.getName());
-                ImageExtractor.loadIntoImage(getApplicationContext(), dinnerRecipe.getPhotoUrl(), dinnerPic);
-                //dinnerRating.setText("" + dinnerRecipe.getRating());
+                dinnerName.setText(dinnerMeal.getName());
+                ImageExtractor.loadIntoImage(getApplicationContext(), dinnerMeal.getPhotoUrl(), dinnerPic);
+                //dinnerRating.setText("" + dinnerMeal.getRating());
                 dinnerPic.setTag("dinner " + dateCopy);
 
+                // need to get meal plan pk's before setting up replace buttons
+                breakfastReplaceButton = (Button) findViewById(R.id.replaceBreakfast);
+                breakfastReplaceButton.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        Intent intent = new Intent(MealPlanActivity.this, ReplaceMealActivity.class);
+                        Log.v("replace", "bfast meal pk " + breakfastMeal.getMealPlanPK());
+                        intent.putExtra("mealPlanPK", breakfastMeal.getMealPlanPK());
+                        startActivity(intent);
+                    }
+                });
+
+                lunchReplaceButton = (Button) findViewById(R.id.replaceLunch);
+                lunchReplaceButton.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        Intent intent = new Intent(MealPlanActivity.this, ReplaceMealActivity.class);
+                        intent.putExtra("mealPlanPK", lunchMeal.getMealPlanPK());
+                        startActivity(intent);
+                    }
+                });
+
+                dinnerReplaceButton = (Button) findViewById(R.id.replaceDinner);
+                dinnerReplaceButton.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        Intent intent = new Intent(MealPlanActivity.this, ReplaceMealActivity.class);
+                        intent.putExtra("mealPlanPK", dinnerMeal.getMealPlanPK());
+                        startActivity(intent);
+                    }
+                });
             }
         });
-
     }
 
     public void openRecipeScreen(Recipe recipe) {

@@ -85,18 +85,17 @@
             android:layout_marginTop="20dp">
 
             <Button
-                android:text="Replace"
                 android:id="@+id/replaceBreakfast"
-                android:layout_gravity="right"
-                android:textSize="6pt"
-                android:textColor="#ffffff"
-                android:background="#808080"
-                android:layout_marginTop="5dp"
-                android:layout_marginRight="5dp"
-                android:alpha="0.7"
-                android:layout_width="60dp"
+                android:layout_width="65dp"
                 android:layout_height="20dp"
-                />
+                android:layout_gravity="right"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:alpha="0.7"
+                android:background="#808080"
+                android:text="Replace"
+                android:textColor="#ffffff"
+                android:textSize="6pt" />
 
             <ImageView
                 android:id="@+id/breakfast_pic"
@@ -120,17 +119,17 @@
             android:layout_marginTop="40dp">
 
             <Button
-                android:text="Replace"
                 android:id="@+id/replaceLunch"
+                android:layout_width="65dp"
+                android:layout_height="20dp"
                 android:layout_gravity="right"
-                android:textSize="6pt"
-                android:textColor="#ffffff"
-                android:background="#808080"
-                android:layout_marginTop="5dp"
                 android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
                 android:alpha="0.7"
-                android:layout_width="60dp"
-                android:layout_height="20dp"/>
+                android:background="#808080"
+                android:text="Replace"
+                android:textColor="#ffffff"
+                android:textSize="6pt" />
 
             <ImageView
                 android:id="@+id/lunch_pic"
@@ -209,18 +208,18 @@
             android:layout_marginTop="18dp">
 
             <Button
-                android:text="Replace"
-
                 android:id="@+id/replaceDinner"
+
+                android:layout_width="65dp"
+                android:layout_height="20dp"
                 android:layout_gravity="right"
-                android:textSize="6pt"
-                android:textColor="#ffffff"
-                android:background="#808080"
-                android:layout_marginTop="5dp"
                 android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
                 android:alpha="0.7"
-                android:layout_width="60dp"
-                android:layout_height="20dp"/>
+                android:background="#808080"
+                android:text="Replace"
+                android:textColor="#ffffff"
+                android:textSize="6pt" />
 
             <ImageView
                 android:id="@+id/dinner_pic"

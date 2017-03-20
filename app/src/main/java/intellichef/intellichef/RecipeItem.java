@@ -3,16 +3,16 @@ package intellichef.intellichef;
 /**
  * Created by jatin1 on 2/16/17.
  */
-public class CalibrationItem {
+public class RecipeItem {
 
     private String mImageUrl;
     private String mTitle;
     private boolean isSelected;
-    private Integer mCalibrationPk;
+    private Integer mRecipePk;
 
-    public CalibrationItem(String url, String title, Integer calibrationPk) {
+    public RecipeItem(String url, String title, Integer recipePk) {
         this.mImageUrl = url;
-        this.mCalibrationPk = calibrationPk;
+        this.mRecipePk = recipePk;
         this.mTitle = title;
     }
 
@@ -40,7 +40,7 @@ public class CalibrationItem {
         return isSelected;
     }
 
-    public Integer getCalibrationPk() {
-        return mCalibrationPk;
+    public Integer getRecipePk() {
+        return mRecipePk;
     }
 }

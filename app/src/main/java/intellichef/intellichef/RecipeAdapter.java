@@ -2,32 +2,26 @@ package intellichef.intellichef;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Color;
-import android.util.Log;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by jatin1 on 2/16/17.
  */
-public class CalibrationAdapter extends ArrayAdapter<CalibrationItem> {
+public class RecipeAdapter extends ArrayAdapter<RecipeItem> {
 
     Context context;
-    int layoutResourceId;
-    ArrayList<CalibrationItem> data;
-    int selectedIndex = -1;
+    private int layoutResourceId;
+    private ArrayList<RecipeItem> data;
 
-
-
-    public CalibrationAdapter(Context context, int layoutResourceId, ArrayList<CalibrationItem> data) {
+    public RecipeAdapter(Context context, int layoutResourceId, ArrayList<RecipeItem> data) {
         super(context, layoutResourceId, data);
         this.layoutResourceId = layoutResourceId;
         this.context = context;
@@ -36,25 +30,26 @@ public class CalibrationAdapter extends ArrayAdapter<CalibrationItem> {
 
 
 
+    @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         View row = convertView;
-        CalibrationHolder holder = null;
+        RecipeHolder holder = null;
 
         if (row == null) {
             LayoutInflater inflater = ((Activity) context).getLayoutInflater();
             row = inflater.inflate(layoutResourceId, parent, false);
 
-            holder = new CalibrationHolder();
+            holder = new RecipeHolder();
             holder.recipeImage = (ImageView) row.findViewById(R.id.recipeImage);
             holder.recipeName = (TextView) row.findViewById(R.id.recipeName);
 
             row.setTag(holder);
         } else {
-            holder = (CalibrationHolder) row.getTag();
+            holder = (RecipeHolder) row.getTag();
         }
 
-        CalibrationItem item = data.get(position);
+        RecipeItem item = data.get(position);
         holder.recipeName.setText(item.getRecipeName());
         ImageExtractor.loadIntoImage(getContext(), item.getImageUrl(), holder.recipeImage, 150, 150);
 
@@ -62,7 +57,7 @@ public class CalibrationAdapter extends ArrayAdapter<CalibrationItem> {
 
     }
 
-    static class CalibrationHolder {
+    private static class RecipeHolder {
         ImageView recipeImage;
         TextView recipeName;
     }
@@ -70,7 +65,7 @@ public class CalibrationAdapter extends ArrayAdapter<CalibrationItem> {
     @Override
     public int getViewTypeCount() {
 
-        return getCount();
+        return 1;
     }
 
     @Override

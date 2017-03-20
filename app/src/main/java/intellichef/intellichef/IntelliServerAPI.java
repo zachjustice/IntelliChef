@@ -9,6 +9,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
 
 import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.annotation.ThreadSafe;
 import cz.msebera.android.httpclient.entity.StringEntity;
 import cz.msebera.android.httpclient.message.BasicHeader;
 
@@ -128,7 +129,7 @@ public class IntelliServerAPI {
         IntelliServerRestClientv2.post(context, "v2.0/entities", requestData, "application/json", responseHandler);
     }
 
-    public static void getRecipes(int entityPk, String date, final JsonHttpResponseHandler callback) throws JSONException {
+    public static void getMealPlan(int entityPk, String date, final JsonHttpResponseHandler callback) throws JSONException {
         final JsonHttpResponseHandler responseHandler = new JsonHttpResponseHandler() {
             public void onFailure(int statusCode, Header[] headers, JSONObject response) {
                 Log.v("JSONObject", response.toString() );
@@ -277,5 +278,57 @@ public class IntelliServerAPI {
         RequestParams params = new RequestParams();
 
         IntelliServerRestClientv2.get("v2.0/recipes/" + recipePk, params, responseHandler);
+    }
+
+    public static void searchRecipes(String name, int page, int page_size, final JsonHttpResponseHandler callback) throws JSONException {
+        final JsonHttpResponseHandler responseHandler = new JsonHttpResponseHandler() {
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject response) {
+                Log.v("JSONObject", response.toString());
+            }
+
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                // Pull out the first event on the public timeline
+                // Do something with the response
+                Log.v("JSONObject", response.toString());
+                callback.onSuccess(statusCode, headers, response);
+            }
+        };
+
+        RequestParams params = new RequestParams();
+        params.put("name", name);
+        params.put("page", page);
+        params.put("page_size", page_size);
+
+        IntelliServerRestClientv2.get("v2.0/recipes", params, responseHandler);
+    }
+
+    public static void updateMealPlan(int mealPlanPK, int recipePK, Context context, final JsonHttpResponseHandler callback) {
+        final JsonHttpResponseHandler responseHandler = new JsonHttpResponseHandler() {
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject response) {
+                Log.v("JSONObject", response.toString());
+            }
+
+            public void onFailure(int statusCode, Header[] headers, String response, Throwable throwable) {
+                Log.v("JSONObject", response.toString());
+            }
+
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                // Pull out the first event on the public timeline
+                // Do something with the response
+                Log.v("JSONObject", response.toString());
+                callback.onSuccess(statusCode, headers, response);
+            }
+        };
+
+        StringEntity requestData = null;
+
+        try {
+            requestData = new StringEntity("{\"recipe_pk\":" + recipePK +"}");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        Log.v("replace", "" + mealPlanPK);
+        IntelliServerRestClientv2.put(context, "v2.0/meal_plans/" + mealPlanPK, requestData, "application/json", responseHandler);
     }
 }
