@@ -61,18 +61,6 @@
             android:paddingRight="15dp"
             android:textColor="#808080"
             />
-        <TextView
-            android:text="TextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="11dp"
-            android:layout_marginEnd="11dp"
-            android:id="@+id/breakfast_rating"
-            android:layout_above="@+id/lunchLayout"
-            android:layout_toRightOf="@+id/breakfast_name"
-            android:textSize="20sp"
-            android:textColor="#808080"
-            />
 
         <FrameLayout
             android:id="@+id/breakfastLayout"
@@ -94,6 +82,20 @@
                 android:alpha="0.7"
                 android:background="#808080"
                 android:text="Replace"
+                android:textColor="#ffffff"
+                android:textSize="6pt" />
+
+            <Button
+                android:id="@+id/rateBreakfast"
+
+                android:layout_width="65dp"
+                android:layout_height="20dp"
+                android:layout_gravity="left"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:alpha="0.7"
+                android:background="#808080"
+                android:text="Rate"
                 android:textColor="#ffffff"
                 android:textSize="6pt" />
 
@@ -131,6 +133,21 @@
                 android:textColor="#ffffff"
                 android:textSize="6pt" />
 
+            <Button
+                android:id="@+id/rateLunch"
+
+                android:layout_width="65dp"
+                android:layout_height="20dp"
+                android:layout_gravity="left"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:alpha="0.7"
+                android:background="#808080"
+                android:text="Rate"
+                android:textColor="#ffffff"
+                android:textSize="6pt" />
+
+
             <ImageView
                 android:id="@+id/lunch_pic"
                 android:layout_width="200dp"
@@ -150,21 +167,6 @@
             android:layout_centerHorizontal="true"
             android:layout_centerInParent="true"
 
-            android:textColor="#808080"
-            />
-
-        <TextView
-            android:text="TextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/lunch_rating"
-            android:layout_above="@+id/dinnerLayout"
-            android:layout_alignLeft="@+id/breakfast_rating"
-            android:layout_alignStart="@+id/breakfast_rating"
-            android:layout_marginRight="11dp"
-            android:layout_marginEnd="11dp"
-            android:layout_toRightOf="@+id/breakfast_name"
-            android:textSize="20sp"
             android:textColor="#808080"
             />
 
@@ -218,6 +220,20 @@
                 android:alpha="0.7"
                 android:background="#808080"
                 android:text="Replace"
+                android:textColor="#ffffff"
+                android:textSize="6pt" />
+
+            <Button
+                android:id="@+id/rateDinner"
+
+                android:layout_width="65dp"
+                android:layout_height="20dp"
+                android:layout_gravity="left"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:alpha="0.7"
+                android:background="#808080"
+                android:text="Rate"
                 android:textColor="#ffffff"
                 android:textSize="6pt" />
 

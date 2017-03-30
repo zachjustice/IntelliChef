@@ -65,7 +65,7 @@ public class RecipeAdapter extends ArrayAdapter<RecipeItem> {
     @Override
     public int getViewTypeCount() {
 
-        return 1;
+        return getCount();
     }
 
     @Override
@@ -73,6 +73,5 @@ public class RecipeAdapter extends ArrayAdapter<RecipeItem> {
 
         return position;
     }
-
 
 }

@@ -1,8 +1,12 @@
 package intellichef.intellichef;
 
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.TabLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -35,9 +39,6 @@ public class MealPlanActivity extends AppCompatActivity {
     private ImageView breakfastPic;
     private ImageView lunchPic;
     private ImageView dinnerPic;
-    private TextView breakfastRating;
-    private TextView lunchRating;
-    private TextView dinnerRating;
     private DateTime viewDate;
     private DateTime today;
     private Meal breakfastMeal;
@@ -46,6 +47,10 @@ public class MealPlanActivity extends AppCompatActivity {
     private Button breakfastReplaceButton;
     private Button lunchReplaceButton;
     private Button dinnerReplaceButton;
+    private Button breakfastRateButton;
+    private Button lunchRateButton;
+    private Button dinnerRateButton;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,14 +66,6 @@ public class MealPlanActivity extends AppCompatActivity {
         breakfastPic = (ImageView) findViewById(R.id.breakfast_pic);
         lunchPic = (ImageView) findViewById(R.id.lunch_pic);
         dinnerPic = (ImageView) findViewById(R.id.dinner_pic);
-
-        breakfastRating = (TextView) findViewById(R.id.breakfast_rating);
-        lunchRating = (TextView) findViewById(R.id.lunch_rating);
-        dinnerRating = (TextView) findViewById(R.id.dinner_rating);
-
-        breakfastRating.setVisibility(View.GONE);
-        lunchRating.setVisibility(View.GONE);
-        dinnerRating.setVisibility(View.GONE);
 
         //for query
         final DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
@@ -203,7 +200,6 @@ public class MealPlanActivity extends AppCompatActivity {
                 }
                 breakfastName.setText(breakfastMeal.getName());
                 ImageExtractor.loadIntoImage(getApplicationContext(), breakfastMeal.getPhotoUrl(), breakfastPic);
-                //breakfastRating.setText("" + breakfastMeal.getRating());
                 breakfastPic.setTag("breakfast " + dateCopy);
 
                 lunchMeal = new Meal();
@@ -214,7 +210,6 @@ public class MealPlanActivity extends AppCompatActivity {
                 }
                 lunchName.setText(lunchMeal.getName());
                 ImageExtractor.loadIntoImage(getApplicationContext(), lunchMeal.getPhotoUrl(), lunchPic);
-                //lunchRating.setText("" + lunchMeal.getRating());
                 lunchPic.setTag("lunch " + dateCopy);
 
                 dinnerMeal = new Meal();
@@ -225,7 +220,6 @@ public class MealPlanActivity extends AppCompatActivity {
                 }
                 dinnerName.setText(dinnerMeal.getName());
                 ImageExtractor.loadIntoImage(getApplicationContext(), dinnerMeal.getPhotoUrl(), dinnerPic);
-                //dinnerRating.setText("" + dinnerMeal.getRating());
                 dinnerPic.setTag("dinner " + dateCopy);
 
                 // need to get meal plan pk's before setting up replace buttons
@@ -256,6 +250,29 @@ public class MealPlanActivity extends AppCompatActivity {
                         startActivity(intent);
                     }
                 });
+
+
+                breakfastRateButton = (Button) findViewById(R.id.rateBreakfast);
+                breakfastRateButton.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        promptRating(breakfastMeal.getName(), breakfastMeal.getPhotoUrl());
+                    }
+                });
+                lunchRateButton = (Button) findViewById(R.id.rateLunch);
+                lunchRateButton.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        promptRating(lunchMeal.getName(), lunchMeal.getPhotoUrl());
+
+                    }
+                });
+                dinnerRateButton = (Button) findViewById(R.id.rateDinner);
+                dinnerRateButton.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        promptRating(dinnerMeal.getName(), dinnerMeal.getPhotoUrl());
+
+                    }
+                });
+
             }
         });
     }
@@ -268,6 +285,48 @@ public class MealPlanActivity extends AppCompatActivity {
         Intent intent = new Intent(getBaseContext(), ViewRecipeActivity.class);
         intent.putExtra("recipePk", recipe.getRecipePK());
         startActivity(intent);
+    }
+
+    public void promptRating(String recipeName, String imageUrl) {
+        RatingDialog dialog = new RatingDialog();
+        Bundle args = new Bundle();
+        args.putString("name", recipeName);
+        args.putString("photo", imageUrl);
+        dialog.setArguments(args);
+        dialog.show(MealPlanActivity.this.getFragmentManager(), "RatingDialog");
+    }
+
+    public static class RatingDialog extends DialogFragment {
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            // Use the Builder class for convenient dialog construction
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            String name = getArguments().getString("name");
+            String imageUrl = getArguments().getString("photo");
+            ImageView view = new ImageView(getActivity());
+            ImageExtractor.loadIntoImage(getActivity(), imageUrl, view);
+            builder.setTitle("Rate the Recipe!").setMessage("What did you think of the " + name + "?").setView(view)
+                    .setPositiveButton("Great!", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // code to save rating in db
+                        }
+                    })
+                    .setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // code to save rating in db
+                        }
+                    })
+                    .setNegativeButton("I'd rather eat Panda Express...", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // code to saving rating in db
+                        }
+                    });
+
+
+            // Create the AlertDialog object and return it
+            return builder.create();
+        }
     }
 
     @Override
