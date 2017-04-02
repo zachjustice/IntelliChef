@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
 
     tools:context="intellichef.intellichef.PreferencesActivity"
-    android:background="#f15c48">
+    android:background="#ffffff">
 
 
     <android.support.design.widget.TabLayout
@@ -98,8 +98,8 @@
                         android:layout_alignParentRight="true"
 
                         android:id="@+id/saveAll"
-                        android:textColor="#f15c48"
-                        android:background="#ffffff"
+                        android:textColor="#ffffff"
+                        android:background="#f15c48"
                         android:drawableBottom="#ffffff"
                         android:textSize="6pt"
 
@@ -121,7 +121,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/userBasicInfo"
-                    android:textColor="#ffffff"
+                    android:textColor="#f15c48"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     android:layout_marginRight="20dp"
                     android:layout_above="@+id/basicInfoMain"
@@ -132,8 +132,8 @@
                     android:text="Edit"
                     android:layout_width="60dp"
                     android:layout_height="20dp"
-                    android:textColor="#ffffff"
-                    android:background="#f17460"
+                    android:textColor="#808080"
+                    android:background="#ffffff"
                     android:drawableBottom="#ffffff"
                     android:textSize="6pt"
                     android:layout_marginTop="0dp"
@@ -162,10 +162,11 @@
                     android:layout_alignParentRight="true"
                     android:layout_alignParentEnd="true"
                     android:hint="first name"
-                    android:textColorHint="#ffffff"
-                    android:textColor="#ffffff"
+                    android:textColorHint="#808080"
+                    android:textColor="#808080"
                     android:textSize="7pt"
-                    android:inputType="textPersonName" />
+                    android:inputType="textPersonName"
+                    android:backgroundTint="#808080"/>
 
                 <EditText
                     android:layout_width="match_parent"
@@ -177,9 +178,10 @@
                     android:layout_alignParentRight="true"
                     android:layout_alignParentEnd="true"
                     android:hint="last name"
-                    android:textColorHint="#ffffff"
-                    android:textColor="#ffffff"
-                    android:textSize="7pt"/>
+                    android:textColorHint="#808080"
+                    android:textColor="#808080"
+                    android:textSize="7pt"
+                    android:backgroundTint="#808080"/>
 
                 <EditText
                     android:layout_width="match_parent"
@@ -191,9 +193,10 @@
                     android:layout_toEndOf="@+id/profilePic"
                     android:id="@+id/em"
                     android:hint="email address"
-                    android:textColorHint="#ffffff"
-                    android:textColor="#ffffff"
-                    android:textSize="7pt"/>
+                    android:textColorHint="#808080"
+                    android:textColor="#808080"
+                    android:textSize="7pt"
+                    android:backgroundTint="#808080"/>
 
                 <EditText
                     android:layout_width="match_parent"
@@ -204,10 +207,11 @@
                     android:layout_alignStart="@+id/em"
                     android:id="@+id/un"
                     android:hint="username"
-                    android:textColorHint="#ffffff"
-                    android:textColor="#ffffff"
+                    android:textColorHint="#808080"
+                    android:textColor="#808080"
                     android:textSize="7pt"
-                    android:inputType="textPersonName" />
+                    android:inputType="textPersonName"
+                    android:backgroundTint="#808080"/>
 
                 <EditText
                     android:layout_width="match_parent"
@@ -218,10 +222,11 @@
                     android:layout_alignStart="@+id/un"
                     android:id="@+id/pw"
                     android:hint="password"
-                    android:textColorHint="#ffffff"
-                    android:textColor="#ffffff"
+                    android:textColorHint="#808080"
+                    android:textColor="#808080"
                     android:textSize="7pt"
-                    android:inputType="textPassword" />
+                    android:inputType="textPassword"
+                    android:backgroundTint="#808080"/>
 
                 <EditText
                     android:layout_width="match_parent"
@@ -232,17 +237,18 @@
                     android:layout_below="@+id/linearLayout"
                     android:layout_centerHorizontal="true"
                     android:hint="confirm password"
-                    android:textColorHint="#ffffff"
-                    android:textColor="#ffffff"
-                    android:textSize="7pt"/>
+                    android:textColorHint="#808080"
+                    android:textColor="#808080"
+                    android:textSize="7pt"
+                    android:backgroundTint="#808080"/>
 
                 <Button
                     android:text="Save"
                     android:layout_width="60dp"
                     android:layout_height="20dp"
-                    android:textColor="#f15c48"
-                    android:background="#ffffff"
-                    android:drawableBottom="#ffffff"
+                    android:textColor="#ffffff"
+                    android:background="#f15c48"
+                    android:drawableBottom="#f15c48"
                     android:textSize="6pt"
                     android:layout_marginTop="0dp"
                     android:id="@+id/saveBasicInfo" />
@@ -260,7 +266,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/userDietaryConcerns"
-                    android:textColor="#ffffff"
+                    android:textColor="#f15c48"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     android:layout_marginRight="20dp"
                     android:layout_above="@+id/basicInfoMain"
@@ -271,9 +277,9 @@
                     android:text="Edit"
                     android:layout_width="60dp"
                     android:layout_height="20dp"
-                    android:textColor="#ffffff"
-                    android:background="#f17460"
-                    android:drawableBottom="#ffffff"
+                    android:textColor="#808080"
+                    android:background="#ffffff"
+                    android:drawableBottom="#f15c48"
                     android:textSize="6pt"
                     android:layout_marginTop="0dp"
                     android:id="@+id/editDietaryConcerns" />
@@ -291,43 +297,48 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/glutenFree"
-                    android:textColor="#ffffff"/>
+                    android:textColor="#808080"
+                    android:buttonTint="#808080"/>
 
                 <CheckBox
                     android:text="lactose-free"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/lactoseFree"
-                    android:textColor="#ffffff"/>
+                    android:textColor="#808080"
+                    android:buttonTint="#808080"/>
 
                 <CheckBox
                     android:text="pescatarian"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/pescatarian"
-                    android:textColor="#ffffff"/>
+                    android:textColor="#808080"
+                    android:buttonTint="#808080"/>
 
                 <CheckBox
                     android:text="vegan"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/vegan"
-                    android:textColor="#ffffff"/>
+                    android:textColor="#808080"
+                    android:buttonTint="#808080"/>
 
                 <CheckBox
                     android:text="vegetarian"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/vegetarian"
-                    android:textColor="#ffffff"/>
+                    android:textColor="#808080"
+                    android:buttonTint="#808080"/>
 
                 <Button
                     android:text="Save"
                     android:layout_width="60dp"
                     android:layout_height="20dp"
-                    android:textColor="#f15c48"
-                    android:background="#ffffff"
-                    android:drawableBottom="#ffffff"
+                    android:textColor="#ffffff"
+                    android:background="#f15c48"
+                    android:drawableBottom="#f15c48"
                     android:textSize="6pt"
                     android:layout_marginTop="0dp"
                     android:id="@+id/saveDietaryConcerns" />
@@ -346,21 +357,20 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/userAllergies"
-                        android:textColor="#ffffff"
+                        android:textColor="#f15c48"
                         android:textAppearance="@style/TextAppearance.AppCompat.Large"
                         android:layout_marginRight="20dp"
                         android:layout_above="@+id/basicInfoMain"
                         android:layout_toLeftOf="@+id/deleteAccount"
                         android:layout_toStartOf="@+id/deleteAccount" />
 
-
                     <Button
                         android:text="Edit"
                         android:layout_width="60dp"
                         android:layout_height="20dp"
-                        android:textColor="#ffffff"
-                        android:background="#f17460"
-                        android:drawableBottom="#ffffff"
+                        android:textColor="#808080"
+                        android:background="#ffffff"
+                        android:drawableBottom="#f15c48"
                         android:textSize="6pt"
                         android:layout_marginTop="0dp"
                         android:id="@+id/editAllergies" />
@@ -371,13 +381,13 @@
                     android:id="@+id/allergies"
                     android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:textColor="#FFFFFF"
+                    android:textColor="#808080"
                     android:layout_height="match_parent">
 
                     <LinearLayout
                         android:orientation="horizontal"
                         android:layout_width="match_parent"
-                        android:textColor="#FFFFFF"
+                        android:textColor="#808080"
                         android:layout_height="match_parent">
 
                         <AutoCompleteTextView
@@ -385,16 +395,17 @@
                             android:layout_height="wrap_content"
                             android:id="@+id/enterAllergy"
                             android:completionHint="enter allergy"
-                            android:textColorHint="#ffffff"
-                            android:textColor="#ffffff"/>
+                            android:textColorHint="#808080"
+                            android:textColor="#808080"
+                            android:backgroundTint="#808080"/>
 
                         <Button
                             android:text="Add"
                             android:layout_width="60dp"
                             android:layout_height="20dp"
-                            android:textColor="#ffffff"
-                            android:background="#f17460"
-                            android:drawableBottom="#ffffff"
+                            android:textColor="#f15c48"
+                            android:background="#ffffff"
+                            android:drawableBottom="#f15c48"
                             android:textSize="6pt"
                             android:layout_marginTop="0dp"
                             android:id="@+id/addAllergy" />
@@ -404,15 +415,15 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:id="@+id/allergyList"
-                        android:textColor="#ffffff" />
+                        android:textColor="#808080" />
 
                     <Button
                         android:text="Save"
                         android:layout_width="60dp"
                         android:layout_height="20dp"
-                        android:textColor="#f15c48"
-                        android:background="#ffffff"
-                        android:drawableBottom="#ffffff"
+                        android:textColor="#ffffff"
+                        android:background="#f15c48"
+                        android:drawableBottom="#f15c48"
                         android:textSize="6pt"
                         android:layout_marginTop="0dp"
                         android:id="@+id/saveAllergies"
@@ -425,9 +436,9 @@
             <Button
                 android:text="Delete Account"
                 android:id="@+id/deleteAccount"
-                android:textColor="#ffffff"
-                android:background="#f15c48"
-                android:drawableBottom="#f15c48"
+                android:textColor="#f15c48"
+                android:background="#ffffff"
+                android:drawableBottom="#ffffff"
                 android:textSize="5pt"
                 android:layout_gravity="left"
                 android:layout_width="150dp"
@@ -441,9 +452,9 @@
                 android:text="Logout"
                 android:id="@+id/logout"
                 android:layout_marginTop="6dp"
-                android:textColor="#ffffff"
-                android:background="#f15c48"
-                android:drawableBottom="#f15c48"
+                android:textColor="#f15c48"
+                android:background="#ffffff"
+                android:drawableBottom="#ffffff"
                 android:textSize="5pt"
                 android:layout_gravity="left"
                 android:layout_width="150dp"

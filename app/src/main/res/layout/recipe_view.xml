@@ -15,8 +15,6 @@
         android:padding="8dp"
         />
 
-
-
     <TextView android:id="@+id/recipeName"
         android:layout_width="wrap_content"
         android:layout_height="100dp"
@@ -24,8 +22,7 @@
 
         android:layout_toRightOf="@+id/recipeImage"
         android:gravity="center_vertical"
-        android:textStyle="bold"
         android:textSize="8pt"
-        android:textColor="#ffffff" />
+        android:textColor="#808080" />
 
 </RelativeLayout>
