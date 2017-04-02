@@ -58,7 +58,7 @@
             >
 
             <TextView
-                android:text="BREAKFAST"
+                android:text="breakfast"
                 android:id="@+id/breakfast_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -136,7 +136,7 @@
             <!--lunch-->
 
             <TextView
-                android:text="LUNCH"
+                android:text="lunch"
                 android:id="@+id/lunch_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -201,7 +201,6 @@
                 android:layout_below="@+id/lunchLayout"
                 android:layout_centerHorizontal="true"
                 android:layout_centerInParent="true"
-
                 android:textColor="#ffffff"
                 android:background="#f15c48"
                 android:paddingLeft="5dp"
@@ -211,7 +210,7 @@
             <!--dinner-->
 
             <TextView
-                android:text="DINNER"
+                android:text="dinner"
                 android:id="@+id/dinner_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
