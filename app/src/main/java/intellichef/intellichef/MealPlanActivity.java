@@ -167,21 +167,24 @@ public class MealPlanActivity extends AppCompatActivity {
             public void onTabSelected(TabLayout.Tab tab) {
                 // called when tab selected
                 int tabIndex = tab.getPosition();
+                Intent intent;
                 switch (tabIndex) {
                     case 0:
                         break;
                     case 1:
+                        intent = new Intent(MealPlanActivity.this, MealHistoryActivity.class);
+                        intent.putExtra("entityPk", entityPk);
+                        startActivity(intent);
                         break;
                     case 2:
                         break;
                     case 3:
-                        Intent intent = new Intent(MealPlanActivity.this, PreferencesActivity.class);
+                        intent = new Intent(MealPlanActivity.this, PreferencesActivity.class);
                         startActivity(intent);
                         break;
                     default:
                         break;
                 }
-
             }
 
             @Override

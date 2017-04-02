@@ -14,10 +14,6 @@ public class IntelliServerRestClient {
 
     private static AsyncHttpClient client = new AsyncHttpClient();
 
-    public static void get(String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
-        client.get(getAbsoluteUrl(url), params, responseHandler);
-    }
-
     public static void post(Context context, String url, HttpEntity entity, String contentType, ResponseHandlerInterface responseHandler) {
         client.post(context, getAbsoluteUrl(url), entity, contentType, responseHandler);
     }

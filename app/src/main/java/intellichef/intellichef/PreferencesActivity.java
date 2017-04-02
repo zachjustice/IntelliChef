@@ -319,6 +319,10 @@ public class PreferencesActivity extends AppCompatActivity {
                         startActivity(intent);
                         break;
                     case 1:
+                        Log.v("history", "history tab");
+                        intent = new Intent(PreferencesActivity.this, MealHistoryActivity.class);
+                        intent.putExtra("entityPk", currentUser.getEntityPk());
+                        startActivity(intent);
                         break;
                     case 2:
                         break;

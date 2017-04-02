@@ -26,6 +26,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import cz.msebera.android.httpclient.Header;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
@@ -40,14 +41,19 @@ public class ViewRecipeActivity extends AppCompatActivity {
     //    private ListView notesList;
     private ArrayAdapter<String> notesAdapter;
     private EditText addNotes;
+    private Button addNoteButton;
+
     private ArrayAdapter<String> recipeViewAdapter;
     private ArrayAdapter<String> ingredientsAdapter;
+    private ArrayAdapter<String> nutitionInfoAdapter;
 
     private ListView recipeViewList;
     private ListView ingredientsList;
-    private Button addNoteButton;
+    private ListView nutritionInfoList;
+
     ArrayList<String> instructionArray;
     ArrayList<String> ingredientArray;
+    ArrayList<String> nutitionInfoArray;
 
 
     @Override
@@ -72,6 +78,11 @@ public class ViewRecipeActivity extends AppCompatActivity {
         ingredientsList = (ListView) findViewById(R.id.ingredients);
         ingredientsAdapter = new ArrayAdapter(ViewRecipeActivity.this, R.layout.custom_textview, ingredientArray);
         ingredientsList.setAdapter(ingredientsAdapter);
+
+        nutitionInfoArray = new ArrayList<>();
+        nutritionInfoList = (ListView) findViewById(R.id.nutritionInfo);
+        nutitionInfoAdapter = new ArrayAdapter(ViewRecipeActivity.this, R.layout.custom_textview, nutitionInfoArray);
+        nutritionInfoList.setAdapter(nutitionInfoAdapter);
 
 
         try {
@@ -154,23 +165,24 @@ public class ViewRecipeActivity extends AppCompatActivity {
                 recipe.fillParams(result);
                 String[] instructions = recipe.getInstructions();
                 String[] ingredients = recipe.getIngredients();
-                for (String instruction : instructions) {
-                    instructionArray.add(instruction);
-                }
-                for (String ingredient : ingredients) {
-                    Log.wtf("Lmao", ingredient);
-                    ingredientArray.add(ingredient);
-                }
+                String[] nutritionFacts = recipe.getNutritionFacts();
+
+                Collections.addAll(instructionArray, instructions);
+                Collections.addAll(ingredientArray, ingredients);
+                Collections.addAll(nutitionInfoArray, nutritionFacts);
+
                 recipeViewAdapter.notifyDataSetChanged();
                 setListViewHeightBasedOnChildren(recipeViewList);
 
                 ingredientsAdapter.notifyDataSetChanged();
                 setListViewHeightBasedOnChildren(ingredientsList);
 
+                nutitionInfoAdapter.notifyDataSetChanged();
+                setListViewHeightBasedOnChildren(nutritionInfoList);
+
                 recipeName.setText(recipe.getName());
                 ImageExtractor.loadIntoImage(getApplicationContext(), recipe.getPhotoUrl(), recipeImage);
                 description.setText(recipe.getDescription());
-
             }
         });
     }

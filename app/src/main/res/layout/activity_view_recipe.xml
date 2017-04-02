@@ -3,11 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_view_recipe"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:weightSum="1"
     android:background="#ffffff"
-
     tools:context="intellichef.intellichef.ViewRecipeActivity">
 
     <TextView
@@ -20,13 +20,11 @@
         android:textSize="10pt"
         android:gravity="center"/>
 
-
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingLeft="25dp"
-        android:paddingRight="25dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
         android:paddingBottom="55dp"
         android:paddingTop="55dp">
 
@@ -50,8 +48,22 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_above="@+id/ingredients"
-                android:textSize="7pt"
+                android:textSize="7pt" />
 
+            <TextView
+                android:text="Nutrition Information"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="9pt"
+                android:layout_marginTop="20dp"
+                />
+
+            <ListView
+                android:id="@+id/nutritionInfo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:divider="@android:color/transparent"
                 />
 
             <TextView
@@ -119,8 +131,6 @@
                 android:textColor="#ffffff"
                 android:background="#D6D6D6"/>
 
-
-
             <EditText
                 android:layout_width="match_parent"
                 android:ems="10"
@@ -134,7 +144,6 @@
                 android:hint="Leave a note to yourself!"
                 android:layout_height="wrap_content"
                 android:enabled="false" />
-
         </LinearLayout>
     </ScrollView>
 

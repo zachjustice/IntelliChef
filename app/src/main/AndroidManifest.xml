@@ -26,7 +26,8 @@
         <activity android:name=".CalibrationActivity" />
         <activity android:name=".MealPlanActivity" />
         <activity android:name=".ViewRecipeActivity" />
-        <activity android:name=".ReplaceMealActivity"></activity>
+        <activity android:name=".ReplaceMealActivity" />
+        <activity android:name=".MealHistoryActivity" />
     </application>
 
 </manifest>
