@@ -72,9 +72,9 @@ public class MealPlanActivity extends AppCompatActivity {
         lunchPic = (ImageView) findViewById(R.id.lunch_pic);
         dinnerPic = (ImageView) findViewById(R.id.dinner_pic);
 
-//        breakfastRating = (ImageView) findViewById(R.id.breakfast_rating);
-//        lunchRating = (ImageView) findViewById(R.id.lunch_rating);
-//        dinnerRating = (ImageView) findViewById(R.id.dinner_rating);
+        breakfastRating = (ImageView) findViewById(R.id.breakfast_rating);
+        lunchRating = (ImageView) findViewById(R.id.lunch_rating);
+        dinnerRating = (ImageView) findViewById(R.id.dinner_rating);
 
 
         //for query
@@ -124,9 +124,12 @@ public class MealPlanActivity extends AppCompatActivity {
         if (weekDay == 7) {
             nextButton.setVisibility(View.INVISIBLE);
         }
+        Log.wtf("HELLO", "I'm here2");
+
         nextButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 //show prev button
+                Log.wtf("HELLO", "I'm here");
                 prevButton.setVisibility(View.VISIBLE);
                 try {
                     viewDate = viewDate.plusDays(1);
@@ -204,10 +207,12 @@ public class MealPlanActivity extends AppCompatActivity {
         breakfastRating.setBackgroundResource(0);
         lunchRating.setBackgroundResource(0);
         dinnerRating.setBackgroundResource(0);
+        Log.wtf("HELLO", "Showing meal plan");
 
         IntelliServerAPI.getMealPlan(entityPk, date, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject result) {
+                Log.wtf("HELLO", "I'm succeeding");
                 breakfastMeal = new Meal();
                 try {
                     breakfastMeal.fillParams(result.getJSONObject("breakfast"));
@@ -215,7 +220,7 @@ public class MealPlanActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 breakfastName.setText(breakfastMeal.getName());
-                ImageExtractor.loadIntoImage(getApplicationContext(), breakfastMeal.getPhotoUrl(), breakfastPic);
+                ImageExtractor.loadIntoImage(getApplicationContext(), breakfastMeal.getPhotoUrl(), breakfastPic, 250, 130);
                 breakfastPic.setTag("breakfast " + dateCopy);
                 try {
                     getUserRating(entityPk, breakfastMeal.getRecipePK(), breakfastRating);
@@ -245,7 +250,7 @@ public class MealPlanActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 dinnerName.setText(dinnerMeal.getName());
-                ImageExtractor.loadIntoImage(getApplicationContext(), dinnerMeal.getPhotoUrl(), dinnerPic);
+                ImageExtractor.loadIntoImage(getApplicationContext(), dinnerMeal.getPhotoUrl(), dinnerPic, 250, 130);
                 dinnerPic.setTag("dinner " + dateCopy);
                 try {
                     getUserRating(entityPk, dinnerMeal.getRecipePK(), dinnerRating);
@@ -326,12 +331,12 @@ public class MealPlanActivity extends AppCompatActivity {
 
 
         ImageView view = new ImageView(MealPlanActivity.this);
-        ImageExtractor.loadIntoImage(MealPlanActivity.this, imageUrl, view);
+        ImageExtractor.loadIntoImage(MealPlanActivity.this, imageUrl, view, 250, 130);
         Log.wtf("RATING", "ENTITY" + entityPk);
         Log.wtf("RATING", "RECIPE" + recipePk);
 
         builder.setTitle("Rate the Recipe!").setMessage("What did you think of the " + recipeName + "?\n").setView(view)
-                .setPositiveButton(" ", new DialogInterface.OnClickListener() {
+                .setPositiveButton("I liked this!", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         try {
                             if (sourceView.getBackground() == null) {
@@ -349,7 +354,7 @@ public class MealPlanActivity extends AppCompatActivity {
                         //do nothing
                     }
                 })
-                .setNegativeButton(" ",  new DialogInterface.OnClickListener() {
+                .setNegativeButton("I didn't like this.",  new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // code to saving rating in db
                         try {
@@ -365,24 +370,6 @@ public class MealPlanActivity extends AppCompatActivity {
                     }
                 });
         final AlertDialog a = builder.create();
-        a.setOnShowListener(new DialogInterface.OnShowListener() {
-
-            @Override
-            public void onShow(DialogInterface dialog) {
-                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                params.setMargins(0, 30, 50, 0);
-                Button positive = a.getButton(AlertDialog.BUTTON_POSITIVE);
-                positive.setBackgroundResource(R.drawable.heart);
-                positive.setEnabled(true);
-                Button negative = a.getButton(DialogInterface.BUTTON_NEGATIVE);
-                negative.setBackgroundResource(R.drawable.broken_heart);
-                negative.setEnabled(true);
-                positive.setLayoutParams(params);
-                negative.setLayoutParams(params);
-
-            }
-        });
         a.show();
     }
 

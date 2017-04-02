@@ -5,25 +5,29 @@
     android:id="@+id/activity_meal_history"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
-    android:background="#f15c48"
+    android:background="#ffffff"
     tools:context="intellichef.intellichef.MealHistoryActivity"
     >
+
+    <TextView
+        android:text="Meal Plan History"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/titleText"
+        android:textSize="10pt"
+        android:gravity="center"
+        android:textColor="#ffffff"
+        android:background="#f15c48"/>
+
 
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
-        <TextView
-            android:text="Meal Plan History"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:id="@+id/titleText"
-            android:textSize="10pt"
-            android:gravity="center"
-            android:textColor="#ffffff"
-            android:background="#f15c48"/>
+        android:layout_alignParentStart="true"
+        android:paddingTop="55dp"
+        android:paddingBottom="55dp">
 
         <ListView
             android:id="@+id/list"
@@ -32,7 +36,7 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/titleText" />
+            />
     </RelativeLayout>
 
 

@@ -35,8 +35,9 @@
 
             <ImageView
                 android:id="@+id/recipeImage"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
+                android:layout_width="280dp"
+                android:layout_height="180dp"
+                android:scaleType="fitXY"
                 android:layout_above="@+id/description"
                 android:layout_gravity="center"
                 android:layout_marginTop="20dp"/>
@@ -57,6 +58,7 @@
                 android:textStyle="bold"
                 android:textSize="9pt"
                 android:layout_marginTop="20dp"
+                android:textColor="#f15c48"
                 />
 
             <ListView
@@ -73,6 +75,7 @@
                 android:textStyle="bold"
                 android:textSize="9pt"
                 android:layout_marginTop="20dp"
+                android:textColor="#f15c48"
                 />
 
             <ListView
@@ -90,6 +93,7 @@
                 android:textStyle="bold"
                 android:textSize="9pt"
                 android:layout_marginTop="20dp"
+                android:textColor="#f15c48"
                 />
 
             <ListView
@@ -113,7 +117,8 @@
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
                 android:textSize="9pt"
-                android:layout_marginTop="20dp"/>
+                android:layout_marginTop="20dp"
+                android:textColor="#f15c48"/>
 
             <Button
                 android:text="Edit"
