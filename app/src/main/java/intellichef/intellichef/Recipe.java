@@ -6,6 +6,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+
 /**
  * Created by Sally on 2/12/17.
  */
@@ -19,6 +21,7 @@ public class Recipe {
     private double rating;
     private String photoUrl;
     private int prepTime;
+    private String[] nutritionFacts;
 
     public Recipe() {
         this("", "", new String[0], new String[0], -1, -1, "", -1);
@@ -32,6 +35,7 @@ public class Recipe {
         this.rating = rating;
         this.photoUrl = photoUrl;
         this.prepTime = prepTime;
+        this.nutritionFacts = new String[0];
     }
 
     public void setDescription(String description) {
@@ -73,18 +77,32 @@ public class Recipe {
         return photoUrl;
     }
 
+    public String[] getNutritionFacts() {
+        return nutritionFacts;
+    }
+
+
     public void fillParams(JSONObject recipe) {
         try {
             this.description = recipe.getString("description");
             this.recipePK = recipe.getInt("recipe_pk");
             this.name = recipe.getString("name");
-//            this.rating = recipe.getDouble("rating");
+            //this.rating = recipe.getDouble("rating");
             this.photoUrl = recipe.getString("image_url");
+
+            JSONObject nutritionInfo = recipe.getJSONObject("nutrition_info");
+            nutritionFacts = new String[nutritionInfo.names().length()];
+            for(int i = 0; i < nutritionInfo.names().length(); i ++)
+            {
+                String key = nutritionInfo.names().getString(i);
+                String value = nutritionInfo.getString(key);
+                nutritionFacts[i] = key + ": " + value;
+            }
+
             if (recipe.has("preparation_time")) {
                 this.prepTime = recipe.getInt("preparation_time");
             }
-            Log.wtf("LMAO", "" + recipe.getString("instructions").length());
-            Log.wtf("LMAO", "" + recipe.getString("instructions"));
+
             this.instructions = recipe.getString("instructions").split("\n");
             JSONArray jsonarray = recipe.getJSONArray("ingredients");
             this.ingredients = new String[jsonarray.length()];

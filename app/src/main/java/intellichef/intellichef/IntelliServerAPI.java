@@ -2,6 +2,7 @@ package intellichef.intellichef;
 import android.content.Context;
 import android.util.Log;
 
+import org.joda.time.DateTime;
 import org.json.*;
 import com.loopj.android.http.*;
 
@@ -17,13 +18,13 @@ import cz.msebera.android.httpclient.message.BasicHeader;
  * Created by zachjustice and jnanda3 on 1/25/17.
  */
 
-public class IntelliServerAPI {
+class IntelliServerAPI {
 
 
-    public static void login(String email, String password, Context context, final JsonHttpResponseHandler callback) throws JSONException {
+    static void login(String email, String password, Context context, final JsonHttpResponseHandler callback) throws JSONException {
         final JsonHttpResponseHandler responseHandler = new JsonHttpResponseHandler() {
             public void onFailure(int statusCode, Header[] headers, String errorMsg, Throwable throwable) {
-                Log.v("JSONObject", errorMsg.toString() );
+                Log.v("JSONObject", errorMsg);
                 callback.onFailure(statusCode, headers, errorMsg, throwable);
             }
 
@@ -40,7 +41,7 @@ public class IntelliServerAPI {
         IntelliServerRestClientv2.get("v2.0/entities/current", null, responseHandler);
     }
 
-    public static void logout( String email, Context context, final JsonHttpResponseHandler callback ) throws JSONException {
+    static void logout(String email, Context context, final JsonHttpResponseHandler callback) throws JSONException {
         final JsonHttpResponseHandler responseHandler = new JsonHttpResponseHandler() {
             public void onFailure(int statusCode, Header[] headers, JSONObject response) {
                 Log.v("JSONObject", response.toString());
@@ -67,10 +68,10 @@ public class IntelliServerAPI {
         IntelliServerRestClient.put(context, "v1.0/logout", requestData, "application/json", responseHandler);
     }
 
-    public static void removeAccount( String email, Context context, final JsonHttpResponseHandler callback ) throws JSONException {
+    static void removeAccount(String email, Context context, final JsonHttpResponseHandler callback) throws JSONException {
         final JsonHttpResponseHandler responseHandler = new JsonHttpResponseHandler() {
             public void onFailure(int statusCode, Header[] headers, String errorMsg, Throwable throwable) {
-                Log.v("JSONObject", errorMsg.toString() );
+                Log.v("JSONObject", errorMsg);
                 callback.onFailure(statusCode, headers, errorMsg, throwable);
             }
 
@@ -95,10 +96,10 @@ public class IntelliServerAPI {
         IntelliServerRestClient.post(context, "v1.0/remove_account", requestData, "application/json", responseHandler);
     }
 
-    public static void register( RegistrationInfo registrationInfo, Context context, final JsonHttpResponseHandler callback ) throws JSONException {
+    static void register(RegistrationInfo registrationInfo, Context context, final JsonHttpResponseHandler callback) throws JSONException {
         final JsonHttpResponseHandler responseHandler = new JsonHttpResponseHandler() {
             public void onFailure(int statusCode, Header[] headers, String errorMsg, Throwable throwable) {
-                Log.v("JSONObject", errorMsg.toString());
+                Log.v("JSONObject", errorMsg);
                 callback.onFailure(statusCode, headers, errorMsg, throwable);
             }
 
@@ -129,7 +130,7 @@ public class IntelliServerAPI {
         IntelliServerRestClientv2.post(context, "v2.0/entities", requestData, "application/json", responseHandler);
     }
 
-    public static void getMealPlan(int entityPk, String date, final JsonHttpResponseHandler callback) throws JSONException {
+    static void getMealPlan(int entityPk, String date, final JsonHttpResponseHandler callback) throws JSONException {
         final JsonHttpResponseHandler responseHandler = new JsonHttpResponseHandler() {
             public void onFailure(int statusCode, Header[] headers, JSONObject response) {
                 Log.v("JSONObject", response.toString() );
@@ -149,14 +150,12 @@ public class IntelliServerAPI {
         IntelliServerRestClientv2.get("v2.0/entities/" + entityPk + "/meal_plans", params, responseHandler);
     }
 
-    public static void generateMealPlan(Context context, int entityPk, final JsonHttpResponseHandler callback) throws JSONException {
+    static void generateMealPlan(Context context, int entityPk, final JsonHttpResponseHandler callback) throws JSONException {
         final JsonHttpResponseHandler responseHandler = new JsonHttpResponseHandler() {
             public void onFailure(int statusCode, Header[] headers, JSONObject response) {
-                Log.v("LMAO", "" + statusCode );
             }
 
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                Log.v("LMAO", "" + statusCode);
                 callback.onSuccess(statusCode, headers, response);
             }
         };
@@ -166,7 +165,7 @@ public class IntelliServerAPI {
 
     }
 
-    public static void insertUserCalibrationPick(Context context, int entityPk, int recipePk, final JsonHttpResponseHandler callback) throws JSONException {
+    static void insertUserCalibrationPick(Context context, int entityPk, int recipePk, final JsonHttpResponseHandler callback) throws JSONException {
         final JsonHttpResponseHandler responseHandler = new JsonHttpResponseHandler() {
             public void onFailure(int statusCode, Header[] headers, JSONObject response) {
                 Log.v("JSONObject", response.toString());
@@ -224,9 +223,7 @@ public class IntelliServerAPI {
 
     }
 
-
-
-    public static void getUserInfo(int entity_pk, final JsonHttpResponseHandler callback) throws JSONException {
+    static void getUserInfo(int entity_pk, final JsonHttpResponseHandler callback) throws JSONException {
         final JsonHttpResponseHandler responseHandler = new JsonHttpResponseHandler() {
             public void onFailure(int statusCode, Header[] headers, JSONObject response) {
                 Log.v("JSONObject", response.toString());
@@ -244,7 +241,7 @@ public class IntelliServerAPI {
 
     }
 
-    public static void updateUserInfo(int entity_pk, JSONObject userInfo, Context context, final JsonHttpResponseHandler callback) throws JSONException {
+    static void updateUserInfo(int entity_pk, JSONObject userInfo, Context context, final JsonHttpResponseHandler callback) throws JSONException {
 
         final JsonHttpResponseHandler responseHandler = new JsonHttpResponseHandler() {
 
@@ -271,7 +268,7 @@ public class IntelliServerAPI {
         IntelliServerRestClientv2.put(context, "v2.0/entities/" + entity_pk, requestData, "application/json", responseHandler);
     }
 
-    public static void getCalibratedMeals(final JsonHttpResponseHandler callback ) throws JSONException {
+    static void getCalibratedMeals(final JsonHttpResponseHandler callback) throws JSONException {
         final JsonHttpResponseHandler responseHandler = new JsonHttpResponseHandler() {
 
             public void onFailure(int statusCode, Header[] headers, JSONArray response) {
@@ -292,7 +289,7 @@ public class IntelliServerAPI {
         IntelliServerRestClientv2.get("v2.0/recipes", params, responseHandler);
     }
 
-    public static void getRecipe(int recipePk, final JsonHttpResponseHandler callback) throws JSONException {
+    static void getRecipe(int recipePk, final JsonHttpResponseHandler callback) throws JSONException {
         final JsonHttpResponseHandler responseHandler = new JsonHttpResponseHandler() {
             public void onFailure(int statusCode, Header[] headers, JSONObject response) {
                 Log.v("JSONObject", response.toString());
@@ -311,7 +308,7 @@ public class IntelliServerAPI {
         IntelliServerRestClientv2.get("v2.0/recipes/" + recipePk, params, responseHandler);
     }
 
-    public static void searchRecipes(String name, int page, int page_size, final JsonHttpResponseHandler callback) throws JSONException {
+    static void searchRecipes(String name, int page, int page_size, final JsonHttpResponseHandler callback) throws JSONException {
         final JsonHttpResponseHandler responseHandler = new JsonHttpResponseHandler() {
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject response) {
                 Log.v("JSONObject", response.toString());
@@ -333,14 +330,14 @@ public class IntelliServerAPI {
         IntelliServerRestClientv2.get("v2.0/recipes", params, responseHandler);
     }
 
-    public static void updateMealPlan(int mealPlanPK, int recipePK, Context context, final JsonHttpResponseHandler callback) {
+    static void updateMealPlan(int mealPlanPK, int recipePK, Context context, final JsonHttpResponseHandler callback) {
         final JsonHttpResponseHandler responseHandler = new JsonHttpResponseHandler() {
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject response) {
                 Log.v("JSONObject", response.toString());
             }
 
             public void onFailure(int statusCode, Header[] headers, String response, Throwable throwable) {
-                Log.v("JSONObject", response.toString());
+                Log.v("JSONObject", response);
             }
 
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -361,5 +358,30 @@ public class IntelliServerAPI {
 
         Log.v("replace", "" + mealPlanPK);
         IntelliServerRestClientv2.put(context, "v2.0/meal_plans/" + mealPlanPK, requestData, "application/json", responseHandler);
+    }
+
+    static void getMealPlanHistory(DateTime startDate, DateTime endDate, int entityPk, final JsonHttpResponseHandler callback) {
+        final JsonHttpResponseHandler responseHandler = new JsonHttpResponseHandler() {
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject response) {
+                Log.v("JSONObject", response.toString());
+            }
+
+            public void onFailure(int statusCode, Header[] headers, String response, Throwable throwable) {
+                Log.v("JSONObject", response);
+            }
+
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                // Pull out the first event on the public timeline
+                // Do something with the response
+                Log.v("JSONObject", response.toString());
+                callback.onSuccess(statusCode, headers, response);
+            }
+        };
+
+        RequestParams params = new RequestParams();
+        params.put("start_date", startDate);
+        params.put("end_date", endDate);
+
+        IntelliServerRestClientv2.get("v2.0/entities/" + entityPk + "/meal_plans", params, responseHandler);
     }
 }
