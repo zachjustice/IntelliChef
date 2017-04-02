@@ -129,6 +129,9 @@ public class ViewRecipeActivity extends AppCompatActivity {
                         Intent intent = new Intent(ViewRecipeActivity.this, MealPlanActivity.class);
                         startActivity(intent);
                     case 1:
+                        intent = new Intent(ViewRecipeActivity.this, MealHistoryActivity.class);
+                        intent.putExtra("entityPk", LoginActivity.getCurrentUser().getEntityPk());
+                        startActivity(intent);
                         break;
                     case 2:
                         break;
