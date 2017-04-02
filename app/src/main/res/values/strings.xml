@@ -16,4 +16,5 @@
         completions."
     </string>
     <string name="search_instructions">Search recipes</string>
+    <string name="title_activity_meal_plan_history">MealPlanHistoryActivity</string>
 </resources>

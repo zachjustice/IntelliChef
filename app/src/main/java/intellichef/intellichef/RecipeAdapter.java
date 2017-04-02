@@ -3,6 +3,7 @@ package intellichef.intellichef;
 import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,7 @@ public class RecipeAdapter extends ArrayAdapter<RecipeItem> {
         this.layoutResourceId = layoutResourceId;
         this.context = context;
         this.data = data;
+        Log.v("JSONObject", "ADAPTER!!!!!!!!!! " + data.get(0).getRecipeName());
     }
 
 
@@ -43,12 +45,13 @@ public class RecipeAdapter extends ArrayAdapter<RecipeItem> {
             holder = new RecipeHolder();
             holder.recipeImage = (ImageView) row.findViewById(R.id.recipeImage);
             holder.recipeName = (TextView) row.findViewById(R.id.recipeName);
-
+            Log.v("JSONObject", "RECIPE NAME!!!!!!!!!!: " + holder.recipeName);
             row.setTag(holder);
         } else {
             holder = (RecipeHolder) row.getTag();
         }
 
+        Log.v("JSONObject", "RECIPE NAME!!!!!!!!!!: " + holder.recipeName);
         RecipeItem item = data.get(position);
         holder.recipeName.setText(item.getRecipeName());
         ImageExtractor.loadIntoImage(getContext(), item.getImageUrl(), holder.recipeImage, 150, 150);
