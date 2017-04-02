@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -82,6 +83,14 @@ public class CalibrationActivity extends AppCompatActivity {
                     User currentUser = LoginActivity.getCurrentUser();
                     updateUserCalibrationPicks(calibrationPks, currentUser.getEntityPk(), CalibrationActivity.this);
                     generateMealPlan(CalibrationActivity.this, currentUser.getEntityPk());
+                    Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        public void run() {
+                            Intent intent = new Intent(getBaseContext(), MealPlanActivity.class);
+                            startActivity(intent);
+                        }
+                    }, 10000);
+
                 } catch (JSONException e) {
                     System.out.println(e.getMessage());
                 }
