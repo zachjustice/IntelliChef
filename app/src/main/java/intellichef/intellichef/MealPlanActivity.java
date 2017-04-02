@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -41,6 +42,9 @@ public class MealPlanActivity extends AppCompatActivity {
     private ImageView breakfastPic;
     private ImageView lunchPic;
     private ImageView dinnerPic;
+    private ImageView breakfastRating;
+    private ImageView lunchRating;
+    private ImageView dinnerRating;
     private DateTime viewDate;
     private DateTime today;
     private Meal breakfastMeal;
@@ -52,8 +56,6 @@ public class MealPlanActivity extends AppCompatActivity {
     private Button breakfastRateButton;
     private Button lunchRateButton;
     private Button dinnerRateButton;
-    private static ArrayList<Button> disabledButtons = new ArrayList<>();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +71,11 @@ public class MealPlanActivity extends AppCompatActivity {
         breakfastPic = (ImageView) findViewById(R.id.breakfast_pic);
         lunchPic = (ImageView) findViewById(R.id.lunch_pic);
         dinnerPic = (ImageView) findViewById(R.id.dinner_pic);
+
+        breakfastRating = (ImageView) findViewById(R.id.breakfast_rating);
+        lunchRating = (ImageView) findViewById(R.id.lunch_rating);
+        dinnerRating = (ImageView) findViewById(R.id.dinner_rating);
+
 
         //for query
         final DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
@@ -106,16 +113,6 @@ public class MealPlanActivity extends AppCompatActivity {
                 date.setText(displayFormatter.print(viewDate));
                 if (viewDate.getDayOfWeek() == today.getDayOfWeek()) {
                     prevButton.setVisibility(View.INVISIBLE);
-                    breakfastRateButton.setEnabled(true);
-                    lunchRateButton.setEnabled(true);
-                    dinnerRateButton.setEnabled(true);
-                    for (Button b: disabledButtons) {
-                        b.setEnabled(false);
-                    }
-                } else {
-                    breakfastRateButton.setEnabled(false);
-                    lunchRateButton.setEnabled(false);
-                    dinnerRateButton.setEnabled(false);
                 }
 
             }
@@ -141,20 +138,6 @@ public class MealPlanActivity extends AppCompatActivity {
                 if (viewDate.getDayOfWeek() == 7) {
                     nextButton.setVisibility(View.INVISIBLE);
                 }
-
-                if (viewDate.getDayOfWeek() == today.getDayOfWeek()) {
-                    breakfastRateButton.setEnabled(true);
-                    lunchRateButton.setEnabled(true);
-                    dinnerRateButton.setEnabled(true);
-                    for (Button b: disabledButtons) {
-                        b.setEnabled(false);
-                    }
-                } else {
-                    breakfastRateButton.setEnabled(false);
-                    lunchRateButton.setEnabled(false);
-                    dinnerRateButton.setEnabled(false);
-                }
-
             }
         });
 
@@ -213,8 +196,11 @@ public class MealPlanActivity extends AppCompatActivity {
         });
     }
 
-    private void showMealPlans(int entityPk, String date) throws JSONException {
+    private void showMealPlans(final int entityPk, String date) throws JSONException {
         final String dateCopy = date;
+        breakfastRating.setBackgroundResource(0);
+        lunchRating.setBackgroundResource(0);
+        dinnerRating.setBackgroundResource(0);
 
         IntelliServerAPI.getMealPlan(entityPk, date, new JsonHttpResponseHandler() {
             @Override
@@ -228,6 +214,11 @@ public class MealPlanActivity extends AppCompatActivity {
                 breakfastName.setText(breakfastMeal.getName());
                 ImageExtractor.loadIntoImage(getApplicationContext(), breakfastMeal.getPhotoUrl(), breakfastPic);
                 breakfastPic.setTag("breakfast " + dateCopy);
+                try {
+                    getUserRating(entityPk, breakfastMeal.getRecipePK(), breakfastRating);
+                } catch (JSONException e) {
+                    Log.v("JSON", e.getMessage());
+                }
 
                 lunchMeal = new Meal();
                 try {
@@ -238,6 +229,11 @@ public class MealPlanActivity extends AppCompatActivity {
                 lunchName.setText(lunchMeal.getName());
                 ImageExtractor.loadIntoImage(getApplicationContext(), lunchMeal.getPhotoUrl(), lunchPic);
                 lunchPic.setTag("lunch " + dateCopy);
+                try {
+                    getUserRating(entityPk, lunchMeal.getRecipePK(), lunchRating);
+                } catch (JSONException e) {
+                    Log.v("JSON", e.getMessage());
+                }
 
                 dinnerMeal = new Meal();
                 try {
@@ -248,6 +244,11 @@ public class MealPlanActivity extends AppCompatActivity {
                 dinnerName.setText(dinnerMeal.getName());
                 ImageExtractor.loadIntoImage(getApplicationContext(), dinnerMeal.getPhotoUrl(), dinnerPic);
                 dinnerPic.setTag("dinner " + dateCopy);
+                try {
+                    getUserRating(entityPk, dinnerMeal.getRecipePK(), dinnerRating);
+                } catch (JSONException e) {
+                    Log.v("JSON", e.getMessage());
+                }
 
                 // need to get meal plan pk's before setting up replace buttons
                 breakfastReplaceButton = (Button) findViewById(R.id.replaceBreakfast);
@@ -282,20 +283,20 @@ public class MealPlanActivity extends AppCompatActivity {
                 breakfastRateButton = (Button) findViewById(R.id.rateBreakfast);
                 breakfastRateButton.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
-                        promptRating(breakfastMeal.getName(), breakfastMeal.getPhotoUrl(), breakfastMeal.getRecipePK(), breakfastRateButton);
+                        promptRating(breakfastMeal.getName(), breakfastMeal.getPhotoUrl(), breakfastMeal.getRecipePK(), breakfastRating);
                     }
                 });
                 lunchRateButton = (Button) findViewById(R.id.rateLunch);
                 lunchRateButton.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
-                        promptRating(lunchMeal.getName(), lunchMeal.getPhotoUrl(), lunchMeal.getRecipePK(), lunchRateButton);
+                        promptRating(lunchMeal.getName(), lunchMeal.getPhotoUrl(), lunchMeal.getRecipePK(), lunchRating);
 
                     }
                 });
                 dinnerRateButton = (Button) findViewById(R.id.rateDinner);
                 dinnerRateButton.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
-                        promptRating(dinnerMeal.getName(), dinnerMeal.getPhotoUrl(), dinnerMeal.getRecipePK(), dinnerRateButton);
+                        promptRating(dinnerMeal.getName(), dinnerMeal.getPhotoUrl(), dinnerMeal.getRecipePK(), dinnerRating);
 
                     }
                 });
@@ -314,81 +315,129 @@ public class MealPlanActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void promptRating(String recipeName, String imageUrl, Integer recipePk, Button srcButton) {
-        RatingDialog dialog = new RatingDialog();
-        Bundle args = new Bundle();
-        args.putString("name", recipeName);
-        args.putString("photo", imageUrl);
-        args.putInt("pk", recipePk);
-        dialog.setArguments(args);
-        dialog.setSourceButton(srcButton);
-        dialog.show(MealPlanActivity.this.getFragmentManager(), "RatingDialog");
+    public void promptRating(String recipeName, String imageUrl, Integer recipePK, final ImageView sourceView) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MealPlanActivity.this);
+
+        final int entityPk = LoginActivity.getCurrentUser().getEntityPk();
+        final int recipePk = recipePK;
+
+
+        ImageView view = new ImageView(MealPlanActivity.this);
+        ImageExtractor.loadIntoImage(MealPlanActivity.this, imageUrl, view);
+        Log.wtf("RATING", "ENTITY" + entityPk);
+        Log.wtf("RATING", "RECIPE" + recipePk);
+
+        builder.setTitle("Rate the Recipe!").setMessage("What did you think of the " + recipeName + "?\n").setView(view)
+                .setPositiveButton(" ", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        try {
+                            if (sourceView.getBackground() == null) {
+                                insertUserRating(entityPk, recipePk, 1, MealPlanActivity.this, sourceView);
+                            } else {
+                                updateUserRating(entityPk, recipePk, 1, MealPlanActivity.this, sourceView);
+                            }
+                        } catch (JSONException e) {
+                            Log.v("JSON", e.getMessage());
+                        }
+                    }
+                })
+                .setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        //do nothing
+                    }
+                })
+                .setNegativeButton(" ",  new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // code to saving rating in db
+                        try {
+                            if (sourceView.getBackground() == null) {
+                                insertUserRating(entityPk, recipePk, 0, MealPlanActivity.this, sourceView);
+                            } else {
+                                updateUserRating(entityPk, recipePk, 0, MealPlanActivity.this, sourceView);
+                            }
+                        } catch (JSONException e) {
+                            Log.v("JSON", e.getMessage());
+
+                        }
+                    }
+                });
+        final AlertDialog a = builder.create();
+        a.setOnShowListener(new DialogInterface.OnShowListener() {
+
+            @Override
+            public void onShow(DialogInterface dialog) {
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                params.setMargins(0, 30, 50, 0);
+                Button positive = a.getButton(AlertDialog.BUTTON_POSITIVE);
+                positive.setBackgroundResource(R.drawable.heart);
+                positive.setEnabled(true);
+                Button negative = a.getButton(DialogInterface.BUTTON_NEGATIVE);
+                negative.setBackgroundResource(R.drawable.broken_heart);
+                negative.setEnabled(true);
+                positive.setLayoutParams(params);
+                negative.setLayoutParams(params);
+
+            }
+        });
+        a.show();
     }
 
-    public static class RatingDialog extends DialogFragment {
-        Button sourceButton;
-
-        public void setSourceButton(Button b) {
-            sourceButton = b;
-        }
-
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            // Use the Builder class for convenient dialog construction
-            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            String name = getArguments().getString("name");
-            String imageUrl = getArguments().getString("photo");
-            final Integer recipePk = getArguments().getInt("pk");
-            ImageView view = new ImageView(getActivity());
-            ImageExtractor.loadIntoImage(getActivity(), imageUrl, view);
-            builder.setTitle("Rate the Recipe!").setMessage("What did you think of the " + name + "?").setView(view)
-                    .setPositiveButton("Thumbs Up", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            // code to save rating in db
-                            sourceButton.setEnabled(false);
-                            disabledButtons.add(sourceButton);
-                            try {
-                                Log.v("RATING", "" + LoginActivity.getCurrentUser().getEntityPk());
-                                Log.v("RATING", "" + recipePk);
-                                insertUserRating(LoginActivity.getCurrentUser().getEntityPk(), recipePk, 1, getActivity());
-                            } catch (JSONException e) {
-                                Log.v("JSON", e.getMessage());
-                            }
-                        }
-                    })
-                    .setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            //do nothing
-                        }
-                    })
-                    .setNegativeButton("Thumbs Down", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            // code to saving rating in db
-                            sourceButton.setEnabled(false);
-                            disabledButtons.add(sourceButton);
-                            try {
-                                insertUserRating(LoginActivity.getCurrentUser().getEntityPk(), recipePk, 0, getActivity());
-                            } catch (JSONException e) {
-                                Log.v("JSON", e.getMessage());
-
-                            }
-                        }
-                    });
-
-
-            // Create the AlertDialog object and return it
-            return builder.create();
-        }
-    }
-
-    public static void insertUserRating(int entityPk, int recipePk, int rating, Context context) throws JSONException {
+    public static void insertUserRating(int entityPk, int recipePk, final int rating, Context context, final ImageView ratingImage) throws JSONException {
         IntelliServerAPI.insertUserRating(context, entityPk, recipePk, rating, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject result) {
                 try {
-                    Log.v("rating", "INSERTING RATING");
+                    Log.wtf("RATING", "INSERTING RATING");
+                    if (rating == 0) {
+                        ratingImage.setBackgroundResource(R.drawable.broken_heart);
+                    } else {
+                        ratingImage.setBackgroundResource(R.drawable.heart);
+                    }
                 } catch (Exception e) {
-                    Log.v("JSONObject", "" + e.getMessage());
+                    Log.wtf("JSONObject", "" + e.getMessage());
+                }
+            }
+        });
+
+    }
+    public static void getUserRating(int entityPk, int recipePk, final ImageView ratingImage) throws JSONException {
+        IntelliServerAPI.getUserRating(entityPk, recipePk, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject result) {
+                try {
+                    Log.wtf("RATING", "GETTING RATING");
+                    if (result.get("rating") != null) {
+                        int rating = Integer.parseInt("" + result.get("rating"));
+                        if (rating == 0) {
+                            ratingImage.setBackgroundResource(R.drawable.broken_heart);
+                        } else {
+                            ratingImage.setBackgroundResource(R.drawable.heart);
+                        }
+                    } else {
+                        Log.wtf("RATING", "NO RATING FOR RECIPE");
+                        ratingImage.setBackgroundResource(0);
+                    }
+                } catch (Exception e) {
+                    Log.wtf("JSONObject", "" + e.getMessage());
+                }
+            }
+        });
+
+    }
+    public static void updateUserRating(int entityPk, int recipePk, final int rating, Context context, final ImageView ratingImage) throws JSONException {
+        IntelliServerAPI.updateUserRating(context, entityPk, recipePk, rating, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject result) {
+                try {
+                    Log.wtf("RATING", "UPDATING RATING");
+                    if (rating == 0) {
+                        ratingImage.setBackgroundResource(R.drawable.broken_heart);
+                    } else {
+                        ratingImage.setBackgroundResource(R.drawable.heart);
+                    }
+                } catch (Exception e) {
+                    Log.wtf("JSONObject", "" + e.getMessage());
                 }
             }
         });

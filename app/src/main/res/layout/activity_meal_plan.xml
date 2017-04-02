@@ -106,6 +106,13 @@
                 android:onClick="onRecipeImageClick"
                 android:scaleType="fitXY" />
 
+            <ImageView
+                android:id="@+id/breakfast_rating"
+                android:layout_width="76dp"
+                android:layout_height="61dp"
+                android:layout_gravity = "center"
+                />
+
         </FrameLayout>
 
 
@@ -155,6 +162,12 @@
                 android:onClick="onRecipeImageClick"
                 android:scaleType="fitXY" />
 
+            <ImageView
+                android:id="@+id/lunch_rating"
+                android:layout_width="76dp"
+                android:layout_height="61dp"
+                android:layout_gravity = "center" />
+
         </FrameLayout>
 
         <TextView
@@ -181,21 +194,6 @@
             android:textSize="8pt"
             android:layout_centerHorizontal="true"
             android:paddingRight="15dp"
-            android:textColor="#808080"
-            />
-        <TextView
-            android:text="TextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/dinner_rating"
-            android:layout_below="@+id/dinnerLayout"
-            android:layout_alignLeft="@+id/lunch_rating"
-            android:layout_alignStart="@+id/lunch_rating"
-            android:layout_marginRight="11dp"
-            android:layout_marginEnd="11dp"
-            android:layout_above="@+id/lunchLayout"
-            android:layout_toRightOf="@+id/breakfast_name"
-            android:textSize="20sp"
             android:textColor="#808080"
             />
 
@@ -243,6 +241,13 @@
                 android:layout_height="125dp"
                 android:onClick="onRecipeImageClick"
                 android:scaleType="fitXY" />
+
+            <ImageView
+                android:id="@+id/dinner_rating"
+                android:layout_width="76dp"
+                android:layout_height="61dp"
+                android:layout_gravity = "center"
+                android:scaleType="centerCrop" />
 
         </FrameLayout>
     </RelativeLayout>

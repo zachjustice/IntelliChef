@@ -224,6 +224,57 @@ public class IntelliServerAPI {
 
     }
 
+    public static void updateUserRating(Context context, int entityPk, int recipePk, int rating, final JsonHttpResponseHandler callback) throws JSONException {
+        final JsonHttpResponseHandler responseHandler = new JsonHttpResponseHandler() {
+            public void onFailure(int statusCode, Header[] headers, JSONObject response) {
+                Log.v("JSONObject", response.toString());
+            }
+
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                // Pull out the first event on the public timeline
+                // Do something with the response
+                Log.v("JSONObject", response.toString());
+                callback.onSuccess(statusCode, headers, response);
+            }
+        };
+
+
+        JSONObject params = new JSONObject();
+        params.put("rating", rating);
+        StringEntity requestData = null;
+        try {
+            requestData = new StringEntity(params.toString());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+
+        IntelliServerRestClientv2.put(context, "v2.0/entities/" + entityPk + "/recipes/" + recipePk, requestData, "application/json", responseHandler);
+
+    }
+
+    public static void getUserRating(int entityPk, int recipePk, final JsonHttpResponseHandler callback) throws JSONException {
+        final JsonHttpResponseHandler responseHandler = new JsonHttpResponseHandler() {
+            public void onFailure(int statusCode, Header[] headers, JSONObject response) {
+                Log.v("JSONObject", response.toString());
+            }
+
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                // Pull out the first event on the public timeline
+                // Do something with the response
+                Log.v("JSONObject", response.toString());
+                callback.onSuccess(statusCode, headers, response);
+            }
+        };
+
+
+        RequestParams params = new RequestParams();
+
+
+        IntelliServerRestClientv2.get("v2.0/entities/" + entityPk + "/recipes/" + recipePk, params, responseHandler);
+
+    }
+
 
 
     public static void getUserInfo(int entity_pk, final JsonHttpResponseHandler callback) throws JSONException {
