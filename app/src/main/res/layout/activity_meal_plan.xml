@@ -11,7 +11,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp">
+        android:layout_height="50dp"
+        android:id="@+id/relativeLayout">
 
         <TextView
             android:text="Meal Plan"
@@ -40,12 +41,12 @@
             android:background="@drawable/left" />
     </RelativeLayout>
 
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="55dp"
-        android:paddingBottom="30dp">
+        android:paddingBottom="30dp"
+        android:layout_below="@+id/relativeLayout">-->
 
         <RelativeLayout
             android:layout_width="wrap_content"

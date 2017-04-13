@@ -114,17 +114,14 @@ public class MealPlanActivity extends AppCompatActivity {
                 if (viewDate.getDayOfWeek() == today.getDayOfWeek()) {
                     prevButton.setVisibility(View.INVISIBLE);
                 }
-
             }
-
         });
-
 
         nextButton = (Button) findViewById(R.id.nextRecipe);
         if (weekDay == 7) {
             nextButton.setVisibility(View.INVISIBLE);
         }
-        Log.wtf("HELLO", "I'm here2");
+        Log.wtf("HELLO", "I'm here2 " + nextButton.getId());
 
         nextButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -143,8 +140,6 @@ public class MealPlanActivity extends AppCompatActivity {
                 }
             }
         });
-
-
 
         // Show recipe clicked
         breakfastPic.setOnClickListener(new View.OnClickListener() {
@@ -165,6 +160,8 @@ public class MealPlanActivity extends AppCompatActivity {
 
         // Tab Screen Change Logic
         TabLayout tabs = (TabLayout) findViewById(R.id.tabs);
+        TabLayout.Tab tab = tabs.getTabAt(0);
+        tab.select();
         tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -176,10 +173,11 @@ public class MealPlanActivity extends AppCompatActivity {
                         break;
                     case 1:
                         intent = new Intent(MealPlanActivity.this, MealHistoryActivity.class);
-                        intent.putExtra("entityPk", entityPk);
                         startActivity(intent);
                         break;
                     case 2:
+                        intent = new Intent(MealPlanActivity.this, GroceryListActivity.class);
+                        startActivity(intent);
                         break;
                     case 3:
                         intent = new Intent(MealPlanActivity.this, PreferencesActivity.class);
@@ -207,12 +205,10 @@ public class MealPlanActivity extends AppCompatActivity {
         breakfastRating.setBackgroundResource(0);
         lunchRating.setBackgroundResource(0);
         dinnerRating.setBackgroundResource(0);
-        Log.wtf("HELLO", "Showing meal plan");
 
         IntelliServerAPI.getMealPlan(entityPk, date, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject result) {
-                Log.wtf("HELLO", "I'm succeeding");
                 breakfastMeal = new Meal();
                 try {
                     breakfastMeal.fillParams(result.getJSONObject("breakfast"));

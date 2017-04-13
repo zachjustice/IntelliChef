@@ -7,57 +7,55 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.CheckBox;
 
 import java.util.ArrayList;
 
 /**
  * Created by jatin1 on 2/16/17.
  */
-public class RecipeAdapter extends ArrayAdapter<RecipeItem> {
+public class GroceryListAdapter extends ArrayAdapter<GroceryListItem> {
 
     Context context;
     private int layoutResourceId;
-    private ArrayList<RecipeItem> data;
+    private ArrayList<GroceryListItem> groceryList;
 
-    public RecipeAdapter(Context context, int layoutResourceId, ArrayList<RecipeItem> data) {
-        super(context, layoutResourceId, data);
+    public GroceryListAdapter(Context context, int layoutResourceId, ArrayList<GroceryListItem> groceryList) {
+        super(context, layoutResourceId, groceryList);
         this.layoutResourceId = layoutResourceId;
         this.context = context;
-        this.data = data;
+        this.groceryList = groceryList;
     }
 
     @NonNull
     @Override
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         View row = convertView;
-        RecipeHolder holder = null;
+        GroceryListItemHolder holder = null;
 
         if (row == null) {
             LayoutInflater inflater = ((Activity) context).getLayoutInflater();
             row = inflater.inflate(layoutResourceId, parent, false);
 
-            holder = new RecipeHolder();
-            holder.recipeImage = (ImageView) row.findViewById(R.id.recipeImage);
-            holder.recipeName = (TextView) row.findViewById(R.id.recipeName);
+            holder = new GroceryListItemHolder();
+            holder.ingredientCheckbox = (CheckBox) row.findViewById(R.id.ingredientCheckbox);
+            //holder.ingredientDescriptions = (ListView) row.findViewById(R.id.ingredientDescriptions);
 
             row.setTag(holder);
         } else {
-            holder = (RecipeHolder) row.getTag();
+            holder = (GroceryListItemHolder) row.getTag();
         }
 
-        RecipeItem item = data.get(position);
-        holder.recipeName.setText(item.getRecipeName());
-        ImageExtractor.loadIntoImage(getContext(), item.getImageUrl(), holder.recipeImage, 150, 150);
+        GroceryListItem item = groceryList.get(position);
+        holder.ingredientCheckbox.setText(item.getIngredientName());
 
         return row;
 
     }
 
-    private static class RecipeHolder {
-        ImageView recipeImage;
-        TextView recipeName;
+    private static class GroceryListItemHolder {
+        CheckBox ingredientCheckbox;
+        //TextView ingredientDescriptions;
     }
 
     @Override

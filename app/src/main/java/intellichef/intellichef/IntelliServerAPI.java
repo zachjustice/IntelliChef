@@ -415,6 +415,7 @@ class IntelliServerAPI {
         IntelliServerRestClientv2.put(context, "v2.0/meal_plans/" + mealPlanPK, requestData, "application/json", responseHandler);
     }
 
+
     static void getMealPlanHistory(DateTime startDate, DateTime endDate, int entityPk, final JsonHttpResponseHandler callback) {
         final JsonHttpResponseHandler responseHandler = new JsonHttpResponseHandler() {
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject response) {
@@ -438,5 +439,30 @@ class IntelliServerAPI {
         params.put("end_date", endDate);
 
         IntelliServerRestClientv2.get("v2.0/entities/" + entityPk + "/meal_plans", params, responseHandler);
+    }
+
+    static void getGroceryList(DateTime startDate, DateTime endDate, int entityPk, final JsonHttpResponseHandler callback) {
+        final JsonHttpResponseHandler responseHandler = new JsonHttpResponseHandler() {
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject response) {
+                Log.v("JSONObject", response.toString());
+            }
+
+            public void onFailure(int statusCode, Header[] headers, String response, Throwable throwable) {
+                Log.v("JSONObject", response);
+            }
+
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                // Pull out the first event on the public timeline
+                // Do something with the response
+                Log.v("JSONObject", response.toString());
+                callback.onSuccess(statusCode, headers, response);
+            }
+        };
+
+        RequestParams params = new RequestParams();
+        params.put("start_date", startDate);
+        params.put("end_date", endDate);
+
+        IntelliServerRestClientv2.get("v2.0/entities/" + entityPk + "/grocery_list", params, responseHandler);
     }
 }

@@ -108,6 +108,8 @@ public class MealHistoryActivity extends AppCompatActivity {
                     case 1:
                         break;
                     case 2:
+                        intent = new Intent(MealHistoryActivity.this, GroceryListActivity.class);
+                        startActivity(intent);
                         break;
                     case 3:
                         intent = new Intent(MealHistoryActivity.this, PreferencesActivity.class);

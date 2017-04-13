@@ -28,6 +28,7 @@
         <activity android:name=".ViewRecipeActivity" />
         <activity android:name=".ReplaceMealActivity" />
         <activity android:name=".MealHistoryActivity" />
+        <activity android:name=".GroceryListActivity" />
     </application>
 
 </manifest>
