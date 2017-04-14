@@ -209,6 +209,24 @@ public class MealPlanActivity extends AppCompatActivity {
         IntelliServerAPI.getMealPlan(entityPk, date, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject result) {
+                if(result.isNull("breakfast"))
+                {
+                    Log.wtf("MealPlanActivity Error", "No breakfast meal plan");
+                    return;
+                }
+
+                if(result.isNull("lunch"))
+                {
+                    Log.wtf("MealPlanActivity Error", "No lunch meal plan");
+                    return;
+                }
+
+                if(result.isNull("dinner"))
+                {
+                    Log.wtf("MealPlanActivity Error", "No dinner meal plan");
+                    return;
+                }
+
                 breakfastMeal = new Meal();
                 try {
                     breakfastMeal.fillParams(result.getJSONObject("breakfast"));
@@ -304,7 +322,6 @@ public class MealPlanActivity extends AppCompatActivity {
 
                     }
                 });
-
             }
         });
     }
