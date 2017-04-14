@@ -2,6 +2,7 @@ package intellichef.intellichef;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +17,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Scroller;
 import android.widget.TextView;
@@ -47,9 +49,9 @@ public class ViewRecipeActivity extends AppCompatActivity {
     private ArrayAdapter<String> ingredientsAdapter;
     private ArrayAdapter<String> nutitionInfoAdapter;
 
-    private ListView recipeViewList;
-    private ListView ingredientsList;
-    private ListView nutritionInfoList;
+    private ExpandedListView recipeViewList;
+    private ExpandedListView ingredientsList;
+    private ExpandedListView nutritionInfoList;
 
     ArrayList<String> instructionArray;
     ArrayList<String> ingredientArray;
@@ -70,17 +72,17 @@ public class ViewRecipeActivity extends AppCompatActivity {
         addNoteButton = (Button) findViewById(R.id.noteButton);
 
         instructionArray = new ArrayList<>();
-        recipeViewList = (ListView) findViewById(R.id.recipeView);
+        recipeViewList = (ExpandedListView) findViewById(R.id.recipeView);
         recipeViewAdapter = new ArrayAdapter(ViewRecipeActivity.this, R.layout.custom_textview, instructionArray);
         recipeViewList.setAdapter(recipeViewAdapter);
 
         ingredientArray = new ArrayList<>();
-        ingredientsList = (ListView) findViewById(R.id.ingredients);
+        ingredientsList = (ExpandedListView) findViewById(R.id.ingredients);
         ingredientsAdapter = new ArrayAdapter(ViewRecipeActivity.this, R.layout.custom_textview, ingredientArray);
         ingredientsList.setAdapter(ingredientsAdapter);
 
         nutitionInfoArray = new ArrayList<>();
-        nutritionInfoList = (ListView) findViewById(R.id.nutritionInfo);
+        nutritionInfoList = (ExpandedListView) findViewById(R.id.nutritionInfo);
         nutitionInfoAdapter = new ArrayAdapter(ViewRecipeActivity.this, R.layout.custom_textview, nutitionInfoArray);
         nutritionInfoList.setAdapter(nutitionInfoAdapter);
 
@@ -90,8 +92,6 @@ public class ViewRecipeActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        recipeViewAdapter.notifyDataSetChanged();
-        setListViewHeightBasedOnChildren(recipeViewList);
 
         addNotes.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -191,21 +191,30 @@ public class ViewRecipeActivity extends AppCompatActivity {
     }
 
     public static void setListViewHeightBasedOnChildren(ListView listView) {
-        ArrayAdapter<String> arrayAdapter = (ArrayAdapter) listView.getAdapter();
-        if (arrayAdapter == null) {
-            // pre-condition
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter == null)
             return;
-        }
 
-        int totalHeight = 0;
-        for (int i = 0; i < arrayAdapter.getCount(); i++) {
-            View listItem = arrayAdapter.getView(i, null, listView);
-            listItem.measure(0, 0);
-            totalHeight += listItem.getMeasuredHeight();
+        int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(), View.MeasureSpec.UNSPECIFIED);
+        int totalHeight=0;
+        View view = null;
+
+        for (int i = 0; i < listAdapter.getCount(); i++)
+        {
+            view = listAdapter.getView(i, view, listView);
+
+            if (i == 0)
+                view.setLayoutParams(new ViewGroup.LayoutParams(desiredWidth,
+                        ViewGroup.LayoutParams.MATCH_PARENT));
+
+            view.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
+            totalHeight += view.getMeasuredHeight();
+
         }
 
         ViewGroup.LayoutParams params = listView.getLayoutParams();
-        params.height = totalHeight + (listView.getDividerHeight() * (arrayAdapter.getCount() - 1));
+        params.height = totalHeight + ((listView.getDividerHeight()) * (listAdapter.getCount()));
+
         listView.setLayoutParams(params);
         listView.requestLayout();
     }

@@ -14,7 +14,7 @@
     <TextView
         android:id="@+id/recipeName"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:background="#f15c48"
         android:layout_centerHorizontal="true"
         android:textColor="#ffffff"
@@ -62,7 +62,7 @@
                 android:textColor="#f15c48"
                 />
 
-            <ListView
+            <intellichef.intellichef.ExpandedListView
                 android:id="@+id/nutritionInfo"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -79,7 +79,7 @@
                 android:textColor="#f15c48"
                 />
 
-            <ListView
+            <intellichef.intellichef.ExpandedListView
                 android:id="@+id/ingredients"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -97,18 +97,11 @@
                 android:textColor="#f15c48"
                 />
 
-            <ListView
-                android:layout_width="match_parent"
+            <intellichef.intellichef.ExpandedListView
                 android:id="@+id/recipeView"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_above="@+id/notesList"
-                android:layout_height="match_parent"
-                android:layout_alignParentTop="true"
-                android:fadeScrollbars="true"
                 android:divider="@android:color/transparent"/>
 
             <TextView

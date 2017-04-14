@@ -83,8 +83,8 @@ public class MealPlanActivity extends AppCompatActivity {
         final DateTimeFormatter displayFormatter = DateTimeFormat.forPattern("EEEE, MMMM d");
 
         //change today for testing
-        today = new DateTime().minusDays(3);
-        viewDate = new DateTime().minusDays(3);
+        today = new DateTime();
+        viewDate = new DateTime();
 
         final int weekDay = today.getDayOfWeek();
         final int entityPk = LoginActivity.getCurrentUser().getEntityPk();
@@ -328,8 +328,6 @@ public class MealPlanActivity extends AppCompatActivity {
 
         ImageView view = new ImageView(MealPlanActivity.this);
         ImageExtractor.loadIntoImage(MealPlanActivity.this, imageUrl, view, 250, 130);
-        Log.wtf("RATING", "ENTITY" + entityPk);
-        Log.wtf("RATING", "RECIPE" + recipePk);
 
         builder.setTitle("Rate the Recipe!").setMessage("What did you think of the " + recipeName + "?\n").setView(view)
                 .setPositiveButton("I liked this!", new DialogInterface.OnClickListener() {
