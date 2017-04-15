@@ -3,6 +3,7 @@ import android.content.Context;
 import android.util.Log;
 
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.json.*;
 import com.loopj.android.http.*;
 
@@ -441,7 +442,7 @@ class IntelliServerAPI {
         IntelliServerRestClientv2.get("v2.0/entities/" + entityPk + "/meal_plans", params, responseHandler);
     }
 
-    static void getGroceryList(DateTime startDate, DateTime endDate, int entityPk, final JsonHttpResponseHandler callback) {
+    static void getGroceryList(LocalDate startDate, LocalDate endDate, int entityPk, final JsonHttpResponseHandler callback) {
         final JsonHttpResponseHandler responseHandler = new JsonHttpResponseHandler() {
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject response) {
                 Log.v("JSONObject", response.toString());

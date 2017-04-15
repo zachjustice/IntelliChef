@@ -35,12 +35,11 @@ public class GroceryListAdapter extends ArrayAdapter<GroceryListItem> {
     @Override
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         View row = convertView;
-        GroceryListItemHolder holder = null;
+        GroceryListItemHolder holder;
 
         if (row == null) {
             LayoutInflater inflater = ((Activity) context).getLayoutInflater();
             row = inflater.inflate(layoutResourceId, parent, false);
-            Log.v("GL", "row id " + row.getId());
 
             CheckBox ingredientCheckbox = (CheckBox) row.findViewById(R.id.ingredientCheckbox);
             ImageButton toggleButton = (ImageButton) row.findViewById(R.id.toggleIngredientUsages);
@@ -78,6 +77,8 @@ public class GroceryListAdapter extends ArrayAdapter<GroceryListItem> {
             this.ingredientUsagesListView = ingredientUsagesListView;
             this.toggleButton = toggleButton;
             this.originalHeight = row.getLayoutParams().height;
+
+            this.setToggleButtonListener();
         }
 
         void populateIngredientUsagesView(Context context, List<String> ingredientDescriptions) {
@@ -86,11 +87,8 @@ public class GroceryListAdapter extends ArrayAdapter<GroceryListItem> {
 
             ingredientUsagesListView.setAdapter(ingredientUsagesAdapter);
             ingredientUsagesAdapter.notifyDataSetChanged();
-            //this.ingredientUsagesListView.setVisibility(View.INVISIBLE);
+            this.ingredientUsagesListView.setVisibility(View.GONE);
 
-
-            // now that we have ingredient usages, set up the toggle button to hide/show them
-            this.setToggleButtonListener();
         }
 
         void setIngredientName(String ingredientName) {
@@ -103,42 +101,13 @@ public class GroceryListAdapter extends ArrayAdapter<GroceryListItem> {
                 public void onClick(View v) {
                     if (ingredientUsagesListView.getVisibility() == View.VISIBLE) {
 
-                        Log.v("GL", "hide ingredient usages");
-                        ingredientUsagesListView.setVisibility(View.INVISIBLE);
-
-                        /*
-                        ViewGroup.LayoutParams params = row.getLayoutParams();
-                        params.height = originalHeight;
-                        row.setLayoutParams(params);
-                        row.requestLayout();
-                        */
+                        ingredientUsagesListView.setVisibility(View.GONE);
 
                     } else {
-
-                        Log.v("GL", "show ingredient usages");
-                        Log.v("GL", "row height " + row.getLayoutParams().height);
 
                         ingredientUsagesListView.setVisibility(View.VISIBLE);
                         ArrayAdapter<String> arrayAdapter = (ArrayAdapter) ingredientUsagesListView.getAdapter();
 
-                        /*
-                        int totalHeight = 0;
-                        for (int i = 0; i < arrayAdapter.getCount(); i++) {
-                            View listItem = arrayAdapter.getView(i, null, ingredientUsagesListView);
-                            Log.v("GL", "list item " + listItem.toString());
-                            listItem.measure(0, 0);
-                            totalHeight += listItem.getMeasuredHeight();
-                        }
-
-                        Log.v("GL", "total height " + totalHeight);
-                        Log.v("GL", "dividerHeight " + ingredientUsagesListView.getDividerHeight());
-                        Log.v("GL", "getCount " + ingredientUsagesListView.getCount());
-
-                        ViewGroup.LayoutParams params = row.getLayoutParams();
-                        params.height = originalHeight + totalHeight + (ingredientUsagesListView.getDividerHeight() * ingredientUsagesListView.getCount());
-                        row.setLayoutParams(params);
-                        row.requestLayout();
-                        */
                     }
                 }
             });
