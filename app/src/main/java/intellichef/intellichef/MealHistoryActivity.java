@@ -49,7 +49,7 @@ public class MealHistoryActivity extends AppCompatActivity {
         currDate = new DateTime();
 
         try {
-            showResults(currDate, currDate.plusDays(numDays), entityPk);
+            showResults(currDate, currDate.minusDays(numDays), entityPk);
         } catch (JSONException e) {
             e.printStackTrace();
         }
