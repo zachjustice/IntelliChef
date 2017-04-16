@@ -9,7 +9,10 @@ import android.support.design.widget.TabLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -258,28 +261,22 @@ public class MealPlanActivity extends AppCompatActivity {
                 breakfastReplaceButton = (Button) findViewById(R.id.replaceBreakfast);
                 breakfastReplaceButton.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
-                        Intent intent = new Intent(MealPlanActivity.this, ReplaceMealActivity.class);
-                        Log.v("replace", "bfast meal pk " + breakfastMeal.getMealPlanPK());
-                        intent.putExtra("mealPlanPK", breakfastMeal.getMealPlanPK());
-                        startActivity(intent);
+                        promptReplace(breakfastMeal);
                     }
                 });
 
                 lunchReplaceButton = (Button) findViewById(R.id.replaceLunch);
                 lunchReplaceButton.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
-                        Intent intent = new Intent(MealPlanActivity.this, ReplaceMealActivity.class);
-                        intent.putExtra("mealPlanPK", lunchMeal.getMealPlanPK());
-                        startActivity(intent);
+                        promptReplace(lunchMeal);
                     }
                 });
 
                 dinnerReplaceButton = (Button) findViewById(R.id.replaceDinner);
                 dinnerReplaceButton.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
-                        Intent intent = new Intent(MealPlanActivity.this, ReplaceMealActivity.class);
-                        intent.putExtra("mealPlanPK", dinnerMeal.getMealPlanPK());
-                        startActivity(intent);
+                        promptReplace(dinnerMeal);
+
                     }
                 });
 
@@ -319,18 +316,42 @@ public class MealPlanActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void promptReplace(final Meal meal) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MealPlanActivity.this, R.style.DialogStyle);
+        builder.setTitle( Html.fromHtml("<font color='#000000'>Replace the Recipe!</font>")).setMessage("Do you really want to replace this recipe?\n")
+                .setPositiveButton("Replace Recipe", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        Intent intent = new Intent(MealPlanActivity.this, ReplaceMealActivity.class);
+                        Log.v("replace", "meal pk " + meal.getMealPlanPK());
+                        intent.putExtra("mealPlanPK", meal.getMealPlanPK());
+                        startActivity(intent);
+                    }
+                })
+                .setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        //do nothing
+                    }
+                });
+        final AlertDialog a = builder.create();
+        a.show();
+    }
+
     public void promptRating(String recipeName, String imageUrl, Integer recipePK, final ImageView sourceView) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(MealPlanActivity.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(MealPlanActivity.this, R.style.DialogStyle);
 
         final int entityPk = LoginActivity.getCurrentUser().getEntityPk();
         final int recipePk = recipePK;
 
 
-        ImageView view = new ImageView(MealPlanActivity.this);
-        ImageExtractor.loadIntoImage(MealPlanActivity.this, imageUrl, view, 250, 130);
+        //LayoutInflater inflater = getLayoutInflater();
 
-        builder.setTitle("Rate the Recipe!").setMessage("What did you think of the " + recipeName + "?\n").setView(view)
-                .setPositiveButton("I liked this!", new DialogInterface.OnClickListener() {
+        //View dialoglayout = inflater.inflate(R.layout.custom_dialog, null);
+        ImageView view = new ImageView(MealPlanActivity.this);
+        ImageExtractor.loadIntoImage(MealPlanActivity.this, imageUrl, (ImageView) view, 600, 400);
+
+
+        builder.setTitle( Html.fromHtml("<font color='#000000'>Rate the Recipe!</font>")).setMessage("What did you think of the " + recipeName + "?\n").setView(view)
+                .setPositiveButton("Liked it!", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         try {
                             if (sourceView.getBackground() == null) {
@@ -348,7 +369,7 @@ public class MealPlanActivity extends AppCompatActivity {
                         //do nothing
                     }
                 })
-                .setNegativeButton("I didn't like this.",  new DialogInterface.OnClickListener() {
+                .setNegativeButton("Didn't like it",  new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // code to saving rating in db
                         try {
@@ -364,7 +385,9 @@ public class MealPlanActivity extends AppCompatActivity {
                     }
                 });
         final AlertDialog a = builder.create();
+
         a.show();
+        a.getWindow().setLayout(1000, 900);
     }
 
     public static void insertUserRating(int entityPk, int recipePk, final int rating, Context context, final ImageView ratingImage) throws JSONException {
