@@ -173,14 +173,17 @@ public class MealPlanActivity extends AppCompatActivity {
                         break;
                     case 1:
                         intent = new Intent(MealPlanActivity.this, MealHistoryActivity.class);
+                        intent.putExtra("entityPk", entityPk);
                         startActivity(intent);
                         break;
                     case 2:
                         intent = new Intent(MealPlanActivity.this, GroceryListActivity.class);
+                        intent.putExtra("entityPk", entityPk);
                         startActivity(intent);
                         break;
                     case 3:
                         intent = new Intent(MealPlanActivity.this, PreferencesActivity.class);
+                        intent.putExtra("entityPk", entityPk);
                         startActivity(intent);
                         break;
                     default:

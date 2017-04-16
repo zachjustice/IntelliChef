@@ -3,6 +3,8 @@ import android.content.Context;
 import android.util.Log;
 
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.json.*;
 import com.loopj.android.http.*;
 
@@ -416,7 +418,8 @@ class IntelliServerAPI {
     }
 
 
-    static void getMealPlanHistory(DateTime startDate, DateTime endDate, int entityPk, final JsonHttpResponseHandler callback) {
+    static void getMealPlanHistory(DateTime startDate, DateTime endDate, int entityPk, boolean isFavorite, boolean isBreakfast,
+                                   boolean isLunch, boolean isDinner, final JsonHttpResponseHandler callback) {
         final JsonHttpResponseHandler responseHandler = new JsonHttpResponseHandler() {
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject response) {
                 Log.v("JSONObject", response.toString());
@@ -434,10 +437,24 @@ class IntelliServerAPI {
             }
         };
 
+        final DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
         RequestParams params = new RequestParams();
-        params.put("start_date", startDate);
-        params.put("end_date", endDate);
-
+        params.put("start_date", formatter.print(startDate));
+        params.put("end_date", formatter.print(endDate));
+        if (isFavorite) {
+            params.put("is_favorite", isFavorite);
+        }
+        Log.v("BRE1234", "" + isBreakfast);
+        if (isBreakfast) {
+            Log.v("BRE1234", "" + isBreakfast);
+            params.put("is_breakfast", isBreakfast);
+        }
+        if (isLunch) {
+            params.put("is_lunch", isLunch);
+        }
+        if (isDinner) {
+            params.put("is_dinner", isDinner);
+        }
         IntelliServerRestClientv2.get("v2.0/entities/" + entityPk + "/meal_plans", params, responseHandler);
     }
 
