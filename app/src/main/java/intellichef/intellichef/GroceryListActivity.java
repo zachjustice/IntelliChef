@@ -7,14 +7,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.CheckBox;
 import android.widget.ListView;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 
-import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.LocalDate;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -41,13 +38,17 @@ public class GroceryListActivity extends AppCompatActivity {
         groceryList = new ArrayList<>();
         listView = (ListView) findViewById(R.id.list);
 
-        DateTime currDate = new DateTime();
+        LocalDate today = LocalDate.now();
+        int dayOfWeek = today.getDayOfWeek();
+        // If it's Tuesday (2nd day of week), subtract 1 day to get Monday
+        LocalDate prevMonday = today.minusDays(dayOfWeek - 1);
+        // If it's Tuesday (2nd day of week), add 5 days to get Sunday
+        LocalDate nextSunday = today.plusDays(7 - dayOfWeek);
 
-        // find end of the week
-        // find beginning of the week
+        Log.v("GL", prevMonday.toString() + " " + nextSunday.toString());
 
         try {
-            showResults(currDate, currDate.plusDays(1), entityPk);
+            showResults(prevMonday, nextSunday, entityPk);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -103,7 +104,7 @@ public class GroceryListActivity extends AppCompatActivity {
         });
     }
 
-    private void showResults(final DateTime startDate, final DateTime endDate, int entityPk) throws JSONException {
+    private void showResults(final LocalDate startDate, final LocalDate endDate, int entityPk) throws JSONException {
         IntelliServerAPI.getGroceryList(startDate, endDate, entityPk, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject groceryListJSON) {

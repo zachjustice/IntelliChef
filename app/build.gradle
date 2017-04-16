@@ -34,5 +34,5 @@ dependencies {
 //    compile 'com.android.support:gridlayout-v7:25.1.0'
 //    compile 'com.android.support:support-v4:25.1.0'
     compile 'com.android.support:gridlayout-v7:24.1.0'
-    compile 'joda-time:joda-time:2.9.4'
+    compile 'joda-time:joda-time:2.9.9'
 }

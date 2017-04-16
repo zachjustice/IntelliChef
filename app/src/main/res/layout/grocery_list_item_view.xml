@@ -1,17 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout android:id="@+id/recipeBlock"
+<RelativeLayout android:id="@+id/groceryListItemBlock"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_height="wrap_content"
     android:paddingLeft="15dp"
     android:paddingRight="15dp">
 
-    <CheckBox android:id="@+id/ingredientCheckbox"
+    <RelativeLayout
+        android:id="@+id/ingredientNameContainer"
         android:layout_width="wrap_content"
-        android:layout_height="60dp"
-        android:text=""
-        android:checked="false"
-        android:buttonTint="@color/colorPrimary"
-        android:onClick="onCheckboxClicked"/>
+        android:layout_height="wrap_content">
+        <CheckBox android:id="@+id/ingredientCheckbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:checked="false"
+            android:buttonTint="@color/colorPrimary"
+            android:onClick="onCheckboxClicked"
+            android:layout_centerVertical="true" />
+        <ImageButton
+            android:id="@+id/toggleIngredientUsages"
+            android:background="@color/colorAccent"
+            android:layout_height="60dp"
+            android:layout_width="60dp"
+            android:src="@drawable/ic_action_more_horiz"
+            android:contentDescription="@string/grocery_list_descr_overflow_button"
+            android:layout_centerVertical="true"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:layout_toRightOf="@+id/ingredientCheckbox"
+            android:layout_toEndOf="@+id/ingredientCheckbox" />
+    </RelativeLayout>
+    <ListView
+        android:id="@+id/ingredientUsages"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:paddingStart="20dp"
+        android:paddingLeft="20dp"
+        android:paddingBottom="20dp"
+        android:layout_below="@id/ingredientNameContainer" />
 </RelativeLayout>
