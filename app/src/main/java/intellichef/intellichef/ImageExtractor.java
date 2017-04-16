@@ -13,7 +13,12 @@ public class ImageExtractor {
     //simple function to take a url and put it into an imageview
     //Note: the context refers to the activity the ImageView is in, 'this', or getApplicationContext() should usually work
     public static void loadIntoImage(Context context, String url, ImageView image) {
-        Picasso.with(context).load(url).into(image);
+        try {
+            Picasso.with(context).load(url).into(image);
+        } catch(IllegalArgumentException ex) {
+            Log.wtf("ImageExtractor Error", "Empty image path. Probably an empty result set from the API.");
+            throw ex;
+        }
     }
 
     public static void loadIntoImage(Context context, String url, ImageView image, int height, int width) {

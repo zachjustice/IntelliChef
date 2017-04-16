@@ -16,4 +16,5 @@
         completions."
     </string>
     <string name="search_instructions">Search recipes</string>
+    <string name="grocery_list_descr_overflow_button">See ingredient\'s uses across this week\'s meal plan</string>
 </resources>
