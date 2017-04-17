@@ -74,9 +74,11 @@ public class PreferencesActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         CalligraphyConfig.initDefault("fonts/Montserrat-Light.ttf");
         setContentView(R.layout.activity_preferences);
+
         if (currentUser == null) {
             currentUser = LoginActivity.getCurrentUser();
         }
@@ -133,7 +135,6 @@ public class PreferencesActivity extends AppCompatActivity {
         saveBasic.setVisibility(View.GONE);
         saveDietary.setVisibility(View.GONE);
         saveAllergies.setVisibility(View.GONE);
-
 
         changePicture.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -349,6 +350,8 @@ public class PreferencesActivity extends AppCompatActivity {
             logout.setVisibility(View.GONE);
             deleteAccount.setVisibility(View.GONE);
             tabs.setVisibility(View.GONE);
+        } else {
+            saveAllChanges.setVisibility(View.GONE);
         }
     }
 
