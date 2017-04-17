@@ -172,7 +172,7 @@ public class MealHistoryActivity extends AppCompatActivity {
         });
         dinner.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                isDinnerChecked = !isLunchChecked;
+                isDinnerChecked = !isDinnerChecked;
                 regenerateMealHistory();
             }
         });
