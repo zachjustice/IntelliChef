@@ -91,12 +91,11 @@
             android:id="@+id/favoriteBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_toLeftOf="@+id/breakfastBox"
-            android:layout_toStartOf="@+id/breakfastBox"
             android:text="Favorite"
             android:buttonTint="#f15c48"
-            />
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/breakfastBox"
+            android:layout_toStartOf="@+id/breakfastBox" />
 
         <CheckBox
             android:id="@+id/lunchBox"

@@ -30,7 +30,7 @@ public class MealHistoryActivity extends AppCompatActivity {
     private ListView listView;
     private boolean flag_loading; // true while loading the next set of recipes
     private DateTime currDate;
-    private final int numDays = -7;
+    private final int numDays = 7;
 
     private RecipeAdapter adapter;
     private ArrayList<RecipeItem> recipeItems;
@@ -179,6 +179,8 @@ public class MealHistoryActivity extends AppCompatActivity {
     }
 
     private void showResults(final DateTime startDate, final DateTime endDate, int entityPk) throws JSONException {
+
+        currDate = startDate.minusDays(1);
 
         IntelliServerAPI.getMealPlanHistory(startDate, endDate, entityPk, isFavoriteChecked, isBreakfastChecked, isLunchChecked, isDinnerChecked, new JsonHttpResponseHandler() {
             @Override
