@@ -2,6 +2,7 @@ package intellichef.intellichef;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -11,6 +12,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 
@@ -45,7 +48,7 @@ public class CalibrationActivity extends AppCompatActivity {
         submit = (Button) findViewById(R.id.submit);
 
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
+            ColorStateList oldColors =  null;
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
@@ -54,9 +57,14 @@ public class CalibrationActivity extends AppCompatActivity {
                 if (selected.isSelected()) {
                     view.setBackgroundResource(R.drawable.layout);
                     view.setBackgroundColor(Color.rgb(245,141,116));
+                    TextView tv = (TextView) view.findViewById(R.id.recipeName);
+                    oldColors = tv.getTextColors();
+                    tv.setTextColor(Color.WHITE);
 
                 } else {
                     view.setBackgroundDrawable(null);
+                    TextView tv = (TextView) view.findViewById(R.id.recipeName);
+                    tv.setTextColor(oldColors);
                 }
             }
         });
@@ -71,6 +79,7 @@ public class CalibrationActivity extends AppCompatActivity {
 
         submit.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                calibrationPks = new ArrayList<>();
                 for (RecipeItem c: recipeItems) {
                     if (c.isSelected()) {
                         calibrationPks.add(c.getRecipePk());
@@ -79,20 +88,25 @@ public class CalibrationActivity extends AppCompatActivity {
                     }
                 }
                 Log.v("Calibrated", "" + calibrationPks.size());
-                try {
-                    User currentUser = LoginActivity.getCurrentUser();
-                    updateUserCalibrationPicks(calibrationPks, currentUser.getEntityPk(), CalibrationActivity.this);
-                    generateMealPlan(CalibrationActivity.this, currentUser.getEntityPk());
-                    Handler handler = new Handler();
-                    handler.postDelayed(new Runnable() {
-                        public void run() {
-                            Intent intent = new Intent(getBaseContext(), MealPlanActivity.class);
-                            startActivity(intent);
-                        }
-                    }, 10000);
+                if (calibrationPks.size() < 5) {
+                    Toast.makeText(CalibrationActivity.this, "Please select at least 5 recipes!",
+                            Toast.LENGTH_LONG).show();
+                } else {
+                    try {
+                        User currentUser = LoginActivity.getCurrentUser();
+                        updateUserCalibrationPicks(calibrationPks, currentUser.getEntityPk(), CalibrationActivity.this);
+                        generateMealPlan(CalibrationActivity.this, currentUser.getEntityPk());
+                        Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            public void run() {
+                                Intent intent = new Intent(getBaseContext(), MealPlanActivity.class);
+                                startActivity(intent);
+                            }
+                        }, 10000);
 
-                } catch (JSONException e) {
-                    System.out.println(e.getMessage());
+                    } catch (JSONException e) {
+                        System.out.println(e.getMessage());
+                    }
                 }
             }
         });

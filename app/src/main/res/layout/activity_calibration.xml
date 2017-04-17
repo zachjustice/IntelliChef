@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#f15c48"
+    android:background="#fff"
     android:fitsSystemWindows="true"
     tools:context="intellichef.intellichef.CalibrationActivity"
     android:weightSum="1"
@@ -11,27 +11,30 @@
 
 
     <TextView
-        android:layout_width="wrap_content"
-        android:paddingLeft="15dp"
-        android:layout_height="38dp"
-        android:text="Select the foods you like!"
         android:id="@+id/textView"
-        android:textColor="#ffffff"
-        android:textSize="11pt" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:text="Select food you like!"
+        android:textAppearance="@style/TextAppearance.AppCompat" />
 
     <Button
-        android:text="Submit"
         android:id="@+id/submit"
-        android:layout_marginTop="10dp"
-        android:textColor="#f15c48"
-        android:background="#ffffff"
-        android:textSize="6pt"
-        android:layout_gravity="center"
         android:layout_width="100dp"
-        android:layout_height="30dp" />
+        android:layout_height="30dp"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:background="#f15c48"
+        android:text="Submit"
+        android:textColor="#ffffff"
+        android:textSize="6pt" />
 
     <ListView
         android:id="@+id/listView"
+        android:paddingTop="15dp"
         android:layout_width="fill_parent"
         android:layout_height="527dp" />
 

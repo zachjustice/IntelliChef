@@ -24,10 +24,10 @@
             android:background="@color/colorAccent"
             android:layout_height="60dp"
             android:layout_width="60dp"
-            android:src="@drawable/ic_action_more_horiz"
             android:contentDescription="@string/grocery_list_descr_overflow_button"
             android:layout_centerVertical="true"
             android:paddingLeft="15dp"
+            android:src="@drawable/ic_action_more_horiz"
             android:paddingRight="15dp"
             android:layout_toRightOf="@+id/ingredientCheckbox"
             android:layout_toEndOf="@+id/ingredientCheckbox" />

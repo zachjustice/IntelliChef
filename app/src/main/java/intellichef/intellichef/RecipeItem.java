@@ -1,5 +1,7 @@
 package intellichef.intellichef;
 
+import android.widget.TextView;
+
 /**
  * Created by jatin1 on 2/16/17.
  */
@@ -9,6 +11,7 @@ public class RecipeItem {
     private String mTitle;
     private boolean isSelected;
     private Integer mRecipePk;
+    private TextView text;
 
     public RecipeItem(String url, String title, Integer recipePk) {
         this.mImageUrl = url;
@@ -42,5 +45,13 @@ public class RecipeItem {
 
     public Integer getRecipePk() {
         return mRecipePk;
+    }
+
+    public void setText(TextView in) {
+        text = in;
+    }
+
+    public TextView getText() {
+        return text;
     }
 }
