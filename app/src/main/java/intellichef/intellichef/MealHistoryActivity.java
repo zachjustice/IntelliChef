@@ -33,15 +33,17 @@ public class MealHistoryActivity extends AppCompatActivity {
 
     private RecipeAdapter adapter;
     private ArrayList<RecipeItem> recipeItems;
+    private boolean moreResults;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meal_history);
         CalligraphyConfig.initDefault("fonts/Montserrat-Light.ttf");
-        entityPk = getIntent().getIntExtra("entityPk", -1);
+        entityPk = LoginActivity.getCurrentUser().getEntityPk();
 
         flag_loading = false;
+        moreResults = true;
 
         recipeItems = new ArrayList<>();
         listView = (ListView) findViewById(R.id.list);
@@ -49,7 +51,8 @@ public class MealHistoryActivity extends AppCompatActivity {
         currDate = new DateTime();
 
         try {
-            showResults(currDate, currDate.minusDays(numDays), entityPk);
+            // start at 7 days ago until the current day
+            showResults(currDate.minusDays(numDays), currDate, entityPk);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -76,12 +79,14 @@ public class MealHistoryActivity extends AppCompatActivity {
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 if(firstVisibleItem + visibleItemCount == totalItemCount && totalItemCount != 0)
                 {
-                    if(!flag_loading)
+                    // only load more results if we've finished loading the last set
+                    // AND if there are more results to get.
+                    if(!flag_loading && moreResults)
                     {
                         flag_loading = true;
 
                         try {
-                            showResults(currDate, currDate.plusDays(numDays), entityPk);
+                            showResults(currDate.minusDays(numDays), currDate, entityPk);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -133,27 +138,42 @@ public class MealHistoryActivity extends AppCompatActivity {
     }
 
     private void showResults(final DateTime startDate, final DateTime endDate, int entityPk) throws JSONException {
-        final DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
 
-        this.currDate = startDate.plusDays(numDays + 1); // update currDate for scrolling functionality
+        this.currDate = startDate.minusDays(1); // update currDate for scrolling functionality
+
         IntelliServerAPI.getMealPlanHistory(startDate, endDate, entityPk, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject result) {
+
+                if(result.length() <= 0)
+                {
+                    // Keeps track of when we've run out of results
+                    moreResults = false;
+
+                    // Return with no results to avoid scroll-to-top bug
+                    return;
+                }
+
                 final DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
 
                 try {
                     for (int i = 0; i < result.length(); i++) {
                         JSONObject meal = result.getJSONObject(formatter.print(startDate.plusDays(i)));
-
                         String[] mealNames = {"breakfast", "lunch", "dinner"};
-                        for (String mealName : mealNames) {
-                            JSONObject recipe = meal.getJSONObject(mealName);
-                            String image_url = recipe.getString("image_url");
-                            String name = recipe.getString("name");
-                            int recipe_pk = recipe.getInt("recipe_pk");
 
-                            RecipeItem item = new RecipeItem(image_url, name, recipe_pk);
-                            recipeItems.add(item);
+                        for (String mealName : mealNames) {
+                            if(meal.has(mealName)) {
+                                JSONObject recipe = meal.getJSONObject(mealName);
+
+                                String image_url = recipe.getString("image_url");
+                                String name = recipe.getString("name");
+                                int recipe_pk = recipe.getInt("recipe_pk");
+
+                                RecipeItem item = new RecipeItem(image_url, name, recipe_pk);
+                                recipeItems.add(item);
+                            } else {
+                                Log.e("MealPlanHistory", "No " + mealName + " for " + startDate.plusDays(i));
+                            }
                         }
                     }
 
@@ -163,6 +183,7 @@ public class MealHistoryActivity extends AppCompatActivity {
                     adapter.notifyDataSetChanged();
 
                     flag_loading = false;
+
                 } catch (Exception e) {
                     Log.e("JSONObject Exception", "" + e.getMessage());
                 }

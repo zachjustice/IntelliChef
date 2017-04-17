@@ -4,6 +4,8 @@ import android.util.Log;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.json.*;
 import com.loopj.android.http.*;
 
@@ -436,8 +438,9 @@ class IntelliServerAPI {
         };
 
         RequestParams params = new RequestParams();
-        params.put("start_date", startDate);
-        params.put("end_date", endDate);
+        final DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
+        params.put("start_date", formatter.print(startDate));
+        params.put("end_date", formatter.print(endDate));
 
         IntelliServerRestClientv2.get("v2.0/entities/" + entityPk + "/meal_plans", params, responseHandler);
     }
