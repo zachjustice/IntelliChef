@@ -119,6 +119,14 @@
                     android:onClick="onRecipeImageClick"
                     android:scaleType="fitXY" />
 
+                <ProgressBar
+                    android:id="@+id/breakfast_progress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+
+                    android:indeterminate="true" />
+
                 <ImageView
                     android:id="@+id/breakfast_rating"
                     android:layout_width="76dp"
@@ -182,6 +190,14 @@
                     android:layout_height="130dp"
                     android:onClick="onRecipeImageClick"
                     android:scaleType="fitXY" />
+
+                <ProgressBar
+                    android:id="@+id/lunch_progress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+
+                    android:indeterminate="true" />
 
                 <ImageView
                     android:id="@+id/lunch_rating"
@@ -274,6 +290,14 @@
                     android:onClick="onRecipeImageClick"
                     android:scaleType="fitXY" />
 
+                <ProgressBar
+                    android:id="@+id/dinner_progress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+
+                    android:indeterminate="true" />
+
                 <ImageView
                     android:id="@+id/dinner_rating"
                     android:layout_width="76dp"
@@ -284,6 +308,7 @@
             </FrameLayout>
         </RelativeLayout>
     </ScrollView>
+
 
     <android.support.design.widget.TabLayout
         android:layout_height="wrap_content"

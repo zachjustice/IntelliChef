@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -24,6 +26,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 
@@ -71,6 +74,7 @@ public class PreferencesActivity extends AppCompatActivity {
     private static int GET_FROM_GALLERY = 1;
     private List<String> dietaryRestrictions;
     private ArrayAdapter<String> allergyListAdapter;
+    private ProgressBar spinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +82,9 @@ public class PreferencesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         CalligraphyConfig.initDefault("fonts/Montserrat-Light.ttf");
         setContentView(R.layout.activity_preferences);
+        spinner = (ProgressBar)findViewById(R.id.progress);
+        spinner.getIndeterminateDrawable().setColorFilter(Color.rgb(241,92,72), PorterDuff.Mode.MULTIPLY);
+        spinner.bringToFront();
 
         if (currentUser == null) {
             currentUser = LoginActivity.getCurrentUser();
@@ -409,6 +416,7 @@ public class PreferencesActivity extends AppCompatActivity {
     }
 
     private void getUserInfo() throws JSONException {
+        spinner.setVisibility(View.VISIBLE);
         int entity_pk = currentUser.getEntityPk();
 
         IntelliServerAPI.getUserInfo(entity_pk, new JsonHttpResponseHandler() {
@@ -434,6 +442,7 @@ public class PreferencesActivity extends AppCompatActivity {
                         String allergy = allergies.getString(i);
                         dietaryRestrictions.add(allergy);
                     }
+                    spinner.setVisibility(View.GONE);
                     allergyListAdapter.notifyDataSetChanged();
 
                 } catch (JSONException e) {
