@@ -380,67 +380,6 @@ public class PreferencesActivity extends AppCompatActivity {
         }
     }
 
-//    private void expand() {
-//        basicInfoLayout.setVisibility(View.GONE);
-//        basicInfoLayout2.setVisibility(View.VISIBLE);
-//
-//        final int widthSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
-//        final int heightSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
-//        basicInfoLayout2.measure(widthSpec, heightSpec);
-//
-//        ValueAnimator mAnimator = slideAnimator(0, basicInfoLayout2.getMeasuredHeight());
-//        mAnimator.start();
-//    }
-
-//    private void collapse() {
-//        basicInfoLayout2.setVisibility(View.GONE);
-//        basicInfoLayout.setVisibility(View.VISIBLE);
-
-//        int finalHeight = basicInfoLayout.getHeight();
-//
-//        ValueAnimator mAnimator = slideAnimator(finalHeight, 0);
-//
-//        mAnimator.addListener(new Animator.AnimatorListener() {
-//            @Override
-//            public void onAnimationStart(Animator animation) {
-//
-//            }
-//
-//            @Override
-//            public void onAnimationEnd(Animator animator) {
-//                //Height=0, but it set visibility to GONE
-//                basicInfoLayout.setVisibility(View.GONE);
-//            }
-//
-//            @Override
-//            public void onAnimationCancel(Animator animation) {
-//
-//            }
-//
-//            @Override
-//            public void onAnimationRepeat(Animator animation) {
-//
-//            }
-//
-//        });
-//        mAnimator.start();
-//    }
-
-    private ValueAnimator slideAnimator(int start, int end) {
-
-        ValueAnimator animator = ValueAnimator.ofInt(start, end);
-
-        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                int value = (Integer) valueAnimator.getAnimatedValue();
-                ViewGroup.LayoutParams layoutParams = basicInfoLayout.getLayoutParams();
-                layoutParams.height = value;
-                basicInfoLayout.setLayoutParams(layoutParams);
-            }
-        });
-        return animator;
-    }
 
     private void logout() throws JSONException {
         String email = LoginActivity.getCurrentUser().getRegistrationInfo().getEmail();
@@ -481,12 +420,10 @@ public class PreferencesActivity extends AppCompatActivity {
                     email.setText(result.getString("email"));
                     username.setText(result.getString("username"));
 
-                    // TODO check if this works (need a user with preferences filled out
                     JSONArray dietaryConcerns = result.getJSONArray("dietary_concerns");
                     for (int i = 0; i < dietaryConcernsLayout.getChildCount() - 1; i++) {
                         CheckBox diet = (CheckBox) dietaryConcernsLayout.getChildAt(i);
                         diet.setChecked(false);
-                        //TODO find better/efficient way
                         if (dietaryConcerns.toString().contains(diet.getText())) {
                             diet.setChecked(true);
                         }
@@ -511,14 +448,9 @@ public class PreferencesActivity extends AppCompatActivity {
         IntelliServerAPI.updateUserInfo(entity_pk, userInfo, this.getApplicationContext(), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject result) {
-                //TODO what to do...
             }
         });
     }
-    //TODO: IntelliServerAPI.getUserInfo
-    //v2.0/entities/<int:entity_pk> GET
-    //Set textfields in onSuccess
-    //PUT route with new user info
 
     private void removeAccount() throws JSONException {
         String email = LoginActivity.getCurrentUser().getRegistrationInfo().getEmail();
