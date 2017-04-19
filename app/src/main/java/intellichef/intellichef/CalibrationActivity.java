@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +37,8 @@ public class CalibrationActivity extends AppCompatActivity {
     ListView listview;
     RecipeAdapter adapter;
     ArrayList<Integer> calibrationPks = new ArrayList<Integer>();
+    ProgressBar spinner;
+
 
 
     @Override
@@ -46,6 +50,9 @@ public class CalibrationActivity extends AppCompatActivity {
         listview = (ListView) findViewById(R.id.listView);
         recipeItems = new ArrayList<>();
         submit = (Button) findViewById(R.id.submit);
+        spinner = (ProgressBar)findViewById(R.id.progress);
+        spinner.getIndeterminateDrawable().setColorFilter(Color.rgb(241,92,72), PorterDuff.Mode.MULTIPLY);
+        spinner.bringToFront();
 
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             ColorStateList oldColors =  null;
@@ -93,16 +100,10 @@ public class CalibrationActivity extends AppCompatActivity {
                             Toast.LENGTH_LONG).show();
                 } else {
                     try {
+                        spinner.setVisibility(View.VISIBLE);
                         User currentUser = LoginActivity.getCurrentUser();
                         updateUserCalibrationPicks(calibrationPks, currentUser.getEntityPk(), CalibrationActivity.this);
                         generateMealPlan(CalibrationActivity.this, currentUser.getEntityPk());
-                        Handler handler = new Handler();
-                        handler.postDelayed(new Runnable() {
-                            public void run() {
-                                Intent intent = new Intent(getBaseContext(), MealPlanActivity.class);
-                                startActivity(intent);
-                            }
-                        }, 10000);
 
                     } catch (JSONException e) {
                         System.out.println(e.getMessage());
@@ -127,6 +128,7 @@ public class CalibrationActivity extends AppCompatActivity {
                     adapter = new RecipeAdapter(CalibrationActivity.this, R.layout.recipe_view, recipeItems);
                     adapter.notifyDataSetChanged();
                     listview.setAdapter(adapter);
+                    spinner.setVisibility(View.INVISIBLE);
                     adapter.notifyDataSetChanged();
 
                 } catch (Exception e) {
@@ -152,13 +154,13 @@ public class CalibrationActivity extends AppCompatActivity {
     }
 
     public void generateMealPlan(Context context, int entityPk) throws JSONException {
-
         IntelliServerAPI.generateMealPlan(context, entityPk, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject result) {
-                    Log.v("MealPlan", "generated succesfully");
-                    Intent intent = new Intent(CalibrationActivity.this, MealPlanActivity.class);
-                    startActivity(intent);
+                Log.v("MealPlan", "generated succesfully");
+                spinner.setVisibility(View.GONE);
+                Intent intent = new Intent(getBaseContext(), MealPlanActivity.class);
+                startActivity(intent);
             }
         });
     }

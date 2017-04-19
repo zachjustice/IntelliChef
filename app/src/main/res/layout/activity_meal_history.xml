@@ -24,6 +24,7 @@
         android:id="@+id/relativeLayout2"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:paddingTop="30dp"
         android:layout_alignParentBottom="false"
         android:layout_alignWithParentIfMissing="true"
         android:layout_below="@+id/titleText"
@@ -71,9 +72,9 @@
             android:text="Dinner" />
     </RelativeLayout>
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:paddingTop="55dp"
@@ -81,13 +82,27 @@
 
         <ListView
             android:id="@+id/list"
-            android:layout_width="fill_parent"
+            android:paddingTop="30dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
             android:layout_marginTop="38dp" />
-    </RelativeLayout>
+
+        <ProgressBar
+            android:id="@+id/progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:indeterminate="true" />
+
+        <TextView
+            android:id="@+id/empty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textSize="10pt"
+            android:text="No results to show!" />
+    </FrameLayout>
 
 
 

@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 
@@ -27,6 +28,7 @@ public class GroceryListActivity extends AppCompatActivity {
 
     private GroceryListAdapter adapter;
     private ArrayList<GroceryListItem> groceryList;
+    private ProgressBar spinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +39,7 @@ public class GroceryListActivity extends AppCompatActivity {
 
         groceryList = new ArrayList<>();
         listView = (ListView) findViewById(R.id.list);
+        spinner = (ProgressBar) findViewById(R.id.progress);
 
         LocalDate today = LocalDate.now();
         int dayOfWeek = today.getDayOfWeek();
@@ -105,6 +108,7 @@ public class GroceryListActivity extends AppCompatActivity {
     }
 
     private void showResults(final LocalDate startDate, final LocalDate endDate, int entityPk) throws JSONException {
+        spinner.setVisibility(View.VISIBLE);
         IntelliServerAPI.getGroceryList(startDate, endDate, entityPk, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject groceryListJSON) {
@@ -136,6 +140,7 @@ public class GroceryListActivity extends AppCompatActivity {
                     adapter = new GroceryListAdapter(GroceryListActivity.this, R.layout.grocery_list_item_view, groceryList);
                     adapter.notifyDataSetChanged();
                     listView.setAdapter(adapter);
+                    spinner.setVisibility(View.GONE);
                     adapter.notifyDataSetChanged();
 
                 } catch (Exception e) {

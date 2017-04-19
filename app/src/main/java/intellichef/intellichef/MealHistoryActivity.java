@@ -1,6 +1,8 @@
 package intellichef.intellichef;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +12,8 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 
@@ -28,12 +32,14 @@ import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 public class MealHistoryActivity extends AppCompatActivity {
     private int entityPk;
     private ListView listView;
+    private TextView empty;
     private boolean flag_loading; // true while loading the next set of recipes
     private DateTime currDate;
     private final int numDays = 7;
 
     private RecipeAdapter adapter;
     private ArrayList<RecipeItem> recipeItems;
+    private ProgressBar spinner;
     private boolean moreResults;
 
     private boolean isFavoriteChecked;
@@ -54,6 +60,12 @@ public class MealHistoryActivity extends AppCompatActivity {
 
         recipeItems = new ArrayList<>();
         listView = (ListView) findViewById(R.id.list);
+        empty = (TextView) findViewById(R.id.empty);
+        empty.setVisibility(View.GONE);
+
+        spinner = (ProgressBar)findViewById(R.id.progress);
+        spinner.getIndeterminateDrawable().setColorFilter(Color.rgb(241,92,72), PorterDuff.Mode.MULTIPLY);
+        spinner.bringToFront();
 
         currDate = new DateTime();
 
@@ -179,7 +191,8 @@ public class MealHistoryActivity extends AppCompatActivity {
     }
 
     private void showResults(final DateTime startDate, final DateTime endDate, int entityPk) throws JSONException {
-
+        spinner.setVisibility(View.VISIBLE);
+        empty.setVisibility(View.GONE);
         currDate = startDate.minusDays(1);
 
         IntelliServerAPI.getMealPlanHistory(startDate, endDate, entityPk, isFavoriteChecked, isBreakfastChecked, isLunchChecked, isDinnerChecked, new JsonHttpResponseHandler() {
@@ -188,10 +201,11 @@ public class MealHistoryActivity extends AppCompatActivity {
 
                 if(result.length() <= 0)
                 {
+                    empty.setVisibility(View.VISIBLE);
                     // Keeps track of when we've run out of results
                     moreResults = false;
-
                     // Return with no results to avoid scroll-to-top bug
+                    spinner.setVisibility(View.INVISIBLE);
                     return;
                 }
 
@@ -221,6 +235,7 @@ public class MealHistoryActivity extends AppCompatActivity {
                     }
 
                     adapter = new RecipeAdapter(MealHistoryActivity.this, R.layout.recipe_view, recipeItems);
+                    spinner.setVisibility(View.INVISIBLE);
                     adapter.notifyDataSetChanged();
                     listView.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
@@ -228,6 +243,7 @@ public class MealHistoryActivity extends AppCompatActivity {
                     flag_loading = false;
 
                 } catch (Exception e) {
+                    spinner.setVisibility(View.INVISIBLE);
                     Log.e("JSONObject Exception", "" + e.getMessage());
                 }
             }
@@ -235,11 +251,12 @@ public class MealHistoryActivity extends AppCompatActivity {
     }
 
     private void regenerateMealHistory() {
+        spinner.setVisibility(View.INVISIBLE);
         currDate = new DateTime();
         recipeItems.clear();
         adapter.notifyDataSetChanged();
         try {
-            showResults(currDate.plusDays(numDays), currDate, entityPk);
+            showResults(currDate, currDate.plusDays(numDays), entityPk);
         } catch (JSONException e) {
             e.printStackTrace();
         }

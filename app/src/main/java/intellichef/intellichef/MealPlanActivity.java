@@ -5,6 +5,8 @@ import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +19,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -59,13 +62,17 @@ public class MealPlanActivity extends AppCompatActivity {
     private Button breakfastRateButton;
     private Button lunchRateButton;
     private Button dinnerRateButton;
+    private ProgressBar breakfastSpinner;
+    private ProgressBar lunchSpinner;
+    private ProgressBar dinnerSpinner;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         CalligraphyConfig.initDefault("fonts/Montserrat-Light.ttf");
         setContentView(R.layout.activity_meal_plan);
-        RelativeLayout layout = (RelativeLayout) findViewById(R.id.activity_meal_plan);
         date = (TextView) findViewById(R.id.dateText);
         breakfastName = (TextView) findViewById(R.id.breakfast_name);
         lunchName = (TextView) findViewById(R.id.lunch_name);
@@ -78,6 +85,19 @@ public class MealPlanActivity extends AppCompatActivity {
         breakfastRating = (ImageView) findViewById(R.id.breakfast_rating);
         lunchRating = (ImageView) findViewById(R.id.lunch_rating);
         dinnerRating = (ImageView) findViewById(R.id.dinner_rating);
+
+        breakfastSpinner = (ProgressBar) findViewById(R.id.breakfast_progress);
+        breakfastSpinner.getIndeterminateDrawable().setColorFilter(Color.rgb(241,92,72), PorterDuff.Mode.MULTIPLY);
+        breakfastSpinner.bringToFront();
+
+        lunchSpinner = (ProgressBar) findViewById(R.id.lunch_progress);
+        lunchSpinner.getIndeterminateDrawable().setColorFilter(Color.rgb(241,92,72), PorterDuff.Mode.MULTIPLY);
+        lunchSpinner.bringToFront();
+
+        dinnerSpinner = (ProgressBar) findViewById(R.id.dinner_progress);
+        dinnerSpinner.getIndeterminateDrawable().setColorFilter(Color.rgb(241,92,72), PorterDuff.Mode.MULTIPLY);
+        dinnerSpinner.bringToFront();
+
 
 
         //for query
@@ -240,7 +260,7 @@ public class MealPlanActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 breakfastName.setText(breakfastMeal.getName());
-                ImageExtractor.loadIntoImage(getApplicationContext(), breakfastMeal.getPhotoUrl(), breakfastPic, 250, 130);
+                ImageExtractor.loadIntoImage(breakfastSpinner, getApplicationContext(), breakfastMeal.getPhotoUrl(), breakfastPic, 250, 130);
                 breakfastPic.setTag("breakfast " + dateCopy);
                 try {
                     getUserRating(entityPk, breakfastMeal.getRecipePK(), breakfastRating);
@@ -255,7 +275,7 @@ public class MealPlanActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 lunchName.setText(lunchMeal.getName());
-                ImageExtractor.loadIntoImage(getApplicationContext(), lunchMeal.getPhotoUrl(), lunchPic);
+                ImageExtractor.loadIntoImage(lunchSpinner, getApplicationContext(), lunchMeal.getPhotoUrl(), lunchPic);
                 lunchPic.setTag("lunch " + dateCopy);
                 try {
                     getUserRating(entityPk, lunchMeal.getRecipePK(), lunchRating);
@@ -270,7 +290,7 @@ public class MealPlanActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 dinnerName.setText(dinnerMeal.getName());
-                ImageExtractor.loadIntoImage(getApplicationContext(), dinnerMeal.getPhotoUrl(), dinnerPic, 250, 130);
+                ImageExtractor.loadIntoImage(dinnerSpinner, getApplicationContext(), dinnerMeal.getPhotoUrl(), dinnerPic, 250, 130);
                 dinnerPic.setTag("dinner " + dateCopy);
                 try {
                     getUserRating(entityPk, dinnerMeal.getRecipePK(), dinnerRating);
@@ -362,10 +382,6 @@ public class MealPlanActivity extends AppCompatActivity {
         final int entityPk = LoginActivity.getCurrentUser().getEntityPk();
         final int recipePk = recipePK;
 
-
-        //LayoutInflater inflater = getLayoutInflater();
-
-        //View dialoglayout = inflater.inflate(R.layout.custom_dialog, null);
         ImageView view = new ImageView(MealPlanActivity.this);
         ImageExtractor.loadIntoImage(MealPlanActivity.this, imageUrl, (ImageView) view, 600, 400);
 
