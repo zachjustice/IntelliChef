@@ -1,5 +1,6 @@
 package intellichef.intellichef;
 import android.content.Context;
+import android.util.Log;
 
 import com.loopj.android.http.*;
 
@@ -22,6 +23,7 @@ public class IntelliServerRestClientv2 {
 
     public static void get(String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
         client.get(getAbsoluteUrl(url), params, responseHandler);
+        Log.wtf("PINEAPPLE", getAbsoluteUrl(url));
     }
 
     public static void post(Context context, String url, HttpEntity entity, String contentType, ResponseHandlerInterface responseHandler) {
