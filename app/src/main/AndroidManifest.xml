@@ -22,7 +22,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".RegistrationActivity" />
-        <activity android:name=".PreferencesActivity" />
+        <activity android:name=".PreferencesActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
+            />
         <activity android:name=".CalibrationActivity" />
         <activity android:name=".MealPlanActivity" />
         <activity android:name=".ViewRecipeActivity" />

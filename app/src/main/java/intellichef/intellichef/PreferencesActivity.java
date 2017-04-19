@@ -23,6 +23,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -123,9 +124,6 @@ public class PreferencesActivity extends AppCompatActivity {
         password.setVisibility(View.GONE);
         confirmPassword.setVisibility(View.GONE);
 
-        dietaryRestrictions = new ArrayList<>();
-        allergyListAdapter = new ArrayAdapter<>(this, R.layout.mytextview, dietaryRestrictions);
-        allergyList.setAdapter(allergyListAdapter);
         try {
             getUserInfo();
         } catch (JSONException e) {
@@ -225,6 +223,9 @@ public class PreferencesActivity extends AppCompatActivity {
         });
 
         // Allergies
+
+        dietaryRestrictions = new ArrayList<>();
+
         enterAllergy.setVisibility(View.GONE);
         addAllergy.setVisibility(View.GONE);
 
@@ -242,11 +243,17 @@ public class PreferencesActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String newAllergy = enterAllergy.getText().toString();
                 if (!newAllergy.isEmpty()) {
+                    Log.v("SIZE OF LIST b4", "" + allergyList.getAdapter().getCount());
                     dietaryRestrictions.add(newAllergy);
-                    allergyListAdapter.notifyDataSetChanged();
                     InputMethodManager imm = (InputMethodManager) PreferencesActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(v.getApplicationWindowToken(), 0);
                     enterAllergy.setText("");
+                    allergyListAdapter = new ArrayAdapter<>(PreferencesActivity.this, R.layout.mytextview, dietaryRestrictions);
+                    allergyListAdapter.notifyDataSetChanged();
+                    allergyList.setAdapter(allergyListAdapter);
+                    allergyListAdapter.notifyDataSetChanged();
+                    Log.v("LIST ITEM", "" + allergyList.getAdapter().getItem(allergyList.getAdapter().getCount()-1));
+                    setListViewHeightBasedOnChildren(allergyList);
                 }
             }
         });
@@ -355,6 +362,35 @@ public class PreferencesActivity extends AppCompatActivity {
         }
     }
 
+    public static void setListViewHeightBasedOnChildren(ListView listView) {
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter == null)
+            return;
+
+        int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(), View.MeasureSpec.UNSPECIFIED);
+        int totalHeight=0;
+        View view = null;
+
+        for (int i = 0; i < listAdapter.getCount(); i++)
+        {
+            view = listAdapter.getView(i, view, listView);
+
+            if (i == 0)
+                view.setLayoutParams(new ViewGroup.LayoutParams(desiredWidth,
+                        ViewGroup.LayoutParams.MATCH_PARENT));
+
+            view.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
+            totalHeight += view.getMeasuredHeight();
+
+        }
+
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight + ((listView.getDividerHeight()) * (listAdapter.getCount()));
+
+        listView.setLayoutParams(params);
+        listView.requestLayout();
+    }
+
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(new CalligraphyContextWrapper(newBase));
@@ -432,8 +468,12 @@ public class PreferencesActivity extends AppCompatActivity {
                     JSONArray allergies = result.getJSONArray("allergies");
                     for (int i = 0; i < allergies.length(); i++) {
                         String allergy = allergies.getString(i);
+                        Log.v("ALLERRGY", allergy);
                         dietaryRestrictions.add(allergy);
                     }
+                    allergyListAdapter = new ArrayAdapter<>(PreferencesActivity.this, R.layout.mytextview, dietaryRestrictions);
+                    allergyListAdapter.notifyDataSetChanged();
+                    allergyList.setAdapter(allergyListAdapter);
                     allergyListAdapter.notifyDataSetChanged();
 
                 } catch (JSONException e) {
