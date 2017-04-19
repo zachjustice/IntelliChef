@@ -302,6 +302,8 @@ public class PreferencesActivity extends AppCompatActivity {
                 // Perform action on click
                 try {
                     logout();
+                    Intent intent = new Intent(PreferencesActivity.this, LoginActivity.class);
+                    startActivity(intent);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
