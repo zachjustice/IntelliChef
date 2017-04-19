@@ -326,6 +326,7 @@ class IntelliServerAPI {
         }
 
         IntelliServerRestClientv2.put(context, "v2.0/entities/" + entity_pk, requestData, "application/json", responseHandler);
+
     }
 
     static void getCalibratedMeals(final JsonHttpResponseHandler callback) throws JSONException {

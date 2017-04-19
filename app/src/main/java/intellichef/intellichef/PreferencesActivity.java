@@ -49,6 +49,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
  */
 public class PreferencesActivity extends AppCompatActivity {
 
+    private int entityPk;
     private Button logout;
     private Button deleteAccount;
     private Button saveAllChanges;
@@ -255,7 +256,7 @@ public class PreferencesActivity extends AppCompatActivity {
                     InputMethodManager imm = (InputMethodManager) PreferencesActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(v.getApplicationWindowToken(), 0);
                     enterAllergy.setText("");
-                    allergyListAdapter = new ArrayAdapter<>(PreferencesActivity.this, R.layout.mytextview, dietaryRestrictions);
+                    allergyListAdapter = new ArrayAdapter<>(PreferencesActivity.this, R.layout.custom_textview, dietaryRestrictions);
                     allergyListAdapter.notifyDataSetChanged();
                     allergyList.setAdapter(allergyListAdapter);
                     allergyListAdapter.notifyDataSetChanged();
@@ -479,11 +480,12 @@ public class PreferencesActivity extends AppCompatActivity {
                         Log.v("ALLERRGY", allergy);
                         dietaryRestrictions.add(allergy);
                     }
-                    allergyListAdapter = new ArrayAdapter<>(PreferencesActivity.this, R.layout.mytextview, dietaryRestrictions);
+                    allergyListAdapter = new ArrayAdapter<>(PreferencesActivity.this, R.layout.custom_textview, dietaryRestrictions);
                     allergyListAdapter.notifyDataSetChanged();
                     allergyList.setAdapter(allergyListAdapter);
                     allergyListAdapter.notifyDataSetChanged();
                     spinner.setVisibility(View.GONE);
+                    setListViewHeightBasedOnChildren(allergyList);
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -494,6 +496,7 @@ public class PreferencesActivity extends AppCompatActivity {
 
     private void updateUserInfo(JSONObject userInfo) throws JSONException {
         int entity_pk = currentUser.getEntityPk();
+        Log.v("ENTITY PK", "" + entity_pk);
         IntelliServerAPI.updateUserInfo(entity_pk, userInfo, this.getApplicationContext(), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject result) {

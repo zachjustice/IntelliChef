@@ -386,7 +386,7 @@
                 <LinearLayout
                     android:id="@+id/allergies"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:textColor="#808080">
 
@@ -422,7 +422,7 @@
                         android:id="@+id/allergyList"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:textColor="#808080" />
+                        android:textColor="#808080"/>
 
                     <Button
                         android:id="@+id/saveAllergies"
