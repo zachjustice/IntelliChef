@@ -22,7 +22,7 @@
         <ImageButton
             android:id="@+id/toggleIngredientUsages"
             android:background="@color/colorAccent"
-            android:layout_height="60dp"
+            android:layout_height="40dp"
             android:layout_width="60dp"
             android:contentDescription="@string/grocery_list_descr_overflow_button"
             android:layout_centerVertical="true"
@@ -39,5 +39,6 @@
         android:paddingStart="20dp"
         android:paddingLeft="20dp"
         android:paddingBottom="20dp"
-        android:layout_below="@id/ingredientNameContainer" />
+        android:layout_below="@id/ingredientNameContainer"
+        />
 </RelativeLayout>

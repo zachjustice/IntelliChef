@@ -17,7 +17,8 @@
         android:textSize="10pt"
         android:gravity="center"
         android:textColor="#ffffff"
-        android:background="#f15c48"/>
+        android:background="#f15c48"
+        />
 
 
     <RelativeLayout
@@ -25,7 +26,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:paddingBottom="50dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="53dp"
         android:layout_below="@+id/titleText">
 
         <FrameLayout
