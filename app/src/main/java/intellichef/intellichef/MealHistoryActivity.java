@@ -26,6 +26,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 
 import cz.msebera.android.httpclient.Header;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
@@ -48,7 +49,6 @@ public class MealHistoryActivity extends AppCompatActivity {
     private boolean isBreakfastChecked;
     private boolean isLunchChecked;
     private boolean isDinnerChecked;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -199,11 +199,10 @@ public class MealHistoryActivity extends AppCompatActivity {
 
         IntelliServerAPI.getMealPlanHistory(startDate, endDate, entityPk, isFavoriteChecked, isBreakfastChecked, isLunchChecked, isDinnerChecked, new JsonHttpResponseHandler() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject result) {
+            public void onSuccess(int statusCode, Header[] headers, JSONObject mealPlanHistory) {
 
-                if(result.length() <= 0)
-                {
-                    empty.setVisibility(View.VISIBLE);
+                if (mealPlanHistory.length() <= 0) {
+                    //empty.setVisibility(View.VISIBLE);
                     // Keeps track of when we've run out of results
                     moreResults = false;
                     // Return with no results to avoid scroll-to-top bug
@@ -211,27 +210,33 @@ public class MealHistoryActivity extends AppCompatActivity {
                     return;
                 }
 
-                final DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
-
-                Log.v("RESULT", "" + result.length());
+                Log.v("RESULT", "" + mealPlanHistory.length());
 
                 try {
-                    for (int i = 0; i < result.length(); i++) {
-                        JSONObject meal = result.getJSONObject(formatter.print(startDate.plusDays(i)));
-                        String[] mealNames = {"breakfast", "lunch", "dinner"};
+                    Iterator<String> dates = mealPlanHistory.keys();
 
-                        for (String mealName : mealNames) {
-                            if (meal.has(mealName)) {
-                                JSONObject recipe = meal.getJSONObject(mealName);
+                    while (dates.hasNext()) {
+                        String date = dates.next();
+                        if (mealPlanHistory.get(date) instanceof JSONObject) {
+                            String[] mealNames = {"breakfast", "lunch", "dinner"};
 
-                                String image_url = recipe.getString("image_url");
-                                String name = recipe.getString("name");
-                                int recipe_pk = recipe.getInt("recipe_pk");
+                            JSONObject meal = mealPlanHistory.getJSONObject(date);
+                            Log.v("MealPlanHistory", startDate.toString() + " " + meal);
 
-                                RecipeItem item = new RecipeItem(image_url, name, recipe_pk);
-                                recipeItems.add(item);
-                            } else {
-                                Log.e("MealPlanHistory", "No " + mealName + " for " + startDate.plusDays(i));
+                            for (String mealName : mealNames) {
+                                if (meal.has(mealName)) {
+                                    JSONObject recipe = meal.getJSONObject(mealName);
+                                    Log.v("MealPlanHistory", "RECIPE: " + recipe.toString());
+
+                                    String image_url = recipe.getString("image_url");
+                                    String name = recipe.getString("name");
+                                    int recipe_pk = recipe.getInt("recipe_pk");
+
+                                    RecipeItem item = new RecipeItem(image_url, name, recipe_pk);
+                                    recipeItems.add(item);
+                                } else {
+                                    Log.e("MealPlanHistory", "No " + mealName + " for " + date);
+                                }
                             }
                         }
                     }
@@ -244,7 +249,8 @@ public class MealHistoryActivity extends AppCompatActivity {
 
                     flag_loading = false;
 
-                } catch (Exception e) {
+                } catch (JSONException e) {
+                    e.printStackTrace();
                     spinner.setVisibility(View.INVISIBLE);
                     Log.e("JSONObject Exception", "" + e.getMessage());
                 }
@@ -253,12 +259,15 @@ public class MealHistoryActivity extends AppCompatActivity {
     }
 
     private void regenerateMealHistory() {
+        if(adapter == null) {
+            return;
+        }
         spinner.setVisibility(View.INVISIBLE);
         currDate = new DateTime();
         recipeItems.clear();
         adapter.notifyDataSetChanged();
         try {
-            showResults(currDate, currDate.plusDays(numDays), entityPk);
+            showResults(currDate.minusDays(numDays), currDate, entityPk);
         } catch (JSONException e) {
             e.printStackTrace();
         }
