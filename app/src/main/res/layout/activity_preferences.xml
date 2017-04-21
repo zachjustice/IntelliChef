@@ -51,14 +51,14 @@
 
 
     <TextView
-        android:text="Account"
+        android:id="@+id/titleText"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:id="@+id/titleText"
-        android:textSize="10pt"
+        android:background="#f15c48"
         android:gravity="center"
+        android:text="Account"
         android:textColor="#ffffff"
-        android:background="#f15c48"/>
+        android:textSize="10pt" />
 
 
     <ScrollView
@@ -74,7 +74,8 @@
         android:layout_above="@+id/tabs">
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_below="@id/titleText">
 
             <LinearLayout
                 android:id="@+id/mainLayout"

@@ -28,6 +28,7 @@ import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -370,7 +371,7 @@ public class PreferencesActivity extends AppCompatActivity {
         if(currentUser.isNewUser()) {
             logout.setVisibility(View.GONE);
             deleteAccount.setVisibility(View.GONE);
-            titleText.setVisibility(View.GONE);
+//            titleText.setVisibility(View.GONE);
             tabs.setVisibility(View.GONE);
         } else {
             saveAllChanges.setVisibility(View.GONE);
