@@ -28,6 +28,7 @@ import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 
@@ -77,6 +78,7 @@ public class PreferencesActivity extends AppCompatActivity {
     private List<String> dietaryRestrictions;
     private ArrayAdapter<String> allergyListAdapter;
     private ProgressBar spinner;
+    private TextView titleText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,12 +123,14 @@ public class PreferencesActivity extends AppCompatActivity {
         saveAllChanges = (Button) findViewById(R.id.saveAll);
         saveAllergies = (Button) findViewById(R.id.saveAllergies);
 
+
         first = (EditText) findViewById(R.id.fn);
         last = (EditText) findViewById(R.id.ln);
         email = (EditText) findViewById(R.id.em);
         username = (EditText) findViewById(R.id.un);
         password = (EditText) findViewById(R.id.pw);
         confirmPassword = (EditText) findViewById(R.id.cpw);
+        titleText = (TextView) findViewById(R.id.titleText);
 
         // Hide the password and confirmPassword field from the user
         password.setVisibility(View.GONE);
@@ -366,6 +370,7 @@ public class PreferencesActivity extends AppCompatActivity {
         if(currentUser.isNewUser()) {
             logout.setVisibility(View.GONE);
             deleteAccount.setVisibility(View.GONE);
+            titleText.setVisibility(View.GONE);
             tabs.setVisibility(View.GONE);
         } else {
             saveAllChanges.setVisibility(View.GONE);
