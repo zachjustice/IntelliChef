@@ -1,5 +1,6 @@
 package intellichef.intellichef;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -22,6 +23,7 @@ import java.util.Iterator;
 
 import cz.msebera.android.httpclient.Header;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class GroceryListActivity extends AppCompatActivity {
     private ListView listView;
@@ -152,5 +154,10 @@ public class GroceryListActivity extends AppCompatActivity {
 
     public void onCheckboxClicked(View view) {
         // handle onclick for grocery list checkboxes
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(new CalligraphyContextWrapper(newBase));
     }
 }

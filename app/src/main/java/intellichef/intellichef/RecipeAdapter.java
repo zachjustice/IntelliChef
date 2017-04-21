@@ -2,6 +2,7 @@ package intellichef.intellichef;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,6 +43,7 @@ public class RecipeAdapter extends ArrayAdapter<RecipeItem> {
             holder = new RecipeHolder();
             holder.recipeImage = (ImageView) row.findViewById(R.id.recipeImage);
             holder.recipeName = (TextView) row.findViewById(R.id.recipeName);
+            holder.recipeName.setTextColor(Color.parseColor("#000000"));
 
             row.setTag(holder);
         } else {
