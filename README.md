@@ -47,7 +47,7 @@ This repository represents all the application-level code of the IntelliChef pro
 
 1. Clone the project into a local repository through the terminal:  
 
-    $ git clone https://github.com/zachjustice/IntelliChef  
+    '$ git clone https://github.com/zachjustice/IntelliChef'  
   
 2. Setup an emulator or connect an android phone to your compute and build/run the project on Android Studio.  
 
