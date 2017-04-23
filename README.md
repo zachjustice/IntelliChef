@@ -9,7 +9,8 @@ This repository represents all the application-level code of the IntelliChef pro
 
 <h3>Release Build: 1.0 - 4/22/2017</h3>
 
-<h4>Features</h4>
+<h4>Features</h4>  
+
 * User account support and lifestyle selection  
 
 * Meal plan generation based on calibration recipes, likes, and dislikes  
@@ -22,7 +23,8 @@ This repository represents all the application-level code of the IntelliChef pro
 
 * Grocery list for weekly cooking
 
-<h4> Known Issues</h4>
+<h4> Known Issues</h4>  
+
 * App is not currently on the Google Play Store  
 
 * No iOS-compatible version  
@@ -44,6 +46,7 @@ This repository represents all the application-level code of the IntelliChef pro
 <h3> Getting and Running IntelliChef</h3>  
 
 1. Clone the project into a local repository through the terminal:  
+
     $ git clone https://github.com/zachjustice/IntelliChef  
   
 2. Setup an emulator or connect an android phone to your compute and build/run the project on Android Studio.  
