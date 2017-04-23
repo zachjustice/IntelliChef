@@ -3,7 +3,7 @@ IntelliChef
 
 <h2>Overview</h2>
 IntelliChef is an Android application for intelligently suggesting weekly meal plans based on user taste preferences.
-This repository represents all the application-level code of the IntelliChef project.
+This repository contains the android-specific code of the IntelliChef project.
 
 <h2>Release Notes</h2>
 
