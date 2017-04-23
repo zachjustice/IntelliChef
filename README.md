@@ -29,10 +29,6 @@ This repository contains the android-specific code of the IntelliChef project.
 
 * No iOS-compatible version  
 
-* Meal-plan generation and loading times too high  
-
-* Lack of customization in terms of meal plan structure  
-
 <h2>Install Guide</h2>
 
 <h3>Pre-Requisites/Dependencies</h3>  
